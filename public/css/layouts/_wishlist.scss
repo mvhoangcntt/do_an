@@ -1,0 +1,96 @@
+.list-wishlist{
+	margin-bottom: 25px;
+	padding-bottom: 25px;
+	border-bottom: 1px solid #a497bc;
+}
+.item-wishlist{
+	margin-top: 40px;
+	position: relative;
+	.img{
+		position: relative;
+		display: block;
+		padding: 0px 10px 10px 0px;
+		background: url(../images/bg-wishlist.jpg) no-repeat center;
+		background-size: 100% 100%;
+		img{
+			border: 1px solid #f4ebe8;
+			box-shadow: 0 1px 5px 0 rgba(#000,0.1);
+			width: 100%;
+		}
+		.number{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			bottom: 20px;
+			left: 10px;
+			background-color: $color-hv;
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			color: $c1;
+			font-size: 18px;
+		}
+	}
+	.ct{
+		margin-top: 10px;
+		.name{
+			font-weight: bold;
+			display: block;
+			font-size: 16px;
+			transition: 0.2s;
+			&:hover{
+				color: $color-hv;
+			}
+		}
+		.time{
+			span{
+				margin-right: 15px;
+			}
+		}
+		.price{
+			font-size: 16px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+	}
+	.btn-remove{
+		position: absolute;
+		top: -12px;
+		right: 0;
+		width: 25px;
+		height: 25px;
+		font-size: 16px;
+		color: $c1;
+		background-color: $color-text;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		visibility: hidden;
+		transition: 0.2s;
+		i{
+			margin-left: -1px;
+			margin-top: -1px;
+		}
+	}
+	&:hover{
+		.btn-remove{
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+}
+.page-wishlist{
+	.btn-cancel{
+		padding: 12px 20px;
+	}
+}
+@media (max-width: 1199px) {
+	.item-wishlist .btn-remove{
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+}

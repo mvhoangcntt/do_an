@@ -1,0 +1,280 @@
+/* ------ menu -------- */
+._search{
+	background: red;
+	color: white;
+	height: 100%;
+	width: 115px;
+	border-radius: 0px 5px 5px 0px;
+}
+._search2{
+	background: red;
+	color: white;
+	height: 100%;
+	width: 35px;
+	border-radius: 0px 5px 5px 0px;
+}
+.ip_search{
+	border-color: red;
+    border-radius: 5px 0px 0px 5px;
+}
+.header-search{
+	font-size: 1.2rem;
+	display: flex;
+	/* đổ bóng */
+	/* box-shadow: */
+                /* 0 0 10px 4px #FF6347; */
+                /* 0 0 10px 30px #FFDAB9, */
+                /* 30px 0 20px 30px #B0E0E6; */
+}
+.viewed{
+	display: flex;
+}
+.fa-caret-down{
+	line-height: 32px;
+	font-size: 18px;
+}
+.fa-bars{
+	font-size: 32px;
+	color: red;
+}
+.iconmenu{
+	position: relative;
+	-webkit-box-flex: 0;
+	flex: 0px 0 42px;
+}
+
+@media (max-width: 1199px){
+	.iconmenu{
+	    display: none;
+	}
+	._search{
+		display: none;
+	}
+	.ip_search{
+		width: 245px;
+	}
+}
+@media (min-width: 1199px){
+	._search2{
+		display: none;
+	}
+	.item-news .img{
+		height: 170px;
+	}
+}
+
+.fa-shopping-cart{
+	font-size: 30px;
+}
+.header-crt{
+	position: relative;
+}
+.number{
+	position: absolute;
+	left: 15px;
+	top: 4px;
+	font-size: 12px;
+	background-color: #f5a623;
+	color: white;
+	border-radius: 10px;
+	padding-left: 4px;
+	text-align: center;
+	padding-right: 4px;
+}
+.img-viewed{
+	padding-left: 1px;
+	padding-right: 1px;
+	border-radius: 4px;
+}
+#a-viewed{
+	width: 32px;
+	padding: 0px;
+}
+
+.show_menu{
+	top: 82px;
+    position: absolute;
+    background: white;
+    width: 216px;
+    font-family: sans-serif;
+    display: none;
+}
+.show_{
+	top: 62px;
+}
+.s_menu a{
+	padding-left: 4px;
+    padding-right: 10px;
+}
+.s_menu li{
+	padding: 4px 0.2rem;
+	position: relative;
+}
+.s_menu li li{
+	
+}
+.s_menu ul ul{
+	background: white;
+	position: absolute;
+	left: 217px;
+    width: 216px;
+    top: 0px;
+    display: none;
+}
+.mau{
+	background-color: red;
+	padding-left: 4px;
+}
+.mau2{
+	background-color: white;
+}
+.clmenu{
+	line-height: 21px;
+    float: right;
+    font-size: 18px;
+
+}
+.list_viewed{
+	display: none;
+}
+
+
+/* slide prodcut viewed*/
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  padding: 2px;
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+@media (max-width: 760px) {
+  .swiper-button-next {
+    right: 20px;
+    transform: rotate(90deg);
+  }
+
+  .swiper-button-prev {
+    left: 20px;
+    transform: rotate(90deg);
+  }
+}
+
+
+.screen_show{
+	z-index: 3;
+	position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.hide-viewed{
+	display: none;
+}
+.show-viewed{
+	z-index: 4;
+	/* height: 80%; */
+	max-height: 141px;
+	width: 100%;
+	overflow: auto;
+	top: 150px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: fixed;
+	display: block;
+	animation: show 0.8s ease;
+	background-color: #fff;
+}
+.show-viewed_{
+	top: 130px;
+}
+@media (max-width: 1199px){
+	.viewed{
+	    display: none;
+	}
+}
+.slide-home{
+	height: 200px;
+	padding-bottom: 10px;
+}
+
+/* sản phẩm */
+.tieude{
+	width: 100%;
+    padding: 0 15px 3px 15px;
+}
+.tieude_{
+	width: 100%;
+    display: flex;
+    background-color: pink;
+    justify-content: space-between;
+    height: 30px;
+    align-items: center;
+    border-radius: 5px 5px 0 0;
+    font-weight: bold;
+    font-family: initial;
+    font-size: 20px;
+}
+._left{
+	padding-left: 5px;
+}
+._right{
+	padding-right: 5px;
+}
+.tieude_ .fa-caret-right {
+    padding-left: 3px;
+}
+.logo{
+	color: #317b21;
+	font-size: 28px;
+	font-weight: bold;
+}
+.item-news {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 3px;
+
+}
+.item-news:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+/* details product */
+.item-details{
+	border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 3px;
+}
+.item-details img{
+	width: 100%;
+}
+.item-details:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+.item-list-img{
+	height: 54px;
+	width: 100%;
+}
