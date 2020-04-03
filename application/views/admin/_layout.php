@@ -45,15 +45,6 @@ $method = $this->router->fetch_method();
         <link href="<?php echo $this->templates_assets . "css/pages/$controller.css" ?>" rel="stylesheet"
               type="text/css">
     <?php endif; ?>
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-  <!-- Google Font -->
-  <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
 </head>
 <body class="hold-transition skin-blue fixed sidebar-mini">
 <script>
@@ -105,12 +96,7 @@ $method = $this->router->fetch_method();
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
-<!-- ./wrapper -->
-<!--<script type="text/javascript" src="--><?php //echo base_url('/public/admin/').'bower_components/jquery/dist/jquery.min.js' ?><!--"></script>-->
-<!--<script type="text/javascript" src="--><?php //echo base_url('/public/admin/').'bower_components/jquery-ui/jquery-ui.min.js' ?><!--"></script>-->
-<?php //$asset_jquery[] = '../bower_components/jquery/dist/jquery.min.js'; ?>
-<?php //$asset_jquery[] = '../bower_components/jquery-ui/jquery-ui.min.js'; ?>
-<?php //minifyJS($asset_jquery) ?>
+
 
 
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

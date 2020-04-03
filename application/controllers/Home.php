@@ -25,4 +25,9 @@ class Home extends Public_Controller
         $data['abc'] = 'thay r';
         print $this->load->view($this->template_path . 'items/slide_home', $data, TRUE);
     }
+    public function viewed()
+    {
+        $data['abc'] = 'thay r';
+        print $this->load->view($this->template_path . 'items/list_viewed', $data, TRUE);
+    }
 }

@@ -662,33 +662,89 @@ $(document).ready(function(){
 // slide product show viewed
 $(document).ready(function(){
     
-$(document).on("click",".fa-caret-down",function(){
-    $(".hide-viewed").toggleClass("show-viewed");
-    $(".screen_hide").toggleClass("screen_show");
-    var swiper = new Swiper('.swiper-container', {
-      slidesPerView: 10,
-      direction: getDirection(),
+    $(document).on("click",".fa-caret-down",function(){
+        $(".hide-viewed").toggleClass("show-viewed");
+        $(".screen_hide").toggleClass("screen_show");
+        
+    });
+    $(document).on("click",".screen_hide",function(){
+        $(".hide-viewed").toggleClass("show-viewed");
+        $(".screen_hide").toggleClass("screen_show");
+    });
+    // chạy slide
+    
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+    });
+    var galleryTop = new Swiper('.gallery-top', {
+      spaceBetween: 10,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-      on: {
-        resize: function () {
-          swiper.changeDirection(getDirection());
-        }
+      thumbs: {
+        swiper: galleryThumbs
       }
     });
 
-    function getDirection() {
-      var windowWidth = window.innerWidth;
-      var direction = window.innerWidth <= 760 ? 'vertical' : 'horizontal';
-      return direction;
-    }
-    // $(".swiper-slide").toggleClass("swiper-slide-active");
-})
-$(document).on("click",".screen_hide",function(){
-    $(".hide-viewed").toggleClass("show-viewed");
-    $(".screen_hide").toggleClass("screen_show");
-})
 
 });
+
+// đánh giá start do mau
+$(document).ready(function(){
+    var ViTri_Details = '';
+    $(document).on("click",".fa-star",function(){
+        ViTri_Details = $(this).attr("title");
+        $(".fa-star").attr("class","fa fa-star");
+        $(".fa-star").each(function(){
+            if($(this).attr("title") <= ViTri_Details){
+                $(this).attr("class","fa fa-star checked");
+            }
+        });
+    });
+    
+})
+// active product
+$(document).ready(function(){
+    $(document).on("click",".textOption",function(){
+        $(".textOption").attr("class","textOption");
+        $(this).attr("class","textOption size-active");
+    });
+    $(document).on("click",".colorOption",function(){
+        $(".colorOption").attr("class","colorOption");
+        $(this).attr("class","colorOption colorOption-active");
+    });
+
+    $(document).on("click",".btn_increase",function(){
+        var value = 0;
+        var cong = 0;
+        value = Number($(".input_number").val());
+        if (value < 100) {
+            cong = value + 1;
+            $(".input_number").val(cong);
+            $(".btn_decrease").attr("class","btn_decrease");
+        }else{
+            $(".btn_increase").attr("class","btn_increase disabled");
+        }
+        console.log($(".input_number").val());
+    });
+    $(document).on("click",".btn_decrease",function(){
+        var value = 0;
+        var cong = 0;
+        value = Number($(".input_number").val());
+        if (value > 1) {
+            cong = value - 1;
+            $(".input_number").val(cong);
+            $(".btn_increase").attr("class","btn_increase");
+        }else{
+            $(".btn_decrease").attr("class","btn_decrease disabled");
+        }
+        console.log($(".input_number").val());
+    });
+    
+    
+})

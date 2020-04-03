@@ -19,6 +19,11 @@ class News extends Public_Controller
         $data['main_content'] = $this->load->view($this->template_path . 'news/news_details', $data, TRUE);
         $this->load->view($this->template_main, $data);
     }
+    public function slide()
+    {
+        $data['abc'] = 'thay r';
+        print $this->load->view($this->template_path . 'items/img-list-show', $data, TRUE);
+    }
     public function index($slug = '', $id = '')
     {
         // Chi tiết

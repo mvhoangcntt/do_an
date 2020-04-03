@@ -54,7 +54,7 @@ $method = $this->router->fetch_method();
 <body >
 <div class="wrap">
     <?php
-      $this->load->view($this->template_path . '_header2');
+      $this->load->view($this->template_path . '_header');
       echo !empty($main_content) ? $main_content : '';
       $this->load->view($this->template_path . '_footer');
     ?>
