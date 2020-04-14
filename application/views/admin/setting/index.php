@@ -25,10 +25,7 @@
                     <li><a href="#tab_about" data-toggle="tab">Về chúng tôi</a></li>
                    <li><a href="#tab_social" data-toggle="tab">Social</a></li>
                    <li><a href="#tab_contact" data-toggle="tab">Thông tin liên hệ</a></li>
-<!--                   <li><a href="#tab_cat_fix" data-toggle="tab">Danh mục tin tức</a></li>-->
                     <li><a href="#tab_system" data-toggle="tab"><?php echo lang('tab_system'); ?></a></li>
-<!--                    <li><a href="#tab_embeb" data-toggle="tab">Mã nhúng</a></li>-->
-                    <!-- <li><a href="#tab_payment" data-toggle="tab">Tài khoản ngân hàng</a></li> -->
                 </ul>
                 <div class="tab-content">
                     <?php $this->load->view($this->template_path.'setting/tab_general') ?>
@@ -37,9 +34,7 @@
                     <?php $this->load->view($this->template_path.'setting/tab_social') ?>
                     <?php $this->load->view($this->template_path.'setting/tab_contact') ?>
                     <?php $this->load->view($this->template_path.'setting/tab_homepage') ?>
-<!--                    --><?php //$this->load->view($this->template_path.'setting/tab_embeb') ?>
-<!--                    --><?php //$this->load->view($this->template_path.'setting/tab_backup') ?>
-                    <?php //$this->load->view($this->template_path.'setting/tab_payment') ?>
+
                 </div>
                 <!-- /.tab-content -->
             </div>

@@ -11,16 +11,21 @@ class Account extends Public_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('ion_account');
-        $this->lang->load('account');
-        $this->load->library(array('ion_account', 'hybridauth'));
-        $this->load->model(array('account_model','questions_model','course_model'));
-        $this->_data     = new Account_model();
-        $this->questions = new Questions_model();
-        $this->course    = new Course_model();
+        // $this->load->library('ion_account');
+        // $this->lang->load('account');
+        // $this->load->library(array('ion_account', 'hybridauth'));
+        // $this->load->model(array('account_model','questions_model','course_model'));
+        // $this->_data     = new Account_model();
+        // $this->questions = new Questions_model();
+        // $this->course    = new Course_model();
 
-        $this->user_login = $this->_data->getById($this->session->account['account_id']);
-        if (empty($this->user_login)) redirect(site_url());
+        // $this->user_login = $this->_data->getById($this->session->account['account_id']);
+        // if (empty($this->user_login)) redirect(site_url());
+    }
+
+    public function details_account(){
+        $data['main_content'] = $this->load->view($this->template_path . 'account/details_account', $data, TRUE);
+        $this->load->view($this->template_main, $data);
     }
 
     public function index(){

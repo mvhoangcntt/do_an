@@ -48,22 +48,14 @@
 	            </div>
 	            <div class="col-lg-7">
 	                <div class="ft-fanpage">
-	                    <div class="row col-mar-9">
-	                        <div class="col-lg-6">
-	                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftomitafarm.vietnam%2F&tabs&width=315&height=70&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId=1863080223943997" width="315" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-	                        </div>
-	                        <div class="col-lg-6">
-	                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftomitaoroshi.vietnam%2F&tabs&width=315&height=70&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId=1863080223943997" width="315" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-	                        </div>
-	                        <div class="col-lg-6">
-	                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftomitamart%2F&tabs=timeline&width=315&height=70&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=false&appId=1863080223943997" width="315" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-	                        </div>
-	                        <div class="col-lg-6">
-	                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftomitaprofarm%2F&tabs&width=315&height=70&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId=1863080223943997" width="315" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-	                        </div>
-	                        <div class="col-lg-6">
-	                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FTomita-Bento-2266870830194021%2F&tabs&width=315&height=70&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId=1863080223943997" width="315" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-	                        </div>
+	                    <div class="row col-mar-9 cover-fb">
+	                        <div class="fb-page"
+							  data-href="https://www.facebook.com/shophoantuyet/" 
+							  data-width="340"
+							  data-hide-cover="false"
+							  data-show-facepile="true"></div>
+							  <div id="fb-root"></div>
+							<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v6.0&appId=2500758213571677&autoLogAppEvents=1"></script>
 	                    </div>
 	                </div>
 	            </div>
@@ -71,6 +63,6 @@
 	    </div> 
 	</div>
 	<div class="copy-right">
-	    © 2018 CÔNG TY CỔ PHẦN TRANG TRẠI TOMITA VIỆT NAM. Designed by <a href="http://apecsoft.asia/" title="Apecsoft" target="__blank">Apecsoft</a>
+	    © 2003 Hoàn Tuyết - thương hiệu thời trang nam hàng đầu Thái Nguyên. Designed by <a href="https://www.facebook.com/mvhoangcntt/" title="MV Hoàng" target="__blank">MV Hoàng</a>
 	</div>  
 </footer>

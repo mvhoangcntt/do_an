@@ -12,6 +12,7 @@ $method = $this->router->fetch_method();
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property = "fb: app_id" content = "{528812527778564}" />
   <title><?php echo !empty($heading_title) ? $heading_title : 'Hoàn Tuyết' ?> | Thái Nguyên</title>
   <link rel="icon"
         href="<?php echo !empty($this->settings['favicon']) ? getImageThumb($this->settings['favicon']) : base_url("/public/favicon.ico"); ?>"
@@ -71,6 +72,7 @@ $method = $this->router->fetch_method();
 <?php $asset_js[] = 'js/fancybox.js'; ?>
 <?php $asset_js[] = 'js/jquery.sticky-kit.js'; ?>
 <?php $asset_js[] = 'js/script.js'; ?>
+<?php $asset_js[] = 'js/login-facebook.js'; ?>
 <?php $asset_js[] = 'js/page-contact.js'; ?>
 <?php $asset_js[] = 'js/toastr/toastr.min.js'; ?>
 <?php $asset_js[] = 'js/swiper.min.js'; ?>
@@ -80,7 +82,7 @@ $method = $this->router->fetch_method();
 echo $this->minify->deploy_js(); ?>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     toastr.options.escapeHtml = true;
     toastr.options.closeButton = true;
     toastr.options.positionClass = "toast-bottom-right";
@@ -91,7 +93,51 @@ echo $this->minify->deploy_js(); ?>
     <?php if(!empty($this->session->flashdata('message'))): $message = $this->session->flashdata('message'); ?>
     toastr.<?php echo $message['type']; ?>('<?php echo trim(strip_tags($message['message'])); ?>');
     <?php endif; ?>
-</script>
+</script> -->
 
+<!-- to top : lên đầu trang -->
+<button onclick="topFunction()" id="myBtn" title="Lên đầu trang"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
+<style type="text/css">
+#myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    font-size: 35px;
+    border: none;
+    outline: none;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
+</style>
+<script>
+    //Get the button
+    var mybutton = document.getElementById("myBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+</script>
+<!-- end to top -->
 </body>
 </html>

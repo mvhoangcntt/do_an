@@ -616,45 +616,34 @@ function initMap() {
 
 $(document).ready(function(){
 // icon
-  $(".fa-bars").mouseenter(function(){
-    $(".fa-bars").css("color", "yellow");
-    $(".show_menu").css("display","block");
-  });
-  $(".fa-bars").mouseleave(function(){
-    $(".fa-bars").css("color", "red");
-  });
-  $(".show_menu").mouseleave(function(){
-    $(".show_menu").css("display","none");
-  });
+    $(document).on("click",".fa-bars",function(){
+        $(".fa-bars").toggleClass("css-coler-yellow");
+        $(".show_menu").toggleClass("css-block");
+    });
+    $(".show_menu").mouseleave(function(){
+        $(".fa-bars").toggleClass("css-coler-yellow");
+        $(".show_menu").toggleClass("css-block");
+    });
 // ul li
-  $(".s_menu li").mouseenter(function(){
-    $(this).css({"background-color":"#efefef","color":"red","font-weight":"bold"});
-    $(this).find("ul").css({"display":"block","color":"#000", "font-weight":"normal"});
-    $(this).find("ul ul").css("display","none");
+    $(".s_menu li").mouseenter(function(){
+        $(this).css({"background-color":"#efefef","color":"red","font-weight":"bold"});
+        $(this).find("ul").css({"display":"block","color":"#000", "font-weight":"normal"});
+        $(this).find("ul ul").css("display","none");
 
-    if ($(this).find('li ul')) {
-        $(this).find('div').append('<i class="fa fa-caret-right clmenu" aria-hidden="true">');
-        // $(this).find('div div').append('');
-        $(this).find("ul div .fa-caret-right").remove();
-    }
-  });
-  $(".s_menu li").mouseleave(function(){
-    $(this).css({"background-color":"#fff", "color":"#000", "font-weight":"normal"});
-    $(this).find("ul").css("display","none");
+        if ($(this).find('li ul')) {
+            $(this).find('div').append('<i class="fa fa-caret-right clmenu" aria-hidden="true">');
+            // $(this).find('div div').append('');
+            $(this).find("ul div .fa-caret-right").remove();
+        }
+    });
+    $(".s_menu li").mouseleave(function(){
+        $(this).css({"background-color":"#fff", "color":"#000", "font-weight":"normal"});
+        $(this).find("ul").css("display","none");
 
-    if ($(this).find('ul div')) {
-        $("ul div").find(".fa-caret-right").remove();
-    }
-  });
-// li li
-  // $(".s_menu li li").mouseenter(function(){
-  //   $(this).css("display","block");
-  // });
-  // $(".s_menu li li").mouseleave(function(){
-  //   $(this).css("display","none");
-  // });
-
-
+        if ($(this).find('ul div')) {
+            $("ul div").find(".fa-caret-right").remove();
+        }
+    });
   
 });
 
@@ -745,6 +734,46 @@ $(document).ready(function(){
         }
         console.log($(".input_number").val());
     });
-    
-    
-})
+});
+
+// end active
+// form edit cart
+$(document).ready(function(){
+    $(document).on("click",".edit-cart",function(){
+        $( ".form_cart_hide" ).addClass( "form_cart_show" );
+        $( ".screen_cart_hide" ).addClass( "screen_cart_show" );
+    });
+    $(document).on("click",".screen_cart_hide",function(){
+        $( ".form_cart_hide" ).removeClass( "form_cart_show" );
+        $( ".screen_cart_hide" ).removeClass( "screen_cart_show" );
+    });
+    $(document).on("click",".icon-x",function(){
+        $( ".form_cart_hide" ).removeClass( "form_cart_show" );
+        $( ".screen_cart_hide" ).removeClass( "screen_cart_show" );
+    });
+});
+// end edit
+
+// account tab active
+$(document).ready(function(){
+    $(document).on("click",".no-active",function(){
+        $(".no-active").removeClass("account-list-active");
+        $(".div-edit-account").find("a").removeClass("active show");
+        $(this).addClass("account-list-active");
+
+        // $("#iframe-details").remove();
+    });
+});
+$(document).ready(function(){
+    $(document).on("click",".details-show",function(){
+        $(".no-active").removeClass("account-list-active");
+        $(".no-active").find("a").removeClass("active show");
+        $(".tab-content-remove").find(".tab-pane").removeClass("in active show");
+        $(".donhang .nav-tabs").find("a").removeClass("active show");
+        $(".donhang").find(".tab-pane").removeClass("in active show");
+        $("#details-order").addClass('in active show');
+        // var id = '';
+        // id = $(this).attr('id');
+        // $(".iframe-details-show").append('<iframe id="iframe-details" src="http://localhost/do-an/details/details/'+id+'"></iframe>');
+    });
+});

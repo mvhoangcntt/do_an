@@ -2,7 +2,11 @@
     <div class="container">
         <div class="wrap-header">
             <a href="<?php echo base_url() ?>" title="" class="logo"><!-- <img src="<?php echo base_url() ?>public/images/logo.png" alt=""> -->Hoàn Tuyết</a>
-            <div><a href="<?php echo base_url() ?>home" title="" class="iconmenu"><i class="fa fa-bars" aria-hidden="true"></i></a></div>
+            <div>
+                <!-- <a href="<?php echo base_url() ?>home" title=""> -->
+                    <i class="fa fa-bars iconmenu" aria-hidden="true"></i>
+                <!-- </a> -->
+            </div>
             <div class="show_menu">
                 <div class="s_menu">
                     <?php //echo topNavBar('','',''); ?>

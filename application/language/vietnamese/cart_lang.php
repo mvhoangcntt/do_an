@@ -23,3 +23,5 @@ $lang['delete_the_product'] = 'Xoá sản phẩm';
 $lang['use_discount_code'] = 'Sử dụng mã giảm giá';
 $lang['apply'] = 'Áp dụng';
 $lang['payment'] = 'Thanh toán';
+$lang['from_registration']      = 'Đăng ký nhận ưu đãi hàng tháng';
+$lang['from_email']      = 'Địa chỉ email';
