@@ -32,21 +32,37 @@
 	<div class="footer-top">
 	    <div class="container">
 	        <div class="row">
-	            <div class="col-lg-5">
+	            <div class="col-lg-4">
 	                <div class="ft-info">
 	                    <h3 class="title"><?php echo !empty($company)? $company : ''; ?></h3>
 	                    <ul>
 	                        <li><i class="icon_pin"></i><?php echo !empty($address)? $address : ''; ?></li>
+	                        <li><i class="icon_pin"></i>📍Cơ sở 2: Số nhà 561 đường Lương Ngọc Quyến, TP.Thái Nguyên.  </li>
+	                        <li><i class="icon_pin"></i>📍Cơ sở 3: Số nhà 40 đường Quang Trung, TP.Thái Nguyên </li>
+	                        
 
-	                        <li><i class="icon_phone"></i><a href="<?php echo !empty($phone)? $phone : ''; ?>" title=""><?php echo !empty($phone)? $phone : ''; ?></a></li>
+	                        <!-- <li><i class="icon_documents"></i><?php echo !empty($mst)? $mst : ''; ?></li> -->
 
-	                        <li><i class="icon_documents"></i><?php echo !empty($mst)? $mst : ''; ?></li>
-
-	                        <li><i class="icon_mobile"></i><a href="<?php echo !empty($time)? $time : ''; ?>" title="<?php echo !empty($time)? $time : ''; ?>"><?php echo !empty($time)? $time : ''; ?> - <a href="<?php echo !empty($phonee)? $phonee : ''; ?>" title=""><?php echo !empty($phonee)? $phonee : ''; ?></a></li>
+	                        <!-- <li><i class="icon_mobile"></i><a href="<?php echo !empty($time)? $time : ''; ?>" title="<?php echo !empty($time)? $time : ''; ?>"><?php echo !empty($time)? $time : ''; ?> - <a href="<?php echo !empty($phonee)? $phonee : ''; ?>" title=""><?php echo !empty($phonee)? $phonee : ''; ?></a></li> -->
 	                    </ul>
 	                </div>
 	            </div>
-	            <div class="col-lg-7">
+	            <div class="col-lg-4">
+	                <div class="ft-info">
+	                    <h3 class="title">Hình thức chuyển hàng </h3>
+	                    <ul>
+	                        <li><i class="fa fa-motorcycle" aria-hidden="true"></i> Ship nội thành (Thái Nguyên) nhanh giá rẻ</li>
+	                        <li><i class="fa fa-car icon-order-cart" aria-hidden="true"></i> Ship SCOD Toàn Quốc - Viettel Post </li>
+
+	                    </ul>
+	                    <h3 class="title">Điện thoại hỗ trợ </h3>
+	                    <ul>
+	                        <li><i class="icon_phone"></i><a href="<?php echo !empty($phone)? $phone : ''; ?>" title=""><?php echo !empty($phone)? $phone : ''; ?></a></li>
+	                        
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="col-lg-4">
 	                <div class="ft-fanpage">
 	                    <div class="row col-mar-9 cover-fb">
 	                        <div class="fb-page"

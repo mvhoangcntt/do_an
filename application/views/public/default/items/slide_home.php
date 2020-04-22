@@ -43,6 +43,9 @@
       -webkit-align-items: center;
       align-items: center;
     }
+    .swiper-slide img{
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -51,7 +54,7 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide">Slide 1 <?php echo $abc; ?></div>
             <div class="swiper-slide"><img src="<?php echo base_url() ?>public/media/img-about2.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></div>
-            <div class="swiper-slide">Slide 3</div>
+            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/slide-home.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></div>
             <div class="swiper-slide">Slide 4</div>
             <div class="swiper-slide">Slide 5</div>
             <div class="swiper-slide">Slide 6</div>

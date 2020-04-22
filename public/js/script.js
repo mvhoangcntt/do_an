@@ -568,7 +568,7 @@ jQuery(function($) {
 function initMap() {
     // to the map type control.
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 21.0310908, lng: 105.768407 },
+        center: { lat: 21.5526146, lng: 105.842387 },
         zoom: 18,
         scrollwheel: false,
         mapTypeControlOptions: {
@@ -578,29 +578,29 @@ function initMap() {
         }
     });
 
-    //Associate the styled map with the MapTypeId and set it to display.
+    
     var myMarker = new google.maps.Marker({
-        position: { lat: 21.0310908, lng: 105.768407 },
+        position: { lat: 21.5526146, lng: 105.842387 },
         map: map,
-        title: "Apecsoft",
+        title: "MV Hoang",
         //icon: "images/icon-map.png",
         label: {
             color: 'red',
             fontWeight: '400',
             fontSize: '16px',
-            text: 'Tomita Farm',
+            text: 'Hoàn Tuyết',
 
         },
         icon: {
             labelOrigin: new google.maps.Point(11, 70),
-            url: 'public/images/icon-map.png',
+            url: base_url+'public/images/icon-map.png',
             size: new google.maps.Size(38, 54),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(11, 40),
         },
     });
     var contentString = '<div id="content" style="max-width: 250px;">' +
-        '<h1 style="font-size:14px;color:#01b1e0;font-weight:500;text-align: center;">Địa chỉ: Tầng 3, TTTM CTM Complex Cầu Giấy, 139 Cầu Giấy, Hà Nội</h1>' +
+        '<h1 style="font-size:14px;color:#01b1e0;font-weight:500;text-align: center;">Địa chỉ: Số nhà 540 đường 3/2 (QL3 cũ đi HN), TP.Thái Nguyên</h1>' +
         '<span style="float:left;font-size:13px;color:#2e2e2e;width: 100%; text-align: center;font-weight:500;margin-top: 10px;">Phone: 0969.001.511</span>' +
         '</div>';
 
@@ -654,13 +654,15 @@ $(document).ready(function(){
     $(document).on("click",".fa-caret-down",function(){
         $(".hide-viewed").toggleClass("show-viewed");
         $(".screen_hide").toggleClass("screen_show");
+        $(".hide-login").removeClass("show-login");
+        $(".screen_login-hide").removeClass("screen_login");
         
     });
     $(document).on("click",".screen_hide",function(){
         $(".hide-viewed").toggleClass("show-viewed");
         $(".screen_hide").toggleClass("screen_show");
     });
-    // chạy slide
+    // chạy slide details product
     
     var galleryThumbs = new Swiper('.gallery-thumbs', {
       spaceBetween: 10,
@@ -680,6 +682,81 @@ $(document).ready(function(){
       }
     });
 
+
+});
+// ------------ login ------------
+$(document).ready(function(){
+    $(".dangky").hide();
+    $(".quenmatkhau").hide();
+    $(".doimatkhau").hide();
+    $(document).on("click",".login",function(){
+        $(".hide-login").toggleClass("show-login");
+        $(".screen_login-hide").toggleClass("screen_login");
+        $(".hide-viewed").removeClass("show-viewed");
+        $(".screen_hide").removeClass("screen_show");
+        $(".dangky").hide();
+        $(".dangnhap").show();
+        $(".quenmatkhau").hide();
+        $(".doimatkhau").hide();
+    });
+    $(document).on("click",".screen_login-hide",function(){
+        $(".hide-login").toggleClass("show-login");
+        $(".screen_login-hide").toggleClass("screen_login");
+    });
+    $(document).on("click",".cancel",function(){
+        $(".hide-login").toggleClass("show-login");
+        $(".screen_login-hide").toggleClass("screen_login");
+    });
+});
+$(document).ready(function(){
+    $(document).on("click",".div-dangky",function(){
+        $(".dangky").show();
+        $(".dangnhap").hide();
+        $(".quenmatkhau").hide();
+        $(".doimatkhau").hide();
+        $(".show-login h2").text("Đăng ký");
+
+        // $(".div-dangky").hide();
+        // $(".div-dangnhap").show();
+        // $(".div-quenmatkhau").show();
+        // $(".div-doimatkhau").show();
+    });
+    $(document).on("click",".div-dangnhap",function(){
+        $(".dangky").hide();
+        $(".dangnhap").show();
+        $(".quenmatkhau").hide();
+        $(".doimatkhau").hide();
+        $(".show-login h2").text("Đăng nhập");
+
+        // $(".div-dangky").show();
+        // $(".div-dangnhap").hide();
+        // $(".div-quenmatkhau").show();
+        // $(".div-doimatkhau").show();
+    });
+    $(document).on("click",".div-quenmatkhau",function(){
+        $(".dangky").hide();
+        $(".dangnhap").hide();
+        $(".quenmatkhau").show();
+        $(".doimatkhau").hide();
+        $(".show-login h2").text("Quên mật khẩu");
+
+        // $(".div-dangky").show();
+        // $(".div-dangnhap").show();
+        // $(".div-quenmatkhau").hide();
+        // $(".div-doimatkhau").show();
+    });
+    $(document).on("click",".div-doimatkhau",function(){
+        $(".dangky").hide();
+        $(".dangnhap").hide();
+        $(".quenmatkhau").hide();
+        $(".doimatkhau").show();
+        $(".show-login h2").text("Thay đổi mật khẩu");
+
+        // $(".div-dangky").show();
+        // $(".div-dangnhap").show();
+        // $(".div-quenmatkhau").show();
+        // $(".div-doimatkhau").hide();
+    });
 
 });
 

@@ -149,6 +149,7 @@ class Admin_Controller extends APS_Controller
                     $groupModel = new Groups_model();
                     $group = $groupModel->get_group_by_userid((int)$this->session->userdata('user_id'));
                     $data = $groupModel->getById($group->group_id);
+                    
                     if (!empty($data)) {
                         $this->session->admin_permission = json_decode($data->permission, true);
                         $this->session->admin_group_id = (int)$group->group_id;

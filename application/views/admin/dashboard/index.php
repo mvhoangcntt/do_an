@@ -4,7 +4,7 @@
         <div class="col-md-6">
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Hướng dẫn sử dụng Backend CMS Apecsoft</h3>
+                    <h3 class="box-title">Hướng dẫn sử dụng</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -20,7 +20,7 @@
                             </div>
                             <div id="collapseOne" class="panel-collapse collapse in">
                                 <div class="box-body">
-                                    <iframe width="100%" height="400" src="https://www.youtube.com/embed/gWbWVes-frQ" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                                    <iframe width="100%" height="400" src="" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             </div>
                             <div id="collapseTwo" class="panel-collapse collapse">
                                 <div class="box-body">
-                                    <iframe width="100%" height="400" src="https://www.youtube.com/embed/vyFlPlr6guo" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                                    <iframe width="100%" height="400" src="" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
                                 </div>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div id="collapseThree" class="panel-collapse collapse">
                                 <div class="box-body">
-                                    <iframe width="100%" height="400" src="https://www.youtube.com/embed/NAKTpJuXmbU" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                                    <iframe width="100%" height="400" src="" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             </div>
                             <div id="collapseFour" class="panel-collapse collapse">
                                 <div class="box-body">
-                                    <iframe width="100%" height="400" src="https://www.youtube.com/embed/joxWI7UZHaM" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                                    <iframe width="100%" height="400" src="" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
                                 </div>
                             </div>
                         </div>

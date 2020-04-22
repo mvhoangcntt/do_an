@@ -1,11 +1,11 @@
 <header class="main-header">
     <!-- Logo -->
     <a href="<?php echo BASE_ADMIN_URL ?>" class="logo">
-        <span class="logo-mini"><b>CMS</b></span>
-        <span class="logo-lg"><b>APECSOFT</b> CMS</span>
+        <span class="logo-mini"><b>MV</b></span>
+        <span class="logo-lg">MV Hoàng</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
+    <nav class="navbar navbar-static-top" style="background-color: #00649e;">
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>

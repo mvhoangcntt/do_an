@@ -180,19 +180,94 @@
 	}
 }
 .slide-home{
-	height: 200px;
+	height: 360px;
 	padding-bottom: 10px;
 }
+@media (max-width: 1199px){
+	.slide-home{
+	    height: 135px;
+	    padding-bottom: 0;
+	}
+}
+/* --------------------------------------form login ---------------------------------------------------*/
+.screen_login{
+	z-index: 13;
+	position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.hide-login{
+	display: none;
+}
+.show-login{
+	z-index: 14;
+	border-radius: 5px;
+    width: 600px;
+    max-height: 80%;
+    overflow: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    display: block;
+    animation: show 0.8s ease;
+    background-color: #fff;
+}
+.hide-login h2{
+	font-size: 30px;
+}
+.form-button{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+.form-button-submit{
+	display: flex;
+    justify-content: space-around;
+}
+@media (max-width: 1199px){
+	.show-login{
+	    width: 99%;
+	    
+	}
+	.form-button{
+		display: inherit;
+		justify-content: space-between;
+		margin-top: 10px;
+	}
+}
+@media (max-height: 500px){
+	.show-login{
+	 	border-radius: 5px 0px 0px 5px;   
+	}
+}
+.icon-header-show{
+	display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    width: 200px;
+}
 
-/* sản phẩm */
+/* ------------------------------------- sản phẩm product ------------------------------------------*/
 .tieude{
 	width: 100%;
-    padding: 0 15px 3px 15px;
+    padding: 5px 15px 3px 15px;
 }
 .tieude_{
 	width: 100%;
     display: flex;
-    background-color: pink;
+    background-color: #34b8ff;
     justify-content: space-between;
     height: 30px;
     align-items: center;
@@ -323,6 +398,11 @@
 /* end slide */
 .text-details-product{
 	border-left: 1px solid #b7b7b7;
+}
+@media (max-width: 1199px){
+	.text-details-product{
+		border-left: 0px solid #b7b7b7;
+	}
 }
 .text-link{
 	font-size: 12px;
@@ -621,6 +701,20 @@
 
 .page-home-border{
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,.24);
+}
+.new-product{
+	display: flex;
+	justify-content: space-between;
+
+}
+.div-new-product{
+    align-items: center;
+    background: #46f526;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.div-new-product h2{
+	font-size: 30px;
 }
 .list-product-form-detais{
 	margin-top: 15px;

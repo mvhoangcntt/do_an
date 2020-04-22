@@ -49,6 +49,7 @@ $method = $this->router->fetch_method();
   <?php if(!empty($controller)): ?>
     var url_save = '<?php echo site_url("$controller/post_contact"); ?>';
   <?php endif; ?>
+  const base_url = '<?php echo base_url(); ?>'
 </script>
 
 </head>
@@ -82,7 +83,7 @@ $method = $this->router->fetch_method();
 echo $this->minify->deploy_js(); ?>
 
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
     toastr.options.escapeHtml = true;
     toastr.options.closeButton = true;
     toastr.options.positionClass = "toast-bottom-right";
@@ -93,7 +94,7 @@ echo $this->minify->deploy_js(); ?>
     <?php if(!empty($this->session->flashdata('message'))): $message = $this->session->flashdata('message'); ?>
     toastr.<?php echo $message['type']; ?>('<?php echo trim(strip_tags($message['message'])); ?>');
     <?php endif; ?>
-</script> -->
+</script>
 
 <!-- to top : lên đầu trang -->
 <button onclick="topFunction()" id="myBtn" title="Lên đầu trang"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>

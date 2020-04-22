@@ -457,7 +457,7 @@ class Ion_auth
 		{
 			$recheck = $this->ion_auth_model->login_remembered_user();
 		}
-
+		
 		return $recheck;
 	}
 

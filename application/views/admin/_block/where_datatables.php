@@ -6,10 +6,10 @@ $method = $this->router->fetch_method();
 ?>
 <div class="col-sm-7 col-xs-12">
   <?php
-  if (in_array($controller, ['orders','myproduct','category', 'post', 'product', 'banner', 'tour', 'voucher', 'project', 'report', 'course'])):
+  if (in_array($controller, ['orders','product','category', 'post', 'product', 'banner', 'tour', 'voucher', 'project', 'report', 'course'])):
 
     ?>
-    <?php if ($controller != 'myproduct' && $controller != 'orders') { ?>
+    <?php if ($controller != 'product' && $controller != 'orders') { ?>
 		<div class="col-md-4">
 			<div class="form-group">
 			  <div class="input-group">
@@ -34,7 +34,7 @@ $method = $this->router->fetch_method();
 			</div>
 		</div>
 	<?php } ?>
-	<?php if ($controller == 'myproduct') { ?>
+	<?php if ($controller == 'product') { ?>
 		<div class="col-md-4">
 			<div class="form-group">
 			  <div class="input-group">

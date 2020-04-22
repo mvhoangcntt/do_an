@@ -53,7 +53,7 @@ function edit_form(id)
                 $('[name="meta_keyword['+value.language_code+']"]').tagsinput('add', value.meta_keyword);
 
             });
-            // console.log(data)
+            console.log(data)
 
             loadImageThumb(data.data[0].thumbnail,'thumbnail');
             // loadImageThumb(data.data[0].banner,'banner');

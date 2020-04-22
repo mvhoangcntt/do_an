@@ -24,9 +24,9 @@ class APS_Model extends CI_Model
   {
     parent::__construct();
     $this->table = str_replace('_model', '', get_Class($this));
-    if ($this->table == 'Myproduct') {
-      $this->table = 'product';
-    }
+    // if ($this->table == 'Myproduct') {
+    //   $this->table = 'product';
+    // }
     $this->primary_key = "id";
     $this->column_order = array("$this->table.id", "$this->table.id", "$this->table_trans.title", "$this->table.is_status", "$this->table.updated_time", "$this->table.created_time"); //thiết lập cột sắp xếp
     $this->column_search = array("$this->table_trans.title"); //thiết lập cột search

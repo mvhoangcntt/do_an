@@ -1,182 +1,170 @@
-<?php
+<?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Product_model extends APS_Model{
+class Product_model extends APS_Model
+{
+   public function __construct()
+   {
+      parent::__construct();
+      $this->table                  = "product";
+      $this->table_catalog          = "catalog";
+      $this->table_maker            = "maker";
+      $this->table_trans            = "product_translations";//bảng bài viết
+      $this->table_category         = "product_category";
+      $this->table_product_category = "product_category";
+      $this->table_product = "size";//bảng quan hệ sản phẩm
+      $this->column_order  = array("$this->table.id","$this->table.id","$this->table.name","$this->table.catalog","$this->table.thumbnail","","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.total"); //thiết lập cột sắp xếp
+      $this->column_search = array("$this->table.id","$this->table.name","$this->table.catalog","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.view","$this->table.total"); //thiết lập cột search
+   }
 
-    public $table_log_download;
-    public $table_log_collection;
-    public function __construct()
-    {
-        parent::__construct();
-        $this->table            = "product";
-        $this->table_trans      = "product_translations";
-        $this->table_category   = "product_category";
-        $this->table_property   = "product_property";
-        $this->column_order     = array("$this->table.id","$this->table.id","$this->table_trans.title","$this->table.price","$this->table.is_featured","$this->table.is_status","$this->table.created_time","$this->table.updated_time",); //thiết lập cột sắp xếp
-        $this->column_search    = array("$this->table.id","$this->table_trans.title"); //thiết lập cột search
-        $this->order_default    = array("$this->table.created_time" => "DESC"); //cột sắp xếp mặc định
+   public function getData($args = array(), $returnType = "object", $select = '')
+   {
+      $this->__where($args, '', $select);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      if ($returnType === "array") return $query->result_array(); //Check kiểu data trả về
+      else return $query->result();
+   }
+   
+   private function __where($args = array(), $count = '', $select = '')
+   {
+      $page = 1;
+      $limit = 10;
+      extract($args);
+      if (empty($select)) $select = '*';
+      // if (!empty($parent_id)) {
+         $select = $this->column_order;
+      // }  
+      $this->db->select($select);
 
-    }
+      $this->db->from("$this->table");
+      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
+      $this->db->join($this->table_catalog, "$this->table.catalog = $this->table_catalog.id");
+      if (empty($lang_code)) $lang_code = $this->session->admin_lang;
+      if (!empty($lang_code)) $this->db->where("$this->table_trans.language_code", $lang_code);
+
+      if (!empty($parent_id)) {
+         $this->db->join("$this->table_product", "$this->table.id = $this->table_product.{$this->table}_id");
+         $this->db->where("$this->table_product.text_size", $parent_id);
+      }
+      if (!empty($catalog)) {
+         $this->db->where("$this->table.catalog", $catalog);
+      }
+      if (!empty($maker_id)) {
+         $this->db->where("$this->table.maker_id", $maker_id);
+      }
+
+      if (!empty($search)) {
+         $this->db->group_start();
+         $this->db->like("$this->table_trans.title", trim(xss_clean($search)));
+         $this->db->group_end();
+      }
+      $this->_get_datatables_query();
+      if (empty($count) || $count == null) {
+
+         if (!empty($order) && is_array($order)) {
+            foreach ($order as $k => $v)
+            $this->db->order_by($k, $v);
+         } else if (isset($this->order_default)) {
+            $order = $this->order_default;
+            $this->db->order_by(key($order), $order[key($order)]);
+         }
+         $offset = ($page - 1) * $limit;
+         $this->db->limit($limit, $offset);
+      }
+   }
+
+   public function getTotal($args = [])
+   {
+      $this->__where($args, "count", '1');
+      $query = $this->db->get();
+      return $query->num_rows();
+   }
 
 
-    public function _where_custom($args){
-        extract($args);
-        if(isset($is_sale)) $this->db->where("price_sale <> ",0);
-
-        /*Lọc các thuộc tính của sản phẩm*/
-        if(isset($filter_price_min) && !empty($filter_price_max)){
-            $this->db->where("IF(`price_sale` != 0, `price_sale`, `price`) >=",$filter_price_min);
-            $this->db->where("IF(`price_sale` != 0, `price_sale`, `price`) <=",$filter_price_max);
-        }
-        if(!empty($filter_property)){
-            $this->db->join($this->table_property,"$this->table.id = $this->table_property.product_id");
-            $this->db->where_in("$this->table_property.property_id",$filter_property);
-        }
-    }
-
-    public function getById($id,$select='*',$lang_code = null){
-        $this->db->select("*");
-        $this->db->select("IF(`model` IS NULL, 0, `model`) AS `model`");
-        $this->db->select("IF(`price` IS NULL, 0, `price`) AS `price`");
-        $this->db->select("IF(`price_sale` IS NULL, 0, `price_sale`) AS `price_sale`");
-
-        $this->db->select("IF(`price_sale` IS NULL, `price`, `price_sale`) AS `price_sort`");
-        $this->db->select("IF(`price_sale` IS NULL, 0, 1) AS `is_sale`");
-        $this->db->select('IF(`created_time` <= DATE_ADD(NOW(), INTERVAL 10 DAY), 1, 0) AS `is_new`');
-        $this->db->from($this->table);
-        if(!empty($this->table_trans)) $this->db->join($this->table_trans,"$this->table.id = $this->table_trans.id");
-        $this->db->where("$this->table.id",$id);
-        $this->db->order_by("price","ASC");
-        if(empty($this->table_trans)){
-            $query = $this->db->get();
-            return $query->row();
-        }
-
-        if(!empty($lang_code)){
-            $this->db->where("$this->table_trans.language_code",$lang_code);
-            $query = $this->db->get();
-            return $query->row();
-        }else{
-            $query = $this->db->get();
-            return $query->result();
-        }
-    }
-
-    public function getCategoryByPostId($productId, $lang_code = null){
-        if(empty($lang_code)) $lang_code = $this->session->admin_lang ? $this->session->admin_lang : $this->session->public_lang_code;
-        $this->db->select();
-        $this->db->from($this->table_category);
-        $this->db->join("category_translations","$this->table_category.category_id = category_translations.id");
-        $this->db->join("category","$this->table_category.category_id = category.id");
-        $this->db->where('category_translations.language_code', $lang_code);
-        $this->db->where($this->table_category.".product_id", $productId);
-        $data = $this->db->get()->result();
-        //ddQuery($this->db);
-        return $data;
-    }
-
-    public function getPropertyByProduct($productId, $type){
-        if(empty($lang_code)) $lang_code = $this->session->admin_lang ? $this->session->admin_lang : $this->session->public_lang_code;
-        $this->db->select();
-        $this->db->from($this->table_property);
-        $this->db->join("property_translations","$this->table_property.property_id = property_translations.id");
-        $this->db->join("property","$this->table_property.property_id = property.id");
-        $this->db->where('property_translations.language_code', $lang_code);
-        $this->db->where($this->table_property.".product_id", $productId);
-        $this->db->where("property.type", $type);
-        $data = $this->db->get()->result();
-        return $data;
-    }
-    public function getCategorySelect2($productId, $lang_code = null){
-        if(empty($lang_code)) $lang_code = $this->session->admin_lang ? $this->session->admin_lang : $this->session->public_lang_code;
-        $this->db->select("$this->table_category.category_id AS id, category_translations.title AS text");
-        $this->db->from($this->table_category);
-        $this->db->join("category_translations","$this->table_category.category_id = category_translations.id");
-        $this->db->where('category_translations.language_code', $lang_code);
-        $this->db->where($this->table_category.".product_id", $productId);
-        $data = $this->db->get()->result();
-        return $data;
-    }
-
-    public function getCategoryByBrandProduct($brandId, $lang_code = null){
-        if(empty($lang_code)) $lang_code = $this->session->admin_lang ? $this->session->admin_lang : $this->session->public_lang_code;
-        $this->db->select("ap_category.*, ap_category_translations.*");
-        $this->db->from($this->table_category);
-        $this->db->join($this->table,"$this->table_category.product_id = $this->table.id","left");
-        $this->db->join("category","$this->table_category.category_id = category.id");
-        $this->db->join("category_translations","$this->table_category.category_id = category_translations.id");
-        $this->db->where('category_translations.language_code', $lang_code);
-        $this->db->where($this->table.".brand", $brandId);
-        $this->db->group_by("category.id");
-        $data = $this->db->get()->result();
-        return $data;
-    }
-
-    public function getTagsSelect2($productId, $lang_code = null){
-        if(empty($lang_code)) $lang_code = $this->session->admin_lang ? $this->session->admin_lang : $this->session->public_lang_code;
-        $this->db->select("$this->table_tags.tag_id AS id, tags_translations.title AS text");
-        $this->db->from($this->table_tags);
-        $this->db->join("tags_translations","$this->table_tags.tag_id = tags_translations.id");
-        $this->db->where('tags_translations.language_code', $lang_code);
-        $this->db->where($this->table_tags.".product_id", $productId);
-        $data = $this->db->get()->result();
-        return $data;
-    }
-
-    public function getPropertySelect2($productId, $type, $lang_code = null){
-        if(empty($lang_code)) $lang_code = $this->session->admin_lang ? $this->session->admin_lang : $this->session->public_lang_code;
-        $this->db->select("$this->table_property.property_id AS id, property_translations.title AS text");
-        $this->db->from($this->table_property);
-        $this->db->join("property_translations","$this->table_property.property_id = property_translations.id");
-        $this->db->where('property_translations.language_code', $lang_code);
-        $this->db->where($this->table_property.".product_id", $productId);
-        $this->db->where($this->table_property.".type", $type);
-        $data = $this->db->get()->result();
-        return $data;
-    }
-    public function listIdByCategory($category_id){
-        $this->db->from($this->table_category);
-        $this->db->where('category_id',$category_id);
-        $result = $this->db->get()->result();
-        $listPostId = [];
-        if(!empty($result)) foreach ($result as $item){
-            $listPostId[] = $item->product_id;
-        }
-        return $listPostId;
-    }
-
-    public function getOneCateIdById($id)
-    {
-        $data = $this->getCategoryByPostId($id);
-        return !empty($data)?$data[0]:null;
-    }
-
-    public function getCateIdById($id)
-    {
-        $this->db->select('category_id');
-        $this->db->from($this->table_category);
-        $this->db->where('product_id', $id);
-        $data = $this->db->get()->result();
-        $listId = [];
-        if (!empty($data)) foreach ($data as $item) {
-            $listId[] = $item->category_id;
-        }
-        return $listId;
-    }
-
-    public function countPostByCate($cateId){
-        $this->db->from($this->table_category);
-        $this->db->where('category_id',$cateId);
-        $query = $this->db->get();
-        return $query->num_rows();
-    }
-
-    public function countProductByType($typeId, $cateId){
-        $this->db->from($this->table_category);
-        $this->db->join($this->table,"$this->table_category.product_id = $this->table.id");
-        $this->db->where("$this->table.type",$typeId);
-        $this->db->where("$this->table_category.category_id",$cateId);
-        $query = $this->db->get();
-        return $query->num_rows();
-    }
-
+   // -------------- load filter -------------
+   public function list_size_datatable($keyword){
+      $this->db->select("$this->table_product.text_size");
+      $this->db->distinct();
+      if (!empty($keyword)) {
+         $this->db->like('text_size', $keyword);
+      }
+      $query = $this->db->get($this->table_product); 
+      return $query->result();
+   }
+   public function filter_catalog($keyword){
+      if (!empty($keyword)) {
+         $this->db->like("$this->table_catalog.name_catalog", $keyword);
+      }
+      $query = $this->db->get($this->table_catalog);
+      return $query->result();
+   }
+   public function filter_maker($keyword){
+      if (!empty($keyword)) {
+         $this->db->like("$this->table_maker.name_maker", $keyword);
+      }
+      $query = $this->db->get($this->table_maker);
+      return $query->result();
+   }
+   // ------------ lấy ra size theo product ------------
+   public function get_size($id){
+      $this->db->select("$this->table_product.text_size")->from($this->table_product)->where("$this->table_product.product_id",$id);
+      $query = $this->db->get();
+      return $query->result();
+   }
+   public function get_catalog($id){
+      $this->db->select("$this->table_catalog.name_catalog")->from($this->table_catalog)->where("$this->table_catalog.id",$id);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function get_maker($id){
+      $this->db->select("$this->table_maker.name_maker")->from($this->table_maker)->where("$this->table_maker.id",$id);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   
+   // ----------- get form update -----------
+   // get json form update
+   public function get_json($id){
+      $this->db->where("$this->table.id",$id);
+      $query = $this->db->get($this->table);
+      return $query->row();
+   }
+   public function get_size_come_product($id){
+      $this->db->select('*')->from($this->table_product)->where("$this->table_product.product_id",$id);
+      $query = $this->db->get();
+      return $query->result();
+   }
+   public function get_table_trans($id){
+      $this->db->select('*')->from($this->table_trans)->where("$this->table_trans.id",$id);
+      $query = $this->db->get();
+      return $query->result();
+   }
+   public function get_table_catalog($id){
+      $this->db->select("$this->table_catalog.*")
+            ->from($this->table_catalog)
+            ->join($this->table, "$this->table.catalog = $this->table_catalog.id")
+            ->where("$this->table.id",$id);
+      $query = $this->db->get();
+      return $query->row();
+   }
+   public function get_table_maker($id){
+      $this->db->select("$this->table_maker.*")
+            ->from($this->table_maker)
+            ->join($this->table, "$this->table.maker_id = $this->table_maker.id")
+            ->where("$this->table.id",$id);
+      $query = $this->db->get();
+      return $query->row();
+   }
+   //------ insert -----------
+   public function set_size($data)
+   {
+      if($this->db->insert('size', $data)){
+         return true;
+      }else{
+         return false;
+      }
+   }
 }
+
+
+
+ ?>

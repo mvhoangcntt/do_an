@@ -11,9 +11,9 @@ class Account extends Public_Controller
     public function __construct()
     {
         parent::__construct();
-        // $this->load->library('ion_account');
-        // $this->lang->load('account');
-        // $this->load->library(array('ion_account', 'hybridauth'));
+        $this->load->library('ion_account');
+        $this->lang->load('account');
+        $this->load->library(array('ion_account', 'hybridauth'));
         // $this->load->model(array('account_model','questions_model','course_model'));
         // $this->_data     = new Account_model();
         // $this->questions = new Questions_model();

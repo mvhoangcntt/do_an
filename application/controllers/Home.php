@@ -11,6 +11,7 @@ class Home extends Public_Controller
     {
         parent::__construct();
         $this->lang->load('home');
+        $this->lang->load('footer');
         // $this->load->model('Page_contact_model');
         // $this->_data = new Page_contact_model();
     }

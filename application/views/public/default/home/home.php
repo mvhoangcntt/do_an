@@ -17,15 +17,25 @@ $home_link3 = !empty($this->settings['home'][$this->session->public_lang_code]['
     <!-- <iframe data-src="<?php echo base_url() ?>slide_home.php" width = "100%" height = "100%" scrolling="no" frameborder="0" src="<?php echo base_url() ?>slide_home.php"></iframe> -->
     <iframe data-src="http://localhost/do-an/home/slide" width = "100%" height = "100%" scrolling="no" frameborder="0" src="http://localhost/do-an/home/slide"></iframe>
 </div>
-
+<div class="container">
+    <div class="row div-new-product">
+        <div class="col-lg-6 col-md-6">
+            <h2>Sản phẩm mới nhất</h2>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="new-product">
+                <div><a href="">Quần áo</a></div>
+                <div><a href="">Giày dép</a></div>
+                <!-- <div><a href="">Túi sách</a></div> -->
+                <div><a href="">Phụ kiện</a></div>
+            </div>
+        </div>
+    </div>
+</div>
 <section class="page-home">
+
     <div class="container page-home-border">
-        <ul class="link-page">
-            <li class="active"><a href="http://localhost/tomita/news" title="Tất cả">Tất cả mặt hàng</a></li>
-            <li><a href="http://localhost/tomita/news/featured" title="Hoạt động nổi bật">Mặt hàng nổi bật</a></li>
-            <li><a href="http://localhost/tomita/news/internal" title="Nội bộ">Mặt hàng nội bộ</a></li>
-            <!-- <li><a href="#" title="Tuyển dụng">Tuyển dụng</a></li> -->
-        </ul>
+        
         <div class="row"><div class="tieude"><div class="tieude_"><div class="_left">Bộ sưu tập</div><div class="_right"><a href="">Xem Thêm</a><i class="fa fa-caret-right" aria-hidden="true"></i></div></div></div></div>
         <div class="list-news">
             <div class="row">
