@@ -686,9 +686,9 @@ $(document).ready(function(){
 });
 // ------------ login ------------
 $(document).ready(function(){
-    $(".dangky").hide();
-    $(".quenmatkhau").hide();
-    $(".doimatkhau").hide();
+    // $(".dangky").hide();
+    // $(".quenmatkhau").hide();
+    // $(".doimatkhau").hide();
     $(document).on("click",".login",function(){
         $(".hide-login").toggleClass("show-login");
         $(".screen_login-hide").toggleClass("screen_login");
@@ -697,7 +697,6 @@ $(document).ready(function(){
         $(".dangky").hide();
         $(".dangnhap").show();
         $(".quenmatkhau").hide();
-        $(".doimatkhau").hide();
     });
     $(document).on("click",".screen_login-hide",function(){
         $(".hide-login").toggleClass("show-login");
@@ -713,49 +712,31 @@ $(document).ready(function(){
         $(".dangky").show();
         $(".dangnhap").hide();
         $(".quenmatkhau").hide();
-        $(".doimatkhau").hide();
         $(".show-login h2").text("Đăng ký");
 
         // $(".div-dangky").hide();
         // $(".div-dangnhap").show();
         // $(".div-quenmatkhau").show();
-        // $(".div-doimatkhau").show();
     });
     $(document).on("click",".div-dangnhap",function(){
         $(".dangky").hide();
         $(".dangnhap").show();
         $(".quenmatkhau").hide();
-        $(".doimatkhau").hide();
         $(".show-login h2").text("Đăng nhập");
 
         // $(".div-dangky").show();
         // $(".div-dangnhap").hide();
         // $(".div-quenmatkhau").show();
-        // $(".div-doimatkhau").show();
     });
     $(document).on("click",".div-quenmatkhau",function(){
         $(".dangky").hide();
         $(".dangnhap").hide();
         $(".quenmatkhau").show();
-        $(".doimatkhau").hide();
         $(".show-login h2").text("Quên mật khẩu");
 
         // $(".div-dangky").show();
         // $(".div-dangnhap").show();
         // $(".div-quenmatkhau").hide();
-        // $(".div-doimatkhau").show();
-    });
-    $(document).on("click",".div-doimatkhau",function(){
-        $(".dangky").hide();
-        $(".dangnhap").hide();
-        $(".quenmatkhau").hide();
-        $(".doimatkhau").show();
-        $(".show-login h2").text("Thay đổi mật khẩu");
-
-        // $(".div-dangky").show();
-        // $(".div-dangnhap").show();
-        // $(".div-quenmatkhau").show();
-        // $(".div-doimatkhau").hide();
     });
 
 });

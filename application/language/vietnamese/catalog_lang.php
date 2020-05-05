@@ -1,19 +1,21 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 // Tiêu đề
 $lang['heading_title']          = 'Danh sách bài viết';
-$lang['heading_title_add']      = 'Thêm sản phẩm';
+$lang['heading_title_add']      = 'Thêm danh mục';
 $lang['heading_title_edit']     = 'Sửa bài viết';
 
 //Danh sách text
-$lang['form_size']              = 'Kích thước';
+$lang['from_child']              = 'Thêm danh mục con';
 $lang['form_catalog']           = 'Danh mục';
 $lang['form_text_size']         = 'Size';
-$lang['form_text_coler']         = 'Màu sắc';
-$lang['form_quantity']          = 'Số lượng';
+$lang['form_catalog_parend']         = 'Chọn danh mục cha';
+$lang['form_parend']          = 'Thêm danh mục cha';
 $lang['form_maker']             = 'Nhà sản xuất';
 $lang['form_price']             = 'Giá (VND)';
-$lang['form_masp']             = 'Mã sản phẩm';
-$lang['form_discount']          = ' Giảm giá (VND)';
+$lang['name-catalog']             = 'Tên danh mục';
+$lang['parents_id']             = 'Id danh mục cha';
+$lang['created']             = 'Ngày tạo';
+$lang['created_time']          = 'Lần chỉnh sửa gần nhất';
 $lang['form_total']             = 'Tổng sản phẩm';
 $lang['form_title']             = 'Tên';
 $lang['form_thumbnail']         = 'Ảnh đại diện';

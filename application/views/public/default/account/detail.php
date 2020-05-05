@@ -6,8 +6,8 @@
                 <div class="text-link">
                     <nav>
                         <ol>
-                            <a href="<?php echo base_url() ?>"><?php echo str_replace(array('http://','https://'), '', substr(base_url(),0,strlen(base_url())-1)); ?></a>
-                            <li><a href="#">Thông tin tài khoản</a></li>
+                            <a href="">Localhost</a>
+                            <li><a href="">Thông tin tài khoản</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -29,20 +29,19 @@
                     </div>
                 </div>
                 <ul class="nav nav-tabs flex-column">
-                    <li class="no-active account-list-active"><a data-toggle="tab" onclick="form_get_user()" href="#home" >Thông tin tài khoản</a></li>
-                    <li class="no-active"><a data-toggle="tab" href="#thay_doi_mat_khau">Thay đổi mật khẩu</a></li>
-                    <li class="no-active"><a data-toggle="tab" onclick="form_get_diachi()" href="#menu1">Địa chỉ nhận hàng</a></li>
-                    <li class="no-active"><a data-toggle="tab" href="#menu2" class="active show">Đơn hàng</a></li>
+                    <li class="no-active"><a data-toggle="tab" href="#home" >Thông tin tài khoản</a></li>
+                    <li class="no-active"><a data-toggle="tab" href="#menu1">Địa chỉ nhận hàng</a></li>
+                    <li class="no-active account-list-active"><a data-toggle="tab" href="#menu2" class="active show">Đơn hàng</a></li>
                 </ul>
             </div>
             <div class="col-lg-9 col-md-6">
                 <div class="tab-content tab-content-remove">
-                    <div id="home" class="tab-pane fade in active show">
+                    <div id="home" class="tab-pane fade ">
                         <div class="about-account">
                             <div class="information-account">Thông tin tài khoản</div>
                             <div class="row">
                                 <div class="col-lg-2 col-md-6">
-                                <?php  //var_dump($user); exit; ?>
+                                
                                 </div>
                                 <div class="col-lg-8 col-md-6">
                                     <div class="row">
@@ -57,7 +56,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="container">
-                                            <form class="" id="form_get_user">
+                                            <form class="" action="/action_page.php">
                                                 <div class="form-group">
                                                     <label for="email">Email:</label>
                                                     <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
@@ -68,19 +67,16 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="full-name">Họ và tên:</label>
-                                                    <input type="text" class="form-control" id="full-name" placeholder="Enter full-name" name="full_name">
+                                                    <input type="text" class="form-control" id="full-name" placeholder="Enter full-name" name="full-name">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="full-name">Giới tính:</label>
                                                     <div class="radio">
                                                         <label class="radio-inline">
-                                                            <input type="radio" name="gender" value="1"> Nam 
+                                                            <input type="radio" name="optradio" checked> Nam 
                                                         </label>
                                                         <label class="radio-inline">
-                                                            <input type="radio" name="gender" value="2"> Nữ
-                                                        </label>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="gender" value="3"> Giới tính khác
+                                                            <input type="radio" name="optradio"> Nữ
                                                         </label>
                                                     </div>
                                                 </div>
@@ -133,41 +129,50 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row fa-pencil-square-o_hide">
+                                    <div class="row">
                                         <div class="container">
                                             <form class="" action="/action_page.php">
+                                                <div class="form-group">
+                                                    <label for="phone">Số điện thoại:</label>
+                                                    <input type="number" class="form-control" id="phone" placeholder="Enter phone" name="phone">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="full-name">Họ và tên:</label>
+                                                    <input type="text" class="form-control" id="full-name" placeholder="Enter full-name" name="full-name">
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="address">Địa chỉ:</label>
                                                     <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" name="address">
                                                 </div>
-                                                <div class="form-group tinhthanh">
-                                                    <label for="tinhthanh">Tỉnh / Thành:</label>
-                                                    <select class="form-control select2 filter_tinhthanh" title="filter" name="tinhthanh" style="width: 100%;" tabindex="-1" aria-hidden="true"></select>
-                                                </div>
-                                                <style type="text/css">
-                                                    .select2-container--default .select2-selection--single{
-                                                        height: 38px;
-                                                        border: 1px solid #ced4da;
-                                                    }
-                                                    .select2-container--default .select2-selection--single .select2-selection__placeholder{
-                                                        /* line-height: 40px; */
-                                                    }    
-                                                    .select2-container--default .select2-selection--single .select2-selection__rendered{
-                                                        border-radius: 0;
-                                                        padding: 4px 12px;
-                                                    }
-                                                    .select2-container--default .select2-selection--single .select2-selection__arrow{
-                                                        height: 38px;
-                                                    }
-
-                                                </style>
-                                                <div class="form-group quanhuyen">
-                                                    <label for="quanhuyen">Quận / Huyện:</label>
-                                                    <select class="form-control select2 filter_quanhuyen" title="filter" name="quanhuyen" style="width: 100%;" tabindex="-1" aria-hidden="true"></select>
+                                                <div class="form-group">
+                                                    <label for="birthday">Tỉnh / Thành:</label>
+                                                    <select class="form-control" id="sel1">
+                                                        <option> -- Chọn Tỉnh / Thành Phố -- </option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="xaphuong">Xã / Phường:</label>
-                                                    <select class="form-control select2 filter_xaphuong" title="filter" name="xaphuong" style="width: 100%;" tabindex="-1" aria-hidden="true"></select>
+                                                    <label for="birthday">Quận / Huyện:</label>
+                                                    <select class="form-control" id="sel1">
+                                                        <option> -- Chọn Quận / Huyện -- </option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="birthday">Xã / Phường:</label>
+                                                    <select class="form-control" id="sel1">
+                                                        <option> -- Chọn Xã / Phường -- </option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                    </select>
                                                 </div>
                                                 
                                                 <div class="center-button">
@@ -183,43 +188,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="thay_doi_mat_khau" class="tab-pane fade">
-                        <div class="about-account">
-                            <div class="information-account">Thay đổi mật khẩu</div>
-                            <div class="row">
-                                <div class="col-lg-2 col-md-6">
-                                
-                                </div>
-                                <div class="col-lg-8 col-md-6">
-                                    <div class="row">
-                                        <div class="container">
-                                            <form class="doimatkhau" method="POST" id="doimatkhau">
-                                                <div class="form-group">
-                                                    <label for="matkhaucu">Nhập nhật khẩu cũ</label>
-                                                    <input type="password" name="pass_old" class="form-control" id="matkhaucu" placeholder="Nhạp mật khẩu cũ">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="matkhaumoi">Nhập mật khẩu mới</label>
-                                                    <input type="password" name="password" class="form-control" id="matkhaumoi" placeholder="Nhập mật khẩu mới">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="nhaplaimatkhau">Nhập lại mật khẩu</label>
-                                                    <input type="password" name="pass" class="form-control" id="nhaplaimatkhau" placeholder="Nhập lại mật khẩu">
-                                                </div>
-                                                <div class="form-button-submit">
-                                                    <button type="submit" id="doimk" onclick="doimatkhau()" class="btn btn-primary submit">Đổi mật khẩu</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-6">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu2" class="tab-pane fade">
+                    <div id="menu2" class="tab-pane fade in active show">
                         <div class="about-account donhang">
                             <div class="information-account">Quản lý đơn hàng</div>
                             <div class="row">

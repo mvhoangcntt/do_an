@@ -68,9 +68,9 @@ $route['(:any)-d(:num)'] = 'news/detail/$2/';
 /*Route post*/
 
 /*Route product*/
-$route['(:any)-cp(:num)'] = 'product/category/$2';
-$route['(:any)-cp(:num)/page/(:num)'] = 'product/category/$2/$3';
-$route['(:any)-p(:num)'] = 'product/detail/$2/';
+// $route['(:any)-cp(:num)'] = 'product/category/$2';
+// $route['(:any)-cp(:num)/page/(:num)'] = 'product/category/$2/$3';
+// $route['(:any)-p(:num)'] = 'product/detail/$2/';
 
 /* Route search */
 $route['search/(:any)']   				= 'search/index/$1';
@@ -89,4 +89,8 @@ $route['(:any)-x(:num)'] = 'news/index/$1/$2';
 // $route['(:any)']  = 'do-an/home/index';
 
 $route['(:any)/(:num)'] = 'page/index/$1/$2';
+
+// ----------- product -------------// không cần thiết đến index quan trọng đường dẫn phải đúng
+
+$route['details/(:any)-p(:num)'] = 'details/index/$1/$2';
 

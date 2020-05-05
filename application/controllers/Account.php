@@ -13,44 +13,61 @@ class Account extends Public_Controller
         parent::__construct();
         $this->load->library('ion_account');
         $this->lang->load('account');
+        $this->lang->load('home');
         $this->load->library(array('ion_account', 'hybridauth'));
-        // $this->load->model(array('account_model','questions_model','course_model'));
-        // $this->_data     = new Account_model();
+        $this->load->model(array('Account_model','Home_model'));
+        // $this->load->model(array('Account_model', 'category_model','collaborators_model','lecturers_form_model'));
+        $this->_data = new Account_model();
+        $this->_data_home = new Home_model();
         // $this->questions = new Questions_model();
         // $this->course    = new Course_model();
-
-        // $this->user_login = $this->_data->getById($this->session->account['account_id']);
-        // if (empty($this->user_login)) redirect(site_url());
-    }
-
-    public function details_account(){
-        $data['main_content'] = $this->load->view($this->template_path . 'account/details_account', $data, TRUE);
-        $this->load->view($this->template_main, $data);
+        
+        $this->user_login = $this->_data->getById($this->session->account['account_id']);
+        if (empty($this->user_login)) redirect(site_url('?login=error'));
     }
 
     public function index(){
-        if ($this->session->is_account_logged != true) redirect();
-        $data['heading_title'] =$this->lang->line('pagePersonal');
-        $data['oneAccount'] = getUserAccountById($this->session->userdata('account')['account_id'], '', $this->session->public_lang_code);
-        /*Breadcrumbs*/
-        $this->breadcrumbs->push(" <i class='fa fa-home'></i>", base_url());
-        $this->breadcrumbs->push($data['heading_title'], '#');
-        $data['breadcrumbs'] = $this->breadcrumbs->show();
-        /*Breadcrumbs*/
-        switch ($data['oneAccount']->group_id) {
-            case 1:
-            $data['main_content'] = $this->load->view($this->template_path . 'account/profile_student', $data, TRUE);
-            break;
-            case 2:
-            $data['main_content'] = $this->load->view($this->template_path . 'account/profile_lecturers', $data, TRUE);
-            break;
-            default:
-            $data['main_content'] = $this->load->view($this->template_path . 'account/profile_collaborators', $data, TRUE);
-            break;
-        }
-
+        // var_dump($this->user_login); exit;
+        $data['user'] = $this->user_login;
+        $data['main_content'] = $this->load->view($this->template_path . 'account/details_account', $data, TRUE);
         $this->load->view($this->template_main, $data);
     }
+    public function get_user(){
+        $data = $this->user_login;
+        unset($data->password);
+        unset($data->address);
+        // $data->diachi = $this->_data_home->getDVHC($data->xaphuong);
+        exit(json_encode($data));
+    }
+    public function form_get_diachi(){
+        $data['diachi'] = $this->_data_home->getDVHC($this->user_login->xaphuong);
+        $data['address'] = $this->user_login->address;
+        exit(json_encode($data));
+    }
+
+    // public function index(){
+    //     if ($this->session->is_account_logged != true) redirect();
+    //     $data['heading_title'] =$this->lang->line('pagePersonal');
+    //     $data['oneAccount'] = getUserAccountById($this->session->userdata('account')['account_id'], '', $this->session->public_lang_code);
+    //     /*Breadcrumbs*/
+    //     $this->breadcrumbs->push(" <i class='fa fa-home'></i>", base_url());
+    //     $this->breadcrumbs->push($data['heading_title'], '#');
+    //     $data['breadcrumbs'] = $this->breadcrumbs->show();
+    //     /*Breadcrumbs*/
+    //     switch ($data['oneAccount']->group_id) {
+    //         case 1:
+    //         $data['main_content'] = $this->load->view($this->template_path . 'account/profile_student', $data, TRUE);
+    //         break;
+    //         case 2:
+    //         $data['main_content'] = $this->load->view($this->template_path . 'account/profile_lecturers', $data, TRUE);
+    //         break;
+    //         default:
+    //         $data['main_content'] = $this->load->view($this->template_path . 'account/profile_collaborators', $data, TRUE);
+    //         break;
+    //     }
+
+    //     $this->load->view($this->template_main, $data);
+    // }
 
     public function lang_js(){
         $lang_curent = $this->session->public_lang_code == 'vi' ? 'vietnamese' : 'english';
@@ -61,7 +78,7 @@ class Account extends Public_Controller
         }
         print_r($lang_text);exit;
     }
-    //
+    
     //profile_
     public function change_password(){
         if ($this->session->is_account_logged != true) redirect();
@@ -213,7 +230,16 @@ class Account extends Public_Controller
     }
     public function logout(){
         $logout = $this->ion_account->logout();
-        redirect('/', 'refresh');
+        // redirect('/', 'refresh');
+        if ($logout == true) {
+            $message['type'] = 'success';
+            $message['message'] = 'Đăng xuất thành công !';
+            die(json_encode($message));
+        }else{
+            $message['type'] = 'warning';
+            $message['message'] = 'Đăng xuất thất bại !';
+            die(json_encode($message));
+        }
     }
 
 }

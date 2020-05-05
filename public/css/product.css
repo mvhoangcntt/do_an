@@ -58,6 +58,11 @@
 		width: 245px;
 	}
 }
+@media (max-width: 768px){
+	.item-news .img img{
+		height: 190px;
+	}
+}
 @media (min-width: 1199px){
 	._search2{
 		display: none;
@@ -257,6 +262,40 @@
     -ms-flex-pack: justify;
     justify-content: space-between;
     width: 200px;
+}
+.d-nav ul li a.logout{
+	text-transform: unset;
+	position: relative;
+}
+.user_header{
+	display: none;
+	position: absolute;
+	background: #f1cd97;
+    width: 190px;
+}
+.d-nav ul li .user_header a {
+    text-transform: unset;
+    padding: 10px 15px;
+    position: relative;
+    display: inline-block;
+}
+.user_header div:hover{
+	background-color: #50bd67;
+}
+.user_header div i{
+	margin-right: 5px;
+}
+header.scroll .d-nav ul li .user_header a {
+   padding: 10px 15px;
+}
+._user_header{
+	display: block;
+}
+.fa-pencil-square-o_hide{
+	display: none;
+}
+.fa-pencil-square-o_show{
+	display: block;
 }
 
 /* ------------------------------------- sản phẩm product ------------------------------------------*/
@@ -545,13 +584,13 @@
     position: relative;
 }
 .btn_decrease{
-	width: 1.6rem;
+	width: 2.6rem;
     height: 1.6rem;
     background-color: #c7c7cd;
     color: #fff;
     border-radius: 3px;
-    font-size: 1.6rem;
-    line-height: 1.6rem;
+    font-size: 2.6rem;
+    line-height: 0;
 }
 .disabled{
 	opacity: .2;
@@ -565,13 +604,13 @@
     text-align: center;
 }
 .btn_increase{
-	width: 1.6rem;
+	width: 2.6rem;
     height: 1.6rem;
     background-color: #c7c7cd;
     color: #fff;
     border-radius: 3px;
     font-size: 1.6rem;
-    line-height: 1.6rem;
+    line-height: 0;
 }
 .group-item-button{
 	display: flex;

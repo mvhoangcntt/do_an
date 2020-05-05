@@ -34,7 +34,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-contact">
-                    <?php echo form_open('',['id'=>'form','class'=>'']) ?>
+                    <?php echo form_open('',['id'=>'formContact','class'=>'']) ?>
                     <h2 class="head-contact">liên hệ với chúng tôi</h2>
                     <div class="row col-mar-10">
                         <div class="col-lg-6">
@@ -85,7 +85,7 @@
                             <div class="g-recaptcha" data-sitekey="6LcnESYTAAAAABNZAdIbC71wPnutdlrhTrMmzENZ"></div>
                         </div>
                         <div class="view-primary v3">
-                            <a onclick="save()" title="">Gửi</a>
+                            <a onclick="saveContact()" title="">Gửi</a>
                         </div>
                     </div>
                     <?php echo form_close() ?>

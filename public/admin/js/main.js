@@ -581,10 +581,25 @@ function init_data_table() {
         fixedHeader: true,
         'bProcessing': true,
         'serverSide': true,
-        'dom': 'Bfrtip',
+        'dom': 'Blfrtip',
+        "lengthMenu": [ 5, 10, 20, 50, 100 ], 
         'buttons': [],
-		"language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Vietnamese.json"
+    		"language": {
+          "sProcessing":   "Đang xử lý...",
+          "sLengthMenu":   "Xem _MENU_ mục",
+          "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+          "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+          "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+          "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+          "sInfoPostFix":  "",
+          "sSearch":       "Tìm kiếm :",
+          "sUrl":          "",
+          "oPaginate": {
+            "sFirst":    "Đầu",
+            "sPrevious": "Trước",
+            "sNext":     "Tiếp",
+            "sLast":     "Cuối"
+          }
         },
         'columnDefs': [
             {

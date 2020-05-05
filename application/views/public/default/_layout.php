@@ -35,6 +35,7 @@ $method = $this->router->fetch_method();
   <?php $asset_css[] = 'css/fancybox.css'; ?>
   <?php $asset_css[] = 'css/slick.css'; ?>
   <?php $asset_css[] = 'css/main.css'; ?>
+  <?php $asset_css[] = 'css/select2.min.css'; ?>
   <?php $asset_css[] = 'fonts/font-awesome/css/font-awesome.min.css'; ?>
   <?php $asset_css[] = 'fonts/elegantIcon/elegantIcon.css'; ?>
   <?php $asset_css[] = 'js/toastr/toastr.min.css'; ?>
@@ -49,7 +50,7 @@ $method = $this->router->fetch_method();
   <?php if(!empty($controller)): ?>
     var url_save = '<?php echo site_url("$controller/post_contact"); ?>';
   <?php endif; ?>
-  const base_url = '<?php echo base_url(); ?>'
+  const base_url = '<?php echo base_url(); ?>';
 </script>
 
 </head>
@@ -73,10 +74,15 @@ $method = $this->router->fetch_method();
 <?php $asset_js[] = 'js/fancybox.js'; ?>
 <?php $asset_js[] = 'js/jquery.sticky-kit.js'; ?>
 <?php $asset_js[] = 'js/script.js'; ?>
-<?php $asset_js[] = 'js/login-facebook.js'; ?>
+<?php $asset_js[] = 'js/save_page_ajax.js'; ?>
+<?php $asset_js[] = 'js/select2.min.js'; ?>
+<?php //$asset_js[] = 'js/login-facebook.js'; ?>
 <?php $asset_js[] = 'js/page-contact.js'; ?>
 <?php $asset_js[] = 'js/toastr/toastr.min.js'; ?>
 <?php $asset_js[] = 'js/swiper.min.js'; ?>
+<?php if ($controller == 'account') {
+  $asset_js[] = 'js/account.js';
+} ?>
 
 
 <?php $this->minify->js($asset_js);

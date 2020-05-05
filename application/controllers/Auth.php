@@ -14,27 +14,29 @@ class Auth extends Public_Controller
     {
         parent::__construct();
         $this->load->library(array('ion_account', 'hybridauth'));
-        $this->load->model(array('Account_model', 'category_model','collaborators_model','lecturers_form_model'));
+        $this->load->model(array('Home_model','Account_model'));
+        // $this->load->model(array('Account_model', 'category_model','collaborators_model','lecturers_form_model'));
         $this->_data = new Account_model();
-        $this->lecturers_form = new Lecturers_form_model();
-        $this->collaborators = new Collaborators_model();
+        $this->_data_home = new Home_model();
+        // $this->lecturers_form = new Lecturers_form_model();
+        // $this->collaborators = new Collaborators_model();
     }
 
     public function login()
     {
         $data = array();
         $this->sb_login();
-        $data['main_content'] = $this->load->view($this->template_path . 'account/login', $data, TRUE);
-        $this->load->view($this->template_account, $data);
+        // $data['main_content'] = $this->load->view($this->template_path . 'account/login', $data, TRUE);
+        // $this->load->view($this->template_account, $data);
     }
 
     public function register()
     {
         $data = array();
         $this->sb_register();
-        $data['link_zalo'] = $this->getUrlLogin();
-        $data['main_content'] = $this->load->view($this->template_path . 'auth/register', $data, TRUE);
-        $this->load->view($this->template_account, $data);
+        // $data['link_zalo'] = $this->getUrlLogin();
+        // $data['main_content'] = $this->load->view($this->template_path . 'auth/register', $data, TRUE);
+        // $this->load->view($this->template_account, $data);
     }
 
     public function sb_login(){
@@ -63,16 +65,34 @@ class Auth extends Public_Controller
               //if the login is successful
               //redirect them back to the home page
                     $account = $accountModel->getById($account->id, '', $this->session->public_lang_code);
+                    // var_dump($account); exit;
                     $rule = $accountModel->getRule($account->id);
+                    // var_dump($rule); exit;
                     switch ($account->active) {
                         case '1':
                         $this->session->is_account_logged = true;
                         $this->session->userdata['account']['account_id'] = $account->id;
+                        $this->session->userdata['account']['full_name'] = $account->full_name;
                         $this->session->userdata['account']['account_identity'] = $account->username;
                         $this->session->userdata['account']['rule'] = $rule;
+
+
+                        // remember 
+                        // $this->ion_account->remember_user($account->id);
+                        // $cookie_time = (3600 * 24 * 30);
+                        // setcookie('user', 'account_id='.$account->id.'&full_name='.$account->full_name.'&username='.$account->username, time() + $cookie_time);
+                        // $expire = (60*60*24*365*2);
+                        // set_cookie(array(
+                        //     'name'   => 'id_account',
+                        //     'value'  => $account->id,
+                        //     'expire' => $expire
+                        // ));
+                        
+
                         die(json_encode(array(
                             'message' => lang('successfully'),
-                            'type' => 'success'
+                            'type' => 'success',
+                            'full_name' => $account->full_name,
                         )));
                         break;
                         case '2':
@@ -109,26 +129,27 @@ class Auth extends Public_Controller
     }
 
     public function sb_register(){
+        // var_dump($this->input->post()); exit;
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $rules = array(
                 array(
                     'field' => 'email',
-                    'label' => 'Email',
-                    'rules' => 'required|trim|valid_email|callback_validate_email'
+                    'label' => 'email',
+                    'rules' => 'required|trim|valid_email'
                 ),
                 array(
                     'field' => 'phone',
-                    'label' => lang('text_phone'),
+                    'label' => 'số điện thoại',
                     'rules' => 'required|trim|min_length[9]|max_length[12]|regex_match[/^(09|012|08|016|03|05|07|08)\d{8,}/]'
                 ),
                 array(
                     'field' => 'full_name',
-                    'label' => lang('text_fullname'),
+                    'label' => 'họ và tên',
                     'rules' => 'trim|required'
                 ),
                 array(
                     'field' => 'password',
-                    'label' => lang('text_password'),
+                    'label' => 'mật khẩu',
                     'rules' => 'required|trim'
                 ),
                 array(
@@ -137,12 +158,33 @@ class Auth extends Public_Controller
                   'rules' => 'required|trim'
                 ),
                 array(
+                  'field' => 'address',
+                  'label' => 'địa chỉ',
+                  'rules' => 'required|trim'
+                ),
+                array(
+                  'field' => 'tinhthanh',
+                  'label' => 'tỉnh thành',
+                  'rules' => 'required'
+                ),
+                array(
+                  'field' => 'quanhuyen',
+                  'label' => 'quận huyện',
+                  'rules' => 'required'
+                ),
+                array(
+                  'field' => 'xaphuong',
+                  'label' => 'xã phường',
+                  'rules' => 'required'
+                ),
+                array(
                     'field' => 're-password',
-                    'label' => lang('re-password'),
+                    'label' => 'nhập lại mật khẩu',
                     'rules' => 'trim|matches[password]|min_length[6]|max_length[32]|required'
                 )
             );
-            $this->form_validation->set_rules($rules);
+
+            $this->form_validation->set_rules($rules);//echo 'abc'; exit;
             if ($this->form_validation->run() === TRUE) {
                 $remoteIp = $this->input->ip_address();
 
@@ -150,7 +192,9 @@ class Auth extends Public_Controller
 
                 $password = strip_tags(trim($this->input->post('password')));
                 $email = strip_tags(trim($this->input->post('email')));
-                $check_email = $this->_data->checkExistByField('email',$email);
+
+                $check_email = $this->_data_home->checkExistByField('email',$email,'account');
+                // var_dump($this->input->post()); exit;
                 if ($check_email!="") {
                     $message['type'] = 'warning';
                     $message['message'] = lang('email_exists');
@@ -162,11 +206,16 @@ class Auth extends Public_Controller
                 }
                 $full_name = strip_tags(trim($this->input->post('full_name')));
                 $phone_number = strip_tags(trim($this->input->post('phone')));
-
+                // var_dump(preg_replace('/([^\pL\.\ , - . ! ]+)/u', '', strip_tags($this->input->post('address')))); exit;
                 $data_store['full_name'] = $full_name;
-                $data_store['phone'] = $phone_number;
-                $data_store['gender'] = $this->input->post('gender');
-                $data_store['active'] = 1;
+                $data_store['phone']     = $phone_number;
+                $data_store['gender']    = $this->input->post('gender');
+                $data_store['active']    = 1;
+                $data_store['birthday']  = $this->input->post('birthday');
+                $data_store['address']   = preg_replace('/([^\pL\.\ , - . ! ]+)/u', '', strip_tags($this->input->post('address')));
+                $data_store['xaphuong']  = $this->input->post('xaphuong');
+                $data_store['quanhuyen'] = $this->input->post('quanhuyen');
+                $data_store['tinhthanh'] = $this->input->post('tinhthanh');
                 $id_user = $this->ion_account->register($identity, $password, $email, $data_store, ['group_id' => 1]);
 
                 if ($id_user !== false) {
@@ -174,7 +223,7 @@ class Auth extends Public_Controller
                         'message' => lang('sign_up'),
                         'type' => 'success',
                         'status'=>200
-                  )));
+                    )));
                 } else {
                     die(json_encode(array(
                         'message' => lang('mess_validation'),
@@ -194,13 +243,110 @@ class Auth extends Public_Controller
         }
     }
 
+    public function ajax_filter_tinhthanh(){
+        $this->checkRequestGetAjax();
+        $keyword = $this->input->get("q");
+        // $keyword = toNormal($this->input->get("q"));
+        $params['keyword'] = $keyword;
+        $data    = $this->_data_home->filter_tinhthanh_auth($params);
+        // var_dump($data); exit;
+        if(!empty($data)) foreach ($data as $item) {
+            $item = (object) $item;
+            $json[] = ['id'=>$item->id_tp, 'text'=>$item->tinh_tp];
+        }
+        die(json_encode($json));
+    }
+    public function ajax_filter_quanhuyen($id){
+        $this->checkRequestGetAjax();
+        if ($id == 'null') {
+            die;
+        }
+        $keyword = $this->input->get("q");
+        $params['keyword'] = $keyword;
+        $params['id'] = $id;
+
+        $data    = $this->_data_home->filter_quanhuyen_auth($params);
+        if(!empty($data)) foreach ($data as $item) {
+            $item = (object) $item;
+            $json[] = ['id'=>$item->id_qh, 'text'=>$item->quan_huyen];
+        }
+        die(json_encode($json));
+    }
+    public function ajax_filter_xaphuong($id){
+        $this->checkRequestGetAjax();
+        if ($id == 'null') {
+            die;
+        }
+        $keyword = $this->input->get("q");
+        $params['keyword'] = $keyword;
+        $params['id'] = $id;
+
+        $data    = $this->_data_home->filter_xaphuong_auth($params);
+        if(!empty($data)) foreach ($data as $item) {
+            $item = (object) $item;
+            $json[] = ['id'=>$item->id, 'text'=>$item->name];
+        }
+        die(json_encode($json));
+    }
+
     public function forgotPassword(){
+        // var_dump($this->input->post()); exit;
         $data = array();
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
-            $this->sbForgotPassword();
+            $rules = array(
+                array(
+                    'field' => 'email',
+                    'label' => 'email',
+                    'rules' => 'required|trim|valid_email'
+                ),
+            );
+
+            $this->form_validation->set_rules($rules);//echo 'abc'; exit;
+            if ($this->form_validation->run() === TRUE) {
+                $email = strip_tags(trim($this->input->post('email')));
+                $check_email = $this->_data_home->checkExistByField('email',$email,'account');
+                if ($check_email!="") {
+                    // Tạo mật khẩu ngẫu nhiên 10 ký tự
+                    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $charactersLength = strlen($characters);
+                    $randomString = '';
+                    for ($i = 0; $i < 10; $i++) {
+                        $randomString .= $characters[rand(0, $charactersLength - 1)];
+                    }
+                    $id = $this->_data_home->get_id($email);
+                    // Tạo mật khẩu mã hóa
+                    $hashPass = $this->ion_account->hash_password($randomString, true);
+                    // cập nhật password vào csdl
+                    if ($this->_data->updateField($id->id, 'password', $hashPass)) {
+                        $data['password'] = $randomString;
+                        sendMail('', $email,'Cập nhật mật khẩu mới','forgot_password',$data);
+                        $message['type'] = 'success';
+                        $message['message'] = 'Check email để nhận mật khẩu mới !';
+                        echo json_encode($message);
+                        exit;
+                    }else{
+                        $message['type'] = 'warning';
+                        $message['message'] = 'Đã có lỗi sảy ra !';
+                        echo json_encode($message);
+                        exit;
+                    }
+                }else{
+                    $message['type'] = 'warning';
+                    $message['message'] = 'Email này chưa được đăng ký !';
+                    echo json_encode($message);
+                    exit;
+                }
+            } else {
+                $message['type'] = "warning";
+                $message['message'] = $this->lang->line('mess_validation');
+                $valid = array();
+                if (!empty($rules)) foreach ($rules as $item) {
+                    if (!empty(form_error($item['field']))) $valid[$item['field']] = form_error($item['field']);
+                }
+                $message['validation'] = $valid;
+                die(json_encode($message));
+            }
         }
-        $data['main_content'] = $this->load->view($this->template_path . 'auth/forgot_password', $data, TRUE);
-        $this->load->view($this->template_main, $data);
     }
 
     public function resetPassword()

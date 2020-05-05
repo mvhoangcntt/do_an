@@ -119,13 +119,16 @@ $method = $this->router->fetch_method();
                                     </div>
                                     <div class="">
                                         <div>
-                                            <label class="totong"><?php echo lang('form_size');?></label>
+                                            <label class="totong"><?php echo lang('form_size');?> (Số lượng, size, màu sắc) Chú ý nhập size theo màu</label>
                                             <div class="form_size">
                                                 <div class="input_left form-group">
                                                     <input name="quantity[0]" placeholder="<?php echo lang('form_quantity');?>" class="form-control quantity" type="text"/>
                                                 </div>
                                                 <div class="input_right form-group">
                                                     <input name="textsize[0]" placeholder="<?php echo lang('form_text_size');?>" class="form-control" type="text" />
+                                                </div>
+                                                <div class="input_right form-group">
+                                                    <input name="textcoler[0]" placeholder="<?php echo lang('form_text_coler');?>" class="form-control" type="text" />
                                                 </div>
                                                 <div>
                                                     <i class="fa fa-times"></i>
@@ -145,11 +148,19 @@ $method = $this->router->fetch_method();
                                         <input id="title_<?php echo $lang_code;?>" name="price" placeholder="<?php echo lang('form_price');?>" class="form-control" type="text" />
                                     </div>
                                     <div class="form-group">
+                                        <label><?php echo lang('form_discount');?></label>
+                                        <input id="title_<?php echo $lang_code;?>" value="0" name="discount" placeholder="<?php echo lang('form_discount');?>" class="form-control" type="text" />
+                                    </div>
+                                    <div class="form-group">
                                         <label><?php echo lang('form_total');?></label>
                                         <input id="title_<?php echo $lang_code;?>" name="total" placeholder="<?php echo lang('form_total');?>" class="form-control" type="text" readonly="readonly" />
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label><?php echo lang('form_masp');?></label>
+                                        <input id="title_<?php echo $lang_code;?>" name="masp" placeholder="<?php echo lang('form_masp');?>" class="form-control" type="text" />
+                                    </div>
                                     <div class="form-group">
                                         <label><?php echo lang('form_status');?></label>
                                         <select class="form-control" name="is_status">

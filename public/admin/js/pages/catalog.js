@@ -22,7 +22,7 @@ $(function () {
 function add_form() {
     save_method = 'add';
     $('#modal_form').modal('show');
-    $('.modal-title').text('Thêm sản phẩm');
+    $('.modal-title').text('Thêm danh mục');
     $('#modal_form').trigger("reset");
     $('.form_size').remove();
     $(".totong").parent().append('\
@@ -152,8 +152,6 @@ function edit_form(id)
     $('#modal_form').modal('show');
     $('.modal-title').text(language['heading_title_edit']);
     $('#modal_form').trigger("reset");
-    $("option.filter_maker_id").remove();
-    $("option.filter_catalog").remove();
     $(".save").attr("id",id);
     //Ajax Load data from ajax
     $.ajax({
@@ -161,65 +159,16 @@ function edit_form(id)
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            $('.form_size').remove();
             $.each(data, function( key, value ) {
                 $("input[name='"+key+"']").val(value);
                 $("textarea[name='"+key+"']").val(value);
                 $("select[name='"+key+"']").val(value,'selected');
-                if (key === 'maker_id') {
-                    $("select.filter_maker_id").append("<option class='filter_maker_id' value="+data.maker_id['id']+">"+data.maker_id['name_maker']+"</option>");    
-                }
+                $("option.filter_catalog").remove();
+                // console.log(data.catalog[0]['id'])
                 if (key === 'catalog') {
                     $("select.filter_catalog").append("<option class='filter_catalog' value="+data.catalog['id']+">"+data.catalog['name_catalog']+"</option>");    
                 }
-                $('[name="meta_keyword['+value.language_code+']"]').tagsinput('add', value.meta_keyword);
             });
-
-
-            $.each(data.trans, function( key, value ) {
-                $.each(value, function( k, v) {
-                    if($.inArray(k,['title','meta_title','description','meta_description','slug','content','content_more','meta_keyword']) !== -1){
-                        $('[name="'+k+'['+value.language_code+']"]').val(v);
-                        if(tinymce.get(k+'_' + value.language_code) && v) tinymce.get(k+'_' + value.language_code).setContent(v);
-                    }else{
-                        $('[name="'+k+'"]').val(v);
-                    }
-                });
-                $('[name="meta_keyword['+value.language_code+']"]').tagsinput('add', value.meta_keyword);
-
-            });
-
-
-            // for(var key in data.trans){
-            //     console.log(data.trans[key]);
-            //     for(var key2 in data.trans[key]){
-            //         $("input[name='"+key2+"["+data.trans[key]['language_code']+"]']").val(data.trans[key][key2]);
-            //         $("textarea[name='"+key2+"["+data.trans[key]['language_code']+"]']").val(data.trans[key][key2]);
-            //         $("select[name='"+key2+"["+data.trans[key]['language_code']+"]']").val(data.trans[key][key2],'selected');
-            //     }
-                
-            // }
-            for(var key in data.size){
-                $(".totong").parent().append('\
-                <div class="form_size">\
-                    <div class="input_left form-group">\
-                        <input name="quantity['+key+']" value="'+data.size[key]['quantity']+'" placeholder="Số lượng" class="form-control quantity" type="text"/>\
-                    </div>\
-                    <div class="input_right form-group">\
-                        <input name="textsize['+key+']" value="'+data.size[key]['text_size']+'" placeholder="size" class="form-control" type="text" />\
-                    </div>\
-                    <div class="input_right form-group">\
-                        <input name="textcoler['+key+']" value="'+data.size[key]['text_coler']+'" placeholder="Màu sắc" class="form-control" type="text" />\
-                    </div>\
-                    <div>\
-                        <i class="fa fa-times"></i>\
-                    </div>\
-                </div>\
-                ');
-            }
-            // loadImageThumb(data.thumbnail);
-            // loadMultipleMedia(data.album);
-            // loadCategory(data.category_id);
             loadImageThumb(data.thumbnail);
             loadMultipleMedia(data.album);
             $('#modal_form').modal('show');

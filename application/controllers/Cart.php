@@ -11,6 +11,7 @@ class Cart extends Public_Controller
     {
         parent::__construct();
         $this->lang->load('cart');
+        
         // $this->lang->load('home');
         // $this->load->library('cart');
         // $this->load->model(['Course_model','order_model','voucher_model', 'Account_model']);

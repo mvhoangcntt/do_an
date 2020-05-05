@@ -70,8 +70,7 @@ class Logaction extends Admin_Controller {
     public function load_users(){
         $account_id = [];
         $dataJson   = [];
-        $keyword    = $this->toSlug($this->input->get("q"));
-        $keyword    = $this->toSlug($this->toNormal($keyword));
+        $keyword = toSlug(toNormal($this->input->get("q")));
         $list_users = $this->_data->getData(['limit'=>1000]);
         if (!empty($list_users)) foreach ($list_users as $value) {
             $account_id[] = $value->uid;

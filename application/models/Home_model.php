@@ -1,6 +1,6 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Product_model extends APS_Model
+class Home_model extends APS_Model
 {
    public function __construct()
    {
@@ -10,12 +10,157 @@ class Product_model extends APS_Model
       $this->table_maker            = "maker";
       $this->table_trans            = "product_translations";//bảng bài viết
       $this->table_category         = "product_category";
-      $this->table_product_category = "product_category";
+      $this->table_dvhc = "don_vi_hanh_chinh";
       $this->table_product = "size";//bảng quan hệ sản phẩm
+      $this->table_contact = 'contact';
+      $this->table_account = 'account';
       $this->column_order  = array("$this->table.id","$this->table.id","$this->table.name","$this->table.catalog","$this->table.thumbnail","","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.total"); //thiết lập cột sắp xếp
+      $this->column_bosuutap  = array("$this->table.id","$this->table_trans.title","$this->table_trans.slug","$this->table.thumbnail","$this->table.price","$this->table.discount");
       $this->column_search = array("$this->table.id","$this->table.name","$this->table.catalog","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.view","$this->table.total"); //thiết lập cột search
    }
 
+   public function moinhat(){
+      $this->db->select($this->column_bosuutap);
+      $this->db->from("$this->table");
+      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
+      $this->db->where("$this->table_trans.language_code", "vi");
+      $this->db->limit(6, 0);
+      $this->db->order_by("$this->table.id", 'DESC');
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function bosuutap($value){
+      $this->db->select($this->column_bosuutap);
+      $this->db->from("$this->table");
+      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
+      $this->db->where("$this->table_trans.language_code", "vi");
+      $this->db->where("$this->table.catalog", $value);
+      // $this->db->distinct();
+      // $this->db->limit(6, 0);
+      // $this->db->order_by("$this->table.id", 'DESC');
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->row();
+   }
+   public function catalog($value){
+      $this->db->select("$this->table_catalog.id");
+      $this->db->from("$this->table_catalog");
+      $this->db->where("$this->table_catalog.parents_id", $value);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->row();
+   }
+   public function parent_catalog(){
+      $this->db->select("$this->table_catalog.id");
+      $this->db->from("$this->table_catalog");
+      $this->db->where("$this->table_catalog.parents_id", "0");
+      $this->db->limit(6, 0);
+      $this->db->order_by("$this->table_catalog.id", 'DESC');
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function giamgia(){
+      $max = $this->maxdiscount();
+      $this->db->select($this->column_bosuutap);
+      $this->db->from("$this->table");
+      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
+      $this->db->where("$this->table_trans.language_code", "vi");
+      $this->db->where("$this->table.discount <= ", $max);
+      $this->db->limit(6, 0);
+      $this->db->order_by("$this->table.discount", 'DESC');
+      $query = $this->db->get();
+      return $query->result();
+   }
+   public function timkiem(){
+      $max = $this->maxview();
+      $this->db->select($this->column_bosuutap);
+      $this->db->from("$this->table");
+      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
+      $this->db->where("$this->table_trans.language_code", "vi");
+      $this->db->where("$this->table.view <= ", $max);
+      $this->db->limit(6, 0);
+      $this->db->order_by("$this->table.view", 'DESC');
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function phukien(){
+      $max = $this->maxview();
+      $this->db->select($this->column_bosuutap);
+      $this->db->from("$this->table");
+      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
+      $this->db->where("$this->table_trans.language_code", "vi");
+      $this->db->where("$this->table.view <= ", $max);
+      $this->db->limit(6, 0);
+      $this->db->order_by("$this->table.view", 'DESC');
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function maxdiscount(){
+      $this->db->select_max("$this->table.discount");
+      $query = $this->db->get("$this->table");
+      $kq = $query->row();
+      return $kq->discount;
+   }
+   public function maxview(){
+      $this->db->select_max("$this->table.view");
+      $query = $this->db->get("$this->table");
+      $kq = $query->row();
+      return $kq->view;
+   }
+// ---------------------------------------------------------------------- end select home -------------------------------------------------------------
+
+   public function filter_tinhthanh_auth($params){
+      $this->db->select("$this->table_dvhc.id_tp, $this->table_dvhc.tinh_tp")
+         ->from($this->table_dvhc);
+      $this->db->distinct();
+      if (!empty($params['keyword'])) $this->db->like("$this->table_dvhc.tinh_tp", $params['keyword']);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function filter_quanhuyen_auth($params){
+      $this->db->select("$this->table_dvhc.id_qh, $this->table_dvhc.quan_huyen")
+         ->from($this->table_dvhc);
+      $this->db->distinct();
+      $this->db->where("$this->table_dvhc.id_tp", $params['id']);
+      if (!empty($params['keyword'])) $this->db->like("$this->table_dvhc.quan_huyen", $params['keyword']);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function filter_xaphuong_auth($params){
+      $this->db->select("$this->table_dvhc.id, $this->table_dvhc.name")
+         ->from($this->table_dvhc);
+      $this->db->distinct();
+      $this->db->where("$this->table_dvhc.id_qh", $params['id']);
+      if (!empty($params['keyword'])) $this->db->like("$this->table_dvhc.name", $params['keyword']);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function getDVHC($id){
+      // var_dump($id); exit;
+      $this->db->select("*")->from($this->table_dvhc);
+      $this->db->where("$this->table_dvhc.id", $id);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->row();
+   }
+
+// ---------------------------------------------------------------------- end filter đơn vị hành chính ------------------------------------------------
+
+// ----------- contact -----------
+   public function save_contact($data)
+   {
+      if($this->db->insert($this->table_contact, $data)){
+         return true;
+      }else{ //var_dump($this->db->last_query()); exit();
+         return false;
+      }
+   }
+   public function get_id($email){
+      $this->db->select("$this->table_account.id")->from($this->table_account);
+      $this->db->where("$this->table_account.email", $email);
+      $query = $this->db->get();
+      return $query->row();
+
+   }
+// ----------------------------------------------------- end contact ---------------------------
+   
    public function getData($args = array(), $returnType = "object", $select = '')
    {
       $this->__where($args, '', $select);

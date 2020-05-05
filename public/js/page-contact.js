@@ -1,9 +1,9 @@
 //------------- contact --------------
-function save(){
+function saveContact(){
     $.ajax({
         url : url_save,
         type: "POST",
-        data: $('#form').serialize(),
+        data: $('#formContact').serialize(),
         dataType: "JSON",
         success: function(data){
             toastr[data.type](data.message);
@@ -21,7 +21,7 @@ function save(){
                     }
                 })
             }else{
-                $('#form').trigger("reset");
+                $('#formContact').trigger("reset");
             }
             console.log(data)
         }, error: function (jqXHR, textStatus, errorThrown) {

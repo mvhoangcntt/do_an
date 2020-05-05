@@ -20,7 +20,7 @@ class Product extends Admin_Controller
         $this->session->category_type = $this->_name_controller;
     }
     public function index(){
-    	$data['heading_title'] = 'MV Hoàng';
+    	$data['heading_title'] = 'Quản lý sản phẩm';
         $data['heading_description'] = "Danh sách sản phẩm";
         $this->breadcrumbs->push('Home', base_url());
         $this->breadcrumbs->push($data['heading_title'], '#');
@@ -94,14 +94,15 @@ class Product extends Admin_Controller
         $data['created'] = date("Y-m-d");
         $quantity   =  $data['quantity'];
         $text_size  =  $data['textsize'];
+        $text_coler  =  $data['textcoler'];
         // var_dump($data); exit();
         $insert_id = $this->_data->save($data);
         // var_dump($insert_id); exit();
-        $action = $this->router->fetch_class();
-        $note = "Insert $action: ".$id_product;
-        $this->addLogaction($action,$note);
         if($insert_id != ''){
-            $this->convert_size($insert_id, $quantity, $text_size);
+            $this->convert_size($insert_id, $quantity, $text_size, $text_coler);
+            $action = $this->router->fetch_class();
+            $note = "Insert $action: ".$insert_id;
+            $this->addLogaction($action,$note);
         }else{
             $message['type'] = 'warning';
             $message['message'] = 'Lỗi thêm sản phẩm !';
@@ -123,11 +124,15 @@ class Product extends Admin_Controller
         $data = $this->_convertData();
         $quantity   =  $data['quantity'];
         $text_size  =  $data['textsize'];
+        $text_coler  =  $data['textcoler'];
         $conditions['id'] = $id;
         // var_dump($data); exit();
         if ($this->_data->update($conditions,$data)) 
         {
-            $this->convert_size($id, $quantity, $text_size);
+            $this->convert_size($id, $quantity, $text_size, $text_coler);
+            $action = $this->router->fetch_class();
+            $note = "Update $action: ".$id;
+            $this->addLogaction($action,$note);
         }else{
             $message['type'] = 'warning';
             $message['message'] = 'Lỗi sửa sản phẩm !';
@@ -135,7 +140,7 @@ class Product extends Admin_Controller
         }
     }
 
-    public function convert_size($id, $quantity, $text_size){
+    public function convert_size($id, $quantity, $text_size, $text_coler){
       // xóa thông tin cũ
         $size['product_id'] = $id;
         $tablename['size'] = $this->_data->table_product;
@@ -145,6 +150,7 @@ class Product extends Admin_Controller
             $size = array(
                 "product_id"   => $id,
                 "text_size"    => $text_size[$key_quantity],
+                "text_coler"    => $text_coler[$key_quantity],
                 "quantity"     => $value_quantity,
             );
             if(!$this->_data->set_size($size, $this->_data->table_product)){
@@ -167,6 +173,7 @@ class Product extends Admin_Controller
         $this->_validate();
         $data = $this->input->post();
         $data_store = array();
+        unset($data['view']);
 
         $arrLang = $this->config->item('cms_language');
         if (!empty($data)) foreach ($data as $key => $item) {
@@ -187,6 +194,7 @@ class Product extends Admin_Controller
         
         $data_store['quantity'] = $data['quantity'];
         $data_store['textsize'] = $data['textsize'];
+        $data_store['textcoler'] = $data['textcoler'];
         $data_store['name'] = $data['title']['vi'];
         return $data_store;
     }
@@ -194,7 +202,7 @@ class Product extends Admin_Controller
     private function _validate()
     {
         if($this->input->server('REQUEST_METHOD') == 'POST' && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            
+            $post = $this->input->post();
             $config = array(
                 'catalog'   => array(
                     'field'  => 'catalog',
@@ -212,13 +220,33 @@ class Product extends Admin_Controller
                         'required'  => 'Không được để trống !',
                    ),
                 ),
+                'masp'   => array(
+                    'field'  => 'masp',
+                    'label'  => 'masp',
+                    'rules'  => 'required',
+                    'errors' => array(
+                        'required'  => 'Không được để trống !',
+                   ),
+                ),
                 'price'   => array(
                     'field'  => 'price',
                     'label'  => 'price',
-                    'rules'  => 'required|numeric',
+                    'rules'  => 'required|numeric|is_natural',
                     'errors' => array(
-                        'required'  => 'Không được để trống !',
-                        'numeric'   => 'Không phải là số !'
+                        'required'   => 'Không được để trống !',
+                        'numeric'    => 'Không phải là số !',
+                        'is_natural' => 'Vui lòng nhập số nguyên dương !'
+                   ),
+                ),
+                'discount'   => array(
+                    'field'  => 'discount',
+                    'label'  => 'discount',
+                    'rules'  => 'required|numeric|is_natural|less_than_equal_to['.$post['price'].']',
+                    'errors' => array(
+                        'required'   => 'Không được để trống !',
+                        'numeric'    => 'Không phải là số !',
+                        'is_natural' => 'Vui lòng nhập số nguyên dương !',
+                        'less_than_equal_to' => 'Vui lòng nhập số nhỏ hơn hoặc bằng giá !',
                    ),
                 ),
                 'total'   => array(
@@ -260,14 +288,22 @@ class Product extends Admin_Controller
                             'min_length'=> 'Nhập độ dài lớn hơn 5 ký tự !'
                         ),
                     );
-                    // $config['content['.$lang_code.']'] = array(
-                    //     'field'  => "content[".$lang_code."]",
-                    //     'label'  => 'content_'.$lang_name,
-                    //     'rules'  => 'required',
-                    //     'errors' => array(
-                    //         'required'  => 'Không được để trống !',
-                    //     ),
-                    // );
+                    $config['content['.$lang_code.']'] = array(
+                        'field'  => "content[".$lang_code."]",
+                        'label'  => 'content_'.$lang_name,
+                        'rules'  => 'required',
+                        'errors' => array(
+                            'required'  => 'Không được để trống !',
+                        ),
+                    );
+                    $config['slug['.$lang_code.']'] = array(
+                        'field'  => "slug[".$lang_code."]",
+                        'label'  => 'slug_'.$lang_name,
+                        'rules'  => 'required',
+                        'errors' => array(
+                            'required'  => 'Không được để trống !',
+                        ),
+                    );
                     $config['meta_title['.$lang_code.']'] = array(
                         'field'  => "meta_title[".$lang_code."]",
                         'label'  => 'meta_title_'.$lang_name,
@@ -299,7 +335,7 @@ class Product extends Admin_Controller
                 // }
             }
             // exit();
-            $post = $this->input->post();
+            
             foreach ($post['quantity'] as $key => $value) {
                 $config['quantity['.$key.']'] = array(
                     'field'  => "quantity[".$key."]",
@@ -318,9 +354,16 @@ class Product extends Admin_Controller
                         'required'  => 'Không được để trống !',
                     ),
                 );
+                $config['textcoler['.$key.']'] = array(
+                    'field'  => "textcoler[".$key."]",
+                    'label'  => 'textcoler_'.$key,
+                    'rules'  => 'required',
+                    'errors' => array(
+                        'required'  => 'Không được để trống !',
+                    ),
+                );
             }
 
-            $result = array();
             foreach ($config as $value) {
                 $this->form_validation->set_rules(
                     $value['field'],
@@ -348,6 +391,11 @@ class Product extends Admin_Controller
         $tablename['product'] = $this->_data->table;
         $tablename['size'] = $this->_data->table_product;
         $tablename['product_translations'] = $this->_data->table_trans;
+
+        $action = $this->router->fetch_class();
+        $note = "Delete $action: ".$id;
+        $this->addLogaction($action,$note);
+
         if( $this->_data->delete($conditions, $tablename['product_translations'])){
             if ($this->_data->delete($size, $tablename['size'])) {
                 if ($this->_data->delete($conditions, $tablename['product'])) {
@@ -377,7 +425,6 @@ class Product extends Admin_Controller
     public function ajax_update_field($check){
         $this->checkRequestGetAjax();
         $keyword = toSlug(toNormal($this->input->get("q")));
-        $data    = $this->_data->filter_maker($keyword);
         if ($check == 1) {
             $data = $this->_data->filter_catalog($keyword);
             if(!empty($data)) foreach ($data as $item) {
@@ -385,6 +432,7 @@ class Product extends Admin_Controller
                 $json[] = ['id'=>$item->id, 'text'=>$item->name_catalog];
             }
         }else{
+            $data = $this->_data->filter_maker($keyword);
             if(!empty($data)) foreach ($data as $item) {
                 $item = (object) $item;
                 $json[] = ['id'=>$item->id, 'text'=>$item->name_maker];

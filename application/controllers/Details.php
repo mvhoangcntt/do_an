@@ -11,11 +11,12 @@ class Details extends Public_Controller
     {
         parent::__construct();
         $this->lang->load('home');
-        $this->load->model('Page_contact_model');
-        $this->_data = new Page_contact_model();
+        $this->load->model('Detail_model');
+        $this->_data = new Detail_model();
     }
-    public function details()
+    public function details($slug = null, $page = '')
     {
+        // var_dump($slug, $page); exit;
         $data['main_content'] = $this->load->view($this->template_path . 'details/news_details', $data, TRUE);
         $this->load->view($this->template_main, $data);
     }
@@ -28,17 +29,19 @@ class Details extends Public_Controller
     {
         // Chi tiết
         // die($slug." ".$id);
-        $data['heading_title'] = 'Tin tức';
+        // $data['heading_title'] = 'Tin tức';
         $data['detail'] = $this->_data->get_detail($id);
+        $data['detail_size'] = $this->_data->get_detail_size($id);
         $data['detail']->timeAgo = timeAgo(strtotime($data['detail']->created_time));
+        // var_dump($data['detail']); exit;
         // ------- sidebar ------
-        $data['new_limit'] = $this->_data->get_sidebar();
-        foreach ($data['new_limit'] as $key => $value) {
-            $optional['id'] = $value->id;
-            $optional['slug'] = $value->slug;
-            $data['new_limit'][$key]->url = getSlugUrlNews($optional);
-        }
-        $data['main_content'] = $this->load->view($this->template_path . 'news/news_details', $data, TRUE);
+        // $data['new_limit'] = $this->_data->get_sidebar();
+        // foreach ($data['new_limit'] as $key => $value) {
+        //     $optional['id'] = $value->id;
+        //     $optional['slug'] = $value->slug;
+        //     $data['new_limit'][$key]->url = getSlugUrlNews($optional);
+        // }
+       $data['main_content'] = $this->load->view($this->template_path . 'details/detail', $data, TRUE);
         $this->load->view($this->template_main, $data);
     }
     public function featured($page = ''){

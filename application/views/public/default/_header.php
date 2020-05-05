@@ -49,9 +49,24 @@
                             </div>
                             </form>
                         </li>
-                        <li><a class="smooth" href="<?php echo base_url() ?>contact/" title="">Liên hệ</a></li>
+                        <li><a class="smooth _contact" href="<?php echo base_url() ?>contact/" title="">Liên hệ</a></li>
                         <!-- <li><a class="smooth" href="<?php echo base_url() ?>about/" title="">Kiểm tra đơn hàng</a></li> -->
-                        <li><a class="smooth login" href="#login" title="">Đăng nhập</a></li>
+                        <?php if (!isset($this->session->userdata['account']['account_identity'])) { ?>
+                            <li id="login"><a class="smooth login" href="#login" title="Đăng nhập">Đăng nhập</a>
+                            </li>
+                        <?php }else{ ?>
+                            <li id="login">
+                                <a class="smooth logout" onclick="click_account()" href="#logout" title="<?php echo $this->session->userdata['account']['full_name']; ?>"><?php echo $this->session->userdata['account']['full_name']; ?></a>
+                                <div class="user_header">
+                                    <div>
+                                        <a href="<?php echo base_url() ?>account/"><i class="fa fa-user-circle-o" aria-hidden="true"></i>Thông tin tài khoản</a>
+                                    </div>
+                                    <div>
+                                        <a class="smooth logout" onclick="click_logout()" href="#out" title="Đăng xuất"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a>
+                                    </div>
+                                </div>
+                            </li>
+                        <?php } ?>
                         <li>
                             <div class="viewed">
                                 <div>
@@ -101,7 +116,7 @@
     <iframe data-src="<?php echo base_url() ?>home/viewed" width = "100%" height = "100%" scrolling="no" frameborder="0" src="<?php echo base_url() ?>home/viewed"></iframe>
 </div>
 <div class="screen_login-hide"></div>
-<div class="hide-login">
+<div class="hide-login" id="hide-login">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-6">
@@ -110,25 +125,28 @@
         </div>
         <div class="row cart-bottom">
             <div class="col-lg-12 col-md-6">
-                <form class="dangnhap">
+                <?php //if (!isset($this->session->userdata['account']['account_identity'])) { ?>
+                <form method="POST" id="formDangnhap" class="dangnhap">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nhập địa chỉ Email đăng ký</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="email" class="form-control" name="email" id="Email1" aria-describedby="emailHelp" placeholder="Enter email">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="password" class="form-control" name="password" id="Password1" placeholder="Password">
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <input type="checkbox" class="form-check-input" name="check" id="exampleCheck1">
                         <label class="form-check-label" for="exampleCheck1">Nhớ mật khẩu</label>
                     </div>
                     <div class="form-button-submit">
-                        <button type="submit" class="btn btn-primary submit">Đăng nhập</button>
-                        <button class="btn btn-primary cancel">Hủy bỏ</button>
+                        <button type="submit" id="btndangnhap" onclick="dangnhap()" class="btn btn-primary submit">Đăng nhập</button>
+                        <input type="button" class="btn btn-primary cancel" value="Hủy bỏ">
                     </div>
                 </form>
-                <form class="dangky" action="/action_page.php">
+                <?php //} ?>
+                <?php //if (!isset($this->session->userdata['account']['account_identity'])) { ?>
+                <form method="POST" class="dangky" id="formdangky">
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group">
@@ -141,110 +159,111 @@
                             </div>
                             <div class="form-group">
                                 <label for="full-name">Họ và tên:</label>
-                                <input type="text" class="form-control" id="full-name" placeholder="Enter full-name" name="full-name">
+                                <input type="text" class="form-control" id="full-name" placeholder="Enter full-name" name="full_name">
                             </div>
-                            <div class="form-group">
-                                <label for="full-name">Giới tính:</label>
-                                <div class="radio">
-                                    <label class="radio-inline">
-                                        <input type="radio" name="optradio" checked> Nam 
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="optradio"> Nữ
-                                    </label>
-                                </div>
-                            </div>
-                            
                             <div class="form-group">
                                 <label for="birthday">Ngày sinh:</label>
                                 <input type="date" class="form-control" id="birthday" placeholder="01/01/2000" name="birthday">
                             </div>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for="address">Địa chỉ:</label>
                                 <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" name="address">
                             </div>
                             <div class="form-group">
-                                <label for="birthday">Tỉnh / Thành:</label>
-                                <select class="form-control" id="sel1">
-                                    <option> -- Chọn Tỉnh / Thành Phố -- </option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
+                                <label for="full-name">Giới tính:</label>
+                                <div class="radio">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender" value="1" checked> Nam 
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender" value="2"> Nữ
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gender" value="3"> Giới tính Khác
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                            <style type="text/css">
+                                .select2-container--default .select2-selection--single{
+                                    height: 38px;
+                                    border: 1px solid #ced4da;
+                                }
+                                .select2-container--default .select2-selection--single .select2-selection__placeholder{
+                                    /* line-height: 40px; */
+                                }    
+                                .select2-container--default .select2-selection--single .select2-selection__rendered{
+                                    border-radius: 0;
+                                    padding: 4px 12px;
+                                }
+                                .select2-container--default .select2-selection--single .select2-selection__arrow{
+                                    height: 38px;
+                                }
+
+                            </style>
+                                <label for="password">Mật khẩu:</label>
+                                <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu" name="password">
                             </div>
                             <div class="form-group">
-                                <label for="birthday">Quận / Huyện:</label>
-                                <select class="form-control" id="sel1">
-                                    <option> -- Chọn Quận / Huyện -- </option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
+                                <label for="re-password">Nhập lại mật khẩu:</label>
+                                <input type="password" class="form-control" id="re-password" placeholder="Nhập lại mật khẩu" name="re-password">
+                            </div>
+                            <div class="form-group tinhthanh">
+                                <label for="tinhthanh">Tỉnh / Thành:</label>
+                                <select class="form-control select2 filter_tinhthanh" title="filter" name="tinhthanh" style="width: 100%;" tabindex="-1" aria-hidden="true"></select>
+                            </div>
+                            <div class="form-group quanhuyen">
+                                <label for="quanhuyen">Quận / Huyện:</label>
+                                <select class="form-control select2 filter_quanhuyen" title="filter" name="quanhuyen" style="width: 100%;" tabindex="-1" aria-hidden="true"></select>
                             </div>
                             <div class="form-group">
-                                <label for="birthday">Xã / Phường:</label>
-                                <select class="form-control" id="sel1">
-                                    <option> -- Chọn Xã / Phường -- </option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
+                                <label for="xaphuong">Xã / Phường:</label>
+                                <select class="form-control select2 filter_xaphuong" title="filter" name="xaphuong" style="width: 100%;" tabindex="-1" aria-hidden="true"></select>
                             </div>
                         </div>
                     </div>
                     <div class="form-button-submit">
-                        <button type="submit" class="btn btn-primary submit">Đăng Ký</button>
-                        <button class="btn btn-primary cancel">Hủy bỏ</button>
+                        <button type="submit" id="btndangky" onclick="dangky()" class="btn btn-primary submit">Đăng Ký</button>
+                        <input type="button" class="btn btn-primary cancel" value="Hủy bỏ">
                     </div>
                     
                 </form>
-                <form class="quenmatkhau">
+                <?php //} ?>
+                <?php //if (!isset($this->session->userdata['account']['account_identity'])) { ?>
+                <form class="quenmatkhau" method="POST" id="forgotPassword">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nhập địa chỉ Email đăng ký</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                         <!-- <small id="emailHelp" class="form-text text-muted">Hệ thống sẽ gửi mật khẩu mới về email của bạn.</small> -->
                     </div>
                     <div class="form-button-submit">
-                        <button type="submit" class="btn btn-primary submit">Nhận mật khẩu mới</button>
-                        <button class="btn btn-primary cancel">Hủy bỏ</button>
+                        <button type="submit" id="quenmatkhau" onclick="forgot()" class="btn btn-primary submit">Nhận mật khẩu mới</button>
+                        <input type="button" class="btn btn-primary cancel" value="Hủy bỏ">
                     </div>
                 </form>
-                <form class="doimatkhau">
-                    <div class="form-group">
-                        <label for="email">Nhập địa chỉ Email đăng ký</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="matkhaucu">Nhập nhật khẩu cũ</label>
-                        <input type="password" class="form-control" id="matkhaucu" placeholder="Nhạp mật khẩu cũ">
-                    </div>
-                    <div class="form-group">
-                        <label for="matkhaumoi">Nhập mật khẩu mới</label>
-                        <input type="password" class="form-control" id="matkhaumoi" placeholder="Nhập mật khẩu mới">
-                    </div>
-                    <div class="form-group">
-                        <label for="nhaplaimatkhau">Nhập lại mật khẩu</label>
-                        <input type="password" class="form-control" id="nhaplaimatkhau" placeholder="Nhập lại mật khẩu">
-                    </div>
-                    <div class="form-button-submit">
-                        <button type="submit" class="btn btn-primary submit">Đổi mật khẩu</button>
-                        <button class="btn btn-primary cancel">Hủy bỏ</button>
-                    </div>
-                </form>
+                <?php //} ?>
 
                 <div class="form-button">
+                    <?php //if (!isset($this->session->userdata['account']['account_identity'])) { ?>
                     <div class="div-quenmatkhau"><a href="#quenmatkhau">Quên mật khẩu</a></div>
-                    <div class="div-doimatkhau"><a href="#doimatkhau">Thay đổi mật khẩu</a></div>
+                    <?php //} ?>
+                    <?php //if (!isset($this->session->userdata['account']['account_identity'])) { ?>
                     <div class="div-dangky"><a href="#dangky">Đăng ký</a></div>
+                    <?php //} ?>
+                    <?php //if (!isset($this->session->userdata['account']['account_identity'])) { ?>
                     <div class="div-dangnhap"><a href="#dangnhap">Đăng nhập</a></div>
+                    <?php //} ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?php 
+if (isset($_GET['login'])=='error') {
+   echo "<script type='text/javascript'>alert('Vui lòng đăng nhập vào tài khoản trước !')</script>";
+}
+
+ ?>
