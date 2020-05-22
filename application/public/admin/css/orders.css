@@ -1,0 +1,25 @@
+.detail_pay{
+	margin-right: 0px;
+	margin-left: 0px;
+}
+.pay{
+	margin-right: 0px;
+	margin-left: 0px;
+	display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+.detail_product{
+	margin-top: 10px;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+.dau{
+	float: left;
+}
+.cuoi{
+	float: left;
+}
+.mau_coler{
+	color: red;
+}
