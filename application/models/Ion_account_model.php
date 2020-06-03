@@ -1017,7 +1017,7 @@ class Ion_account_model extends CI_Model
      * @author    Mathew
      */
     public function login($identity, $password, $remember=FALSE)
-    {
+    { 
         $this->trigger_events('pre_login');
 
         if (empty($identity) || empty($password))
@@ -1055,8 +1055,9 @@ class Ion_account_model extends CI_Model
 
                 $this->clear_login_attempts($identity);
 
-                if ($remember && $this->config->item('remember_users', 'ion_account'))
-                {
+                // if ($remember && $this->config->item('remember_users', 'ion_account')) // ban đầu
+                if ($remember && $this->config->item('ion_account'))// sửa lại
+                { //var_dump($remember); exit;
                     $this->remember_user($user->id);
                 }
 

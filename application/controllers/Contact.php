@@ -12,12 +12,21 @@ class Contact extends Public_Controller
         parent::__construct();
         $this->lang->load('footer');
         $this->lang->load('home');
-        $this->load->model('Home_model');
+        $this->load->model(array('Home_model','Seemore_model'));
         $this->_data = new Home_model();
+        $this->_data_seemore = new Seemore_model();
     }
 
     public function index()
     {
+        // --- viewed 3 -----
+        $data['viewed3'] = $this->_data_seemore->list_viewed3();
+        foreach ($data['viewed3'] as $key => $value) {
+            $optional['id'] = $value->id;
+            $optional['slug'] = $value->slug;
+            $data['viewed3'][$key]->url = getUrlProduct($optional);
+        }
+        // -------------
         $data['heading_title'] = 'MV Hoàng';
         $data['main_content'] = $this->load->view($this->template_path . 'contact/contact', $data, TRUE);
         $this->load->view($this->template_main, $data);
@@ -133,4 +142,20 @@ class Contact extends Public_Controller
             }
         }
     }
+    public function uudai(){
+        $this->form_validation->set_rules('email_uudai','email', 'required|valid_email');
+        if ($this->form_validation->run() === FALSE){
+            $message['type'] = "warning";
+            $message['message'] = "Đã có lỗi sảy ra vui lòng kiểm tra lại !";
+            $message['validation'] = form_error('email_uudai');
+            die(json_encode($message));
+        }else{
+            $data['email'] = $this->input->post('email_uudai');
+            sendMail('', $data['email'],base_url(),'uudai',$data);
+            $message['type'] = 'success';
+            $message['message'] = 'Đã gửi hành công !';
+            exit(json_encode($message));
+        }
+    }
+
 }

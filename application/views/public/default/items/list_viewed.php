@@ -50,13 +50,21 @@
   }
 }
   </style>
+  <base href="your_domain/" target="_PARENT">
 </head>
 <body>
   <!-- Swiper -->
   <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></div>
-            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img2.jpg" alt="">
+          <?php //var_dump($viewed); ?>
+            <?php foreach ($viewed as $news_item): ?>
+            <div class="swiper-slide">
+              <a href="<?php echo $news_item->url; ?>" title="<?php echo $news_item->title; ?>">
+                <img src="<?php echo getImageThumb($news_item->thumbnail, 360, 360); ?>" alt="<?php echo $news_item->title; ?>">
+              </a>
+            </div>
+            <?php endforeach; ?>
+            <!-- <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img2.jpg" alt="">
             </div>
             <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></div>
             <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img2.jpg" alt="">
@@ -89,7 +97,7 @@
             <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></div>
             <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img2.jpg" alt="">
             </div>
-            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></div>
+            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></div> -->
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>

@@ -51,8 +51,31 @@ $method = $this->router->fetch_method();
     var url_save = '<?php echo site_url("$controller/post_contact"); ?>';
   <?php endif; ?>
   const base_url = '<?php echo base_url(); ?>';
+  
+  
 </script>
-
+<!-- settings account -->
+<?php if (!empty($this->session->account['settings']) && $this->session->account['settings'] == 1) { ?>
+  <style type="text/css" media="screen">
+    .item-news .ct .time{
+      display: none;
+    }
+  </style>
+<?php } ?>
+<?php if (!empty($this->session->account['settings']) && $this->session->account['settings'] == 2) { ?>
+  <style type="text/css" media="screen">
+    .discount-pt{
+      display: none;
+    }
+  </style>
+<?php } ?>
+<?php if (!empty($this->session->account['settings']) && $this->session->account['settings'] == 3) { ?>
+  <style type="text/css" media="screen">
+    .item-news .ct{
+      display: none;
+    }
+  </style>
+<?php } ?>
 </head>
 <body >
 <div class="wrap">
@@ -80,6 +103,7 @@ $method = $this->router->fetch_method();
 <?php $asset_js[] = 'js/page-contact.js'; ?>
 <?php $asset_js[] = 'js/toastr/toastr.min.js'; ?>
 <?php $asset_js[] = 'js/swiper.min.js'; ?>
+<?php $asset_js[] = 'js/cart.js'; ?>
 <?php if ($controller == 'account') {
   $asset_js[] = 'js/account.js';
 } ?>
@@ -146,5 +170,43 @@ echo $this->minify->deploy_js(); ?>
     }
 </script>
 <!-- end to top -->
+
+<!-- cập nhật lượt xem mỗi ngày -->
+<script language="javascript">
+  // var d = new Date();
+  // alert(d.getMinutes());
+  var interval_obj = setInterval(function(){
+    var d = new Date();
+    if (d.getHours() === '23' && d.getMinutes() === '59') {
+      <?php
+      if (date('H:i') == '23:59') {
+        $this->db = mysqli_connect("localhost","root","","hoan_tuyet");
+        $this->utf8 = mysqli_set_charset($this->db,"utf8");
+        $sql1 = "UPDATE ap_count_views SET alltime = alltime + day, year = year + day, month = month + day, week = week + day, yesterday = day, day = 0";
+        // var_dump($sql1); exit();
+        $this->db->query($sql1);
+        $time = time();
+        if(date('z', $time) == '0') {
+          //Ngày đầu tiên trong năm
+          $sql = "UPDATE count_views SET year = 0, month = 0, week = 0";
+          $this->db->query($sql);
+        }else {
+          if(date('j', $time) == '1') {
+            //Ngày đầu tiên trong tháng
+            $sql = "UPDATE count_views SET month = 0, week = 0";
+            $this->db->query($sql);
+          }else {
+            if(date('D', $timestamp) == 'Mon') {
+              //Ngày đầu tiên trong tuần (Thứ hai)
+              $sql = "UPDATE count_views SET week = 0";
+              $this->db->query($sql);
+            }
+          }
+        }
+      }
+      ?>
+    }
+  }, 30000);
+</script>
 </body>
 </html>

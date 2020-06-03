@@ -21,8 +21,8 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab_general" data-toggle="tab"><?php echo lang('tab_general'); ?></a></li>
-                    <li><a href="#tab_homepage" data-toggle="tab">Trang chủ</a></li>
-                    <li><a href="#tab_about" data-toggle="tab">Về chúng tôi</a></li>
+                    <!-- <li><a href="#tab_homepage" data-toggle="tab">Trang chủ</a></li>
+                    <li><a href="#tab_about" data-toggle="tab">Về chúng tôi</a></li> -->
                    <li><a href="#tab_social" data-toggle="tab">Social</a></li>
                    <li><a href="#tab_contact" data-toggle="tab">Thông tin liên hệ</a></li>
                     <li><a href="#tab_system" data-toggle="tab"><?php echo lang('tab_system'); ?></a></li>

@@ -163,7 +163,7 @@ function edit_form(id)
                 $("input[name='"+key+"']").val(value);
                 $("textarea[name='"+key+"']").val(value);
                 $("select[name='"+key+"']").val(value,'selected');
-                $("option.filter_catalog").remove();
+                $(".filter_catalog option").remove();
                 // console.log(data.catalog[0]['id'])
                 if (key === 'catalog') {
                     $("select.filter_catalog").append("<option class='filter_catalog' value="+data.catalog['id']+">"+data.catalog['name_catalog']+"</option>");    

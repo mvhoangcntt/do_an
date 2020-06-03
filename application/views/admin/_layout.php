@@ -12,7 +12,7 @@ $method = $this->router->fetch_method();
   <title><?php echo !empty($heading_title) ? $heading_title : 'MV' ?> | MV Hoàng</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="icon" href="<?php echo $this->templates_assets.'/favicon.ico'?>" type="image/x-icon">
+  <link rel="icon" href="<?php echo $this->templates_assets.'/favicon.png'?>" type="image/x-icon">
   <?php $asset_css[] = '../bower_components/bootstrap/dist/css/bootstrap.min.css'; ?>
   <?php $asset_css[] = '../bower_components/font-awesome/css/font-awesome.min.css'; ?>
   <?php $asset_css[] = '../bower_components/Ionicons/css/ionicons.min.css'; ?>

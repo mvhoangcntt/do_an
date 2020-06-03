@@ -64,11 +64,12 @@ class Product extends Admin_Controller
             $row[] = $item->id;
             $row[] = $item->name;
             // $row[] = $item->_content;
-            $row[] = $cata;
+            // $row[] = $cata;
             $row[] = '<img style="width: 50px" src="../public/media/'.$item->thumbnail.'">';
             $row[] = $s;
-            $row[] = $ma;
-            $row[] = $item->price;
+            // $row[] = $ma;
+            $row[] = $item->view;
+            $row[] = number_format($item->price);
             $row[] = $item->created;
             $row[] = $item->total;
             //thêm action
@@ -90,6 +91,9 @@ class Product extends Admin_Controller
     
     public function ajax_add()
     {
+        $action = $this->router->fetch_class();
+        $note = "Insert $action: ".$insert_id;
+        $this->addLogaction($action,$note);
         $data = $this->_convertData();
         $data['created'] = date("Y-m-d");
         $quantity   =  $data['quantity'];
@@ -100,9 +104,6 @@ class Product extends Admin_Controller
         // var_dump($insert_id); exit();
         if($insert_id != ''){
             $this->convert_size($insert_id, $quantity, $text_size, $text_coler);
-            $action = $this->router->fetch_class();
-            $note = "Insert $action: ".$insert_id;
-            $this->addLogaction($action,$note);
         }else{
             $message['type'] = 'warning';
             $message['message'] = 'Lỗi thêm sản phẩm !';
@@ -121,6 +122,10 @@ class Product extends Admin_Controller
     }
 
     public function ajax_update($id){
+        $action = $this->router->fetch_class();
+        $note = "Update $action: ".$id;
+        $this->addLogaction($action,$note);
+
         $data = $this->_convertData();
         $quantity   =  $data['quantity'];
         $text_size  =  $data['textsize'];
@@ -130,9 +135,6 @@ class Product extends Admin_Controller
         if ($this->_data->update($conditions,$data)) 
         {
             $this->convert_size($id, $quantity, $text_size, $text_coler);
-            $action = $this->router->fetch_class();
-            $note = "Update $action: ".$id;
-            $this->addLogaction($action,$note);
         }else{
             $message['type'] = 'warning';
             $message['message'] = 'Lỗi sửa sản phẩm !';
@@ -149,8 +151,8 @@ class Product extends Admin_Controller
         foreach ($quantity as $key_quantity => $value_quantity) {
             $size = array(
                 "product_id"   => $id,
-                "text_size"    => $text_size[$key_quantity],
-                "text_coler"    => $text_coler[$key_quantity],
+                "text_size"    => strip_tags($text_size[$key_quantity]),
+                "text_coler"    => strip_tags($text_coler[$key_quantity]),
                 "quantity"     => $value_quantity,
             );
             if(!$this->_data->set_size($size, $this->_data->table_product)){
@@ -164,14 +166,27 @@ class Product extends Admin_Controller
         exit(json_encode($message));
     }
     private function _convertData(){
-        // $this->_validate();
-        // $data = $this->input->post();
-        // $data['name'] = $data['title']['vi'];
-        // $data['_content'] = $data['description']['vi'];
-        // return $data;
-
         $this->_validate();
-        $data = $this->input->post();
+        $data_p = $this->input->post();
+         // var_dump($data_p); exit;
+        $data = array();
+        foreach ($data_p as $key => $value) {
+            $new = array();
+            if ($key == 'content') {
+                foreach ($value as $key1 => $val) {
+                    $new[$key1] = str_replace(array('<script','script','<script>','</script>'), '',$val);
+                }
+            }else{
+                if (is_array($value)) {
+                    foreach ($value as $key1 => $val) {
+                        $new[$key1] = strip_tags($val);
+                    }
+                }else{
+                    $new = strip_tags($value);
+                }
+            }
+            $data[$key] = $new;
+        }
         $data_store = array();
         unset($data['view']);
 
@@ -191,7 +206,6 @@ class Product extends Admin_Controller
         }
         // $data_store['category_id'] = $data['category_id'];
         // $data_store['property'] = $data['property'];
-        
         $data_store['quantity'] = $data['quantity'];
         $data_store['textsize'] = $data['textsize'];
         $data_store['textcoler'] = $data['textcoler'];

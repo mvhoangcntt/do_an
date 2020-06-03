@@ -12,8 +12,10 @@
                 <div class="form-letter">
                     <span><?php echo lang('from_registration');?></span>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="<?php echo lang('from_email');?>">
-                        <button><img src="<?php echo base_url() ?>public/images/ic-mail.png" alt=""></button>
+                    	<form id="form_uudai">
+                        <input type="email" class="form-control" name="email_uudai" placeholder="<?php echo lang('from_email');?>">
+                        <button class="uudai"><img src="<?php echo base_url() ?>public/images/ic-mail.png" alt=""></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -23,10 +25,12 @@
 <?php 
 	$company = $this->settings['contact'][$this->session->public_lang_code]['company'];
 	$address = $this->settings['contact'][$this->session->public_lang_code]['address']; 
+	$address1 = $this->settings['contact'][$this->session->public_lang_code]['address1']; 
+	$address2 = $this->settings['contact'][$this->session->public_lang_code]['address2']; 
 	$phone   = $this->settings['contact'][$this->session->public_lang_code]['phone'];
-	$mst     = $this->settings['contact'][$this->session->public_lang_code]['mst'];
-	$time    = $this->settings['contact'][$this->session->public_lang_code]['time'];
-	$phonee  = $this->settings['contact'][$this->session->public_lang_code]['phonee'];
+	$ship     = $this->settings['contact'][$this->session->public_lang_code]['ship'];
+	$shiper   = $this->settings['contact'][$this->session->public_lang_code]['shiper'];
+	// $phone  = $this->settings['contact'][$this->session->public_lang_code]['phone'];
 ?>
 <footer>
 	<div class="footer-top">
@@ -37,8 +41,8 @@
 	                    <h3 class="title"><?php echo !empty($company)? $company : ''; ?></h3>
 	                    <ul>
 	                        <li><i class="icon_pin"></i><?php echo !empty($address)? $address : ''; ?></li>
-	                        <li><i class="icon_pin"></i>📍Cơ sở 2: Số nhà 561 đường Lương Ngọc Quyến, TP.Thái Nguyên.  </li>
-	                        <li><i class="icon_pin"></i>📍Cơ sở 3: Số nhà 40 đường Quang Trung, TP.Thái Nguyên </li>
+	                        <li><i class="icon_pin"></i><?php echo !empty($address1)? $address1 : ''; ?> </li>
+	                        <li><i class="icon_pin"></i><?php echo !empty($address2)? $address2 : ''; ?></li>
 	                        
 
 	                        <!-- <li><i class="icon_documents"></i><?php echo !empty($mst)? $mst : ''; ?></li> -->
@@ -51,8 +55,8 @@
 	                <div class="ft-info">
 	                    <h3 class="title">Hình thức chuyển hàng </h3>
 	                    <ul>
-	                        <li><i class="fa fa-motorcycle" aria-hidden="true"></i> Ship nội thành (Thái Nguyên) nhanh giá rẻ</li>
-	                        <li><i class="fa fa-car icon-order-cart" aria-hidden="true"></i> Ship SCOD Toàn Quốc - Viettel Post </li>
+	                        <li><i class="fa fa-motorcycle" aria-hidden="true"></i> <?php echo !empty($ship)? $ship : ''; ?></li>
+	                        <li><i class="fa fa-car icon-order-cart" aria-hidden="true"></i> <?php echo !empty($shiper)? $shiper : ''; ?></li>
 
 	                    </ul>
 	                    <h3 class="title">Điện thoại hỗ trợ </h3>

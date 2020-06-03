@@ -13,6 +13,9 @@ class Order_model extends APS_Model
     $this->column_order = array("$this->table.id", "$this->table.id", "$this->table.code", "$this->table.full_name", "$this->table.phone", "$this->table.email", "$this->table.total_amount", "$this->table.is_status", "$this->table.created_time");
   }
 
+
+
+// ---------- chưa dùng đến ---------------------
   public function saveOrder($data)
   {
     $order = $data['order_info'];

@@ -61,7 +61,8 @@ class Auth extends Public_Controller
             $this->form_validation->set_rules($rules);
 
             if ($this->form_validation->run() === TRUE) {
-                if ($account = $this->ion_account->login($this->input->post('email'), $this->input->post('password'), FALSE)) {
+                if($this->input->post('remember') === 'on'){$remember = true;}
+                if ($account = $this->ion_account->login($this->input->post('email'), $this->input->post('password'), $remember )) {
               //if the login is successful
               //redirect them back to the home page
                     $account = $accountModel->getById($account->id, '', $this->session->public_lang_code);
@@ -75,6 +76,7 @@ class Auth extends Public_Controller
                         $this->session->userdata['account']['full_name'] = $account->full_name;
                         $this->session->userdata['account']['account_identity'] = $account->username;
                         $this->session->userdata['account']['rule'] = $rule;
+                        $this->session->userdata['account']['settings'] = $account->settings;
 
 
                         // remember 
@@ -211,14 +213,21 @@ class Auth extends Public_Controller
                 $data_store['phone']     = $phone_number;
                 $data_store['gender']    = $this->input->post('gender');
                 $data_store['active']    = 1;
+                $data_store['avatar']    = 'default/anh-cute.jpg';
                 $data_store['birthday']  = $this->input->post('birthday');
                 $data_store['address']   = preg_replace('/([^\pL\.\ , - . ! ]+)/u', '', strip_tags($this->input->post('address')));
                 $data_store['xaphuong']  = $this->input->post('xaphuong');
                 $data_store['quanhuyen'] = $this->input->post('quanhuyen');
                 $data_store['tinhthanh'] = $this->input->post('tinhthanh');
                 $id_user = $this->ion_account->register($identity, $password, $email, $data_store, ['group_id' => 1]);
-
                 if ($id_user !== false) {
+                    $GET_user = $this->_data->getById($id_user);
+                    $g_pass = str_replace(array('$'), '123456789', $GET_user->password);
+                    $g_email = str_replace(array('@'), '123456789', $email);
+
+                    // var_dump(base_url('auth/verified')."/".$email."/".$GET_user->password."/".$id_user);exit;
+                    $data['xacthuc'] = base_url('auth/verified')."?email=".$g_email."&pass=".$g_pass."&id=".$id_user;
+                    sendMail('', $email,'Xác thực tài khoản','verified',$data);
                     die(json_encode(array(
                         'message' => lang('sign_up'),
                         'type' => 'success',
@@ -240,6 +249,23 @@ class Auth extends Public_Controller
                 $message['validation'] = $valid;
                 die(json_encode($message));
             }
+        }
+    }
+    public function verified(){
+        $user     = $this->_data->getById($_GET['id']);
+        $email    = str_replace(array('123456789'), '@', $_GET['email']);
+        $password = str_replace(array('123456789'), '$', $_GET['pass']);
+        // var_dump($user->password,$password,$user->email, $email); exit;
+        if ($user->password == $password && $user->email == $email) {
+            $ma['id'] = $user->id;
+            $data['verified'] = 1;
+            if ($this->_data->update($ma,$data)) {
+                redirect(site_url('?verified=success'));
+            }else{
+                redirect(site_url('?verified=error'));
+            }
+        }else{
+            redirect(site_url('?verified=error'));
         }
     }
 

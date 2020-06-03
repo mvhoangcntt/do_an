@@ -127,6 +127,14 @@ if (!function_exists('getUrlVoucher')) {
         return $linkReturn;
     }
 }
+if (!function_exists('getUrlMenuSeemore')) {
+    function getUrlMenuSeemore($optional){
+        $slug = $optional['slug'];
+        $linkReturn = BASE_URL;
+        $linkReturn .= "$slug-item";
+        return $linkReturn;
+    }
+}
 
 if (!function_exists('getUrlPage')) {
 
@@ -187,7 +195,7 @@ if (!function_exists('getUrlProduct')) {
         $id = $optional['id'];
         $slug = $optional['slug'];
         $linkReturn = BASE_URL;
-        $linkReturn .= "$slug-p$id";
+        $linkReturn .= "details/$slug-p$id";
         return $linkReturn;
     }
 }

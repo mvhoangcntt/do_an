@@ -28,11 +28,12 @@ $method = $this->router->fetch_method();
                                 <tr>
                                     <th><input type="checkbox" name="select_all" value="1" id="data-table-select-all"></th>
                                     <th>Mã đơn hàng</th>
-                                    <th><?php echo lang('text_product');?></th>
-                                    <th><?php echo lang('text_title');?></th>
-                                    <th>Nhà sản xuất</th>
+                                    <th>Tên người nhận</th>
+                                    <th>Số điện thoại</th>
                                     <th><?php echo lang('text_created');?></th>
                                     <th><?php echo lang('text_status');?></th>
+                                    <th>PayMent</th>
+                                    <th>Trạng thái thanh toán</th>
                                     <th><?php echo lang('text_action');?></th>
                                 </tr>
                             </thead>
@@ -54,7 +55,7 @@ $method = $this->router->fetch_method();
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title" id="title-form"><?php echo lang('heading_title_detail');?>(Mã đơn hàng : #<a class="id_code"></a>)</h3>
+                <h3 class="modal-title" id="title-form"><?php echo lang('heading_title_detail');?>(Mã đơn hàng : #<a class="id_order"></a>)</h3>
             </div>
             <div class="modal-body form">
                 
@@ -127,7 +128,7 @@ $method = $this->router->fetch_method();
 					                                			<th><?php echo lang('text_product_thumbnail');?></th>
 					                                			<th><?php echo lang('text_product_price');?></th>
 					                                			<th><?php echo lang('text_product_amount');?></th>
-					                                			<th><?php echo lang('text_product_gift');?></th>
+					                                			<th>Khích thước</th>
 					                                			<th><?php echo lang('text_product_total_price');?></th>
 			                                    			</tr>
 			                                    		</thead>
@@ -138,24 +139,24 @@ $method = $this->router->fetch_method();
 							            </div>
 	                                </div>
 								</div>
-								<div class="row pay">
+								<div class="row pay" style="margin-right: 100px">
 									<div>
 										<table>
 											<tr>
 												<td>Tổng giá trị sản phẩm : </td>
-												<td class="amount_total"></td>
+												<td class="tongtien_"></td>
 											</tr>
 											<tr>
-												<td>Tổng giảm giá : </td>
-												<td class="amount_total_gift"></td>
+												<td>Phí vận chuyển : </td>
+												<td class="transport_fee_"></td>
 											</tr>
 											<tr>
-												<td>Tổng số lượng sản phẩm : </td>
-												<td class="total_sp"></td>
+												<td>Giảm giá : </td>
+												<td class="gift_code_"></td>
 											</tr>
 											<tr>
-												<td><h3>Tổng giá trị đơn hàng : </h3></td>
-												<td class="tongdonhang"></td>
+												<td>Tổng giá trị đơn hàng : </td>
+												<td class="amount_total_" style="color: red"></td>
 											</tr>
 										</table>
 									</div>

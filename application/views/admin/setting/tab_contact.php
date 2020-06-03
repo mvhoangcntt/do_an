@@ -25,21 +25,43 @@
                                        value="<?php echo !empty($contact[$lang_code]['company']) ? $contact[$lang_code]['company'] : ''; ?>"/>
                             </div>
                             <div class="form-group">
-                                <label>Trụ sở chính</label>
+                                <label>Trụ sở 1</label>
                                 <input name="contact[<?php echo $lang_code; ?>][address]"
                                        placeholder="Địa chỉ"
                                        class="form-control" type="text"
                                        value="<?php echo !empty($contact[$lang_code]['address']) ? $contact[$lang_code]['address'] : ''; ?>"/>
                             </div>
                             <div class="form-group">
-                                <label>Văn phòng đại diện</label>
-                                <input name="contact[<?php echo $lang_code; ?>][office]"
+                                <label>Trụ sở 2</label>
+                                <input name="contact[<?php echo $lang_code; ?>][address1]"
                                        placeholder="Địa chỉ"
                                        class="form-control" type="text"
-                                       value="<?php echo !empty($contact[$lang_code]['office']) ? $contact[$lang_code]['office'] : ''; ?>"/>
+                                       value="<?php echo !empty($contact[$lang_code]['address1']) ? $contact[$lang_code]['address1'] : ''; ?>"/>
                             </div>
+                            <div class="form-group">
+                                <label>Trụ sở 3</label>
+                                <input name="contact[<?php echo $lang_code; ?>][address2]"
+                                       placeholder="Địa chỉ"
+                                       class="form-control" type="text"
+                                       value="<?php echo !empty($contact[$lang_code]['address2']) ? $contact[$lang_code]['address2'] : ''; ?>"/>
+                            </div>
+                            
                         </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Vận chuyển trong tỉnh</label>
+                                <input name="contact[<?php echo $lang_code; ?>][ship]"
+                                       placeholder="Địa chỉ"
+                                       class="form-control" type="text"
+                                       value="<?php echo !empty($contact[$lang_code]['ship']) ? $contact[$lang_code]['ship'] : ''; ?>"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Vận chuyển ngoài tỉnh</label>
+                                <input name="contact[<?php echo $lang_code; ?>][shiper]"
+                                       placeholder="Địa chỉ"
+                                       class="form-control" type="text"
+                                       value="<?php echo !empty($contact[$lang_code]['shiper']) ? $contact[$lang_code]['shiper'] : ''; ?>"/>
+                            </div>
                             <div class="form-group">
                                 <label>Website </label>
                                 <input name="contact[<?php echo $lang_code; ?>][website]"
@@ -48,39 +70,23 @@
                                        value="<?php echo !empty($contact[$lang_code]['website']) ? $contact[$lang_code]['website'] : ''; ?>"/>
                             </div>
                             <div class="form-group">
-                                <label>Điện thoại(Bàn)</label>
+                                <label>Điện thoại</label>
                                 <input name="contact[<?php echo $lang_code; ?>][phone]"
                                        placeholder="Điện thoại"
                                        class="form-control" type="text"
                                        value="<?php echo !empty($contact[$lang_code]['phone']) ? $contact[$lang_code]['phone'] : ''; ?>"/>
                             </div>
-                            <div class="form-group">
-                                <label>Điện thoại(Di động)</label>
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <input name="contact[<?php echo $lang_code; ?>][time]"
-                                       placeholder="Số điện thoại di động"
-                                       class="form-control" type="text"
-                                       value="<?php echo !empty($contact[$lang_code]['time']) ? $contact[$lang_code]['time'] : ''; ?>"/>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <input name="contact[<?php echo $lang_code; ?>][phonee]"
-                                       placeholder="Số điện thoại di động"
-                                       class="form-control" type="text"
-                                       value="<?php echo !empty($contact[$lang_code]['phonee']) ? $contact[$lang_code]['phonee'] : ''; ?>"/>
-                                  </div>
-                                </div>
-                            </div>
+                            
                            
                         </div>
                         <div class="col-md-12">
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                                 <label>MST</label>
                                 <input name="contact[<?php echo $lang_code; ?>][mst]"
                                        placeholder="mst"
                                        class="form-control" type="text"
                                        value="<?php echo !empty($contact[$lang_code]['mst']) ? $contact[$lang_code]['mst'] : ''; ?>"/>
-                            </div>
+                            </div> -->
                         </div>
                       </div>
 

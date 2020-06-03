@@ -82,10 +82,7 @@ function table_detail(id){
 
 function ajax_append(id){
     $("option.status").remove();
-    $("a#id_code").remove();
-    $("div.amount_total_gift").remove();
-    $("div.total_sp").remove();
-    $("h3.tongdonhang").remove();
+    $(".remove_tt").remove();
     var tong = 0;
     var total_gift = 0;
     var total_sp = 0;
@@ -94,30 +91,26 @@ function ajax_append(id){
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            $('.form_size').remove();
             $.each(data, function( key, value ) {
-                $("div."+key).remove();
-                $("td."+key).append("<div class='full_name'>"+value+"</div>");
+                $("td."+key).append("<div class='remove_tt'>"+value+"</div>");
                 if (key === 'status') {
                     $("select.status").append("<option class='status' value="+data.status['id']+">"+data.status['name_status']+"</option>");
                 }
+                if (key === 'transport_fee') {
+                    $(".transport_fee_").text(formatNumber(value)+" vnđ");
+                }
+                if (key === 'gift_code') {
+                    $(".gift_code_").text(formatNumber(value)+"%");
+                }
+                if (key === 'amount_total') {
+                    $(".amount_total_").text(formatNumber(value)+" vnđ");
+                }
+                if (key === 'tongtien') {
+                    $(".tongtien_").text(formatNumber(value)+" vnđ");
+                }
                 if (key === 'id') {
-                    $("a.id_code").append("<a id='id_code'>"+value+"</a>");
+                    $(".id_order").text(value);
                 }
-                if(key === 'amount_total'){
-                    $(".total_gift").each(function(){
-                        total_gift += Number($(this).text());
-                    })
-                    $(".total_sanpham").each(function(){
-                        total_sp += Number($(this).text());
-                    })
-                    $("td.amount_total_gift").append("<div class='amount_total_gift'>"+total_gift+"</a>");
-                    tong = total_gift+Number(value);
-                    $("td.total_sp").append("<div class='total_sp'>"+total_sp+"</div>");
-                    tong = total_gift+Number(value);
-                    $("td.tongdonhang").append("<h3 class='mau_coler tongdonhang'> &nbsp;"+tong+" (VNĐ)</h3>");
-                }
-                
             });
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -147,7 +140,7 @@ function loadFilterstatus() {
   });
   $("select.filter_status").on('change', function () {
     var status = $(this).val();
-    var id = Number($("a#id_code").text());
+    var id = Number($("a.id_order").text());
     filter(id,status);
   });
 }

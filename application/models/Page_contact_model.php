@@ -27,8 +27,8 @@ class Page_contact_model extends APS_Model
       ->join($this->table_translations, "$this->table_news.id = $this->table_translations.id")
       ->where("$this->table_translations.language_code",$this->config->item('default_language'))
       ->where("$this->table_news.is_status", 1)
-      // ->order_by("is_featured", "DESC")
       ->limit($total, $start);
+      $this->db->order_by("$this->table_news.id", 'DESC');
     if (!empty($featured) || $featured == '0') $this->db->where("$this->table_news.is_featured", $featured);
     $query = $this->db->get();//var_dump($this->db->last_query()); exit();
     return $query->result_array();

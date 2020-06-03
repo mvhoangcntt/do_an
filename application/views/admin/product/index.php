@@ -33,8 +33,9 @@ $method = $this->router->fetch_method();
                                     <!-- <th nowrap><?php //echo lang('text_content');?></th> -->
                                     <th nowrap><?php echo lang('text_catalog');?></th>
                                     <th nowrap><?php echo lang('text_image');?></th>
-                                    <th nowrap><?php echo lang('text_size');?></th>
-                                    <th nowrap><?php echo lang('text_maker');?></th>
+                                    <!-- <th nowrap><?php //echo lang('text_size');?></th> -->
+                                    <!-- <th nowrap><?php //echo lang('text_maker');?></th> -->
+                                    <th nowrap>Lượt xem</th>
                                     <th nowrap><?php echo lang('text_price');?></th>
                                     <th nowrap><?php echo lang('text_date');?></th>
                                     <th nowrap><?php echo lang('text_total');?></th>

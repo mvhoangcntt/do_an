@@ -619,11 +619,19 @@ $(document).ready(function(){
     $(document).on("click",".fa-bars",function(){
         $(".fa-bars").toggleClass("css-coler-yellow");
         $(".show_menu").toggleClass("css-block");
+        $(".screen_hide_menu").toggleClass("screen_show_menu");
+    });
+    $(document).on("click",".screen_show_menu",function(){
+        $(".fa-bars").toggleClass("css-coler-yellow");
+        $(".show_menu").toggleClass("css-block");
+        $(".screen_hide_menu").toggleClass("screen_show_menu");
     });
     $(".show_menu").mouseleave(function(){
         $(".fa-bars").toggleClass("css-coler-yellow");
         $(".show_menu").toggleClass("css-block");
+        $(".screen_hide_menu").toggleClass("screen_show_menu");
     });
+
 // ul li
     $(".s_menu li").mouseenter(function(){
         $(this).css({"background-color":"#efefef","color":"red","font-weight":"bold"});
@@ -651,7 +659,7 @@ $(document).ready(function(){
 // slide product show viewed
 $(document).ready(function(){
     
-    $(document).on("click",".fa-caret-down",function(){
+    $(document).on("click",".fa-caret-down-viewed",function(){
         $(".hide-viewed").toggleClass("show-viewed");
         $(".screen_hide").toggleClass("screen_show");
         $(".hide-login").removeClass("show-login");
@@ -760,17 +768,21 @@ $(document).ready(function(){
     $(document).on("click",".textOption",function(){
         $(".textOption").attr("class","textOption");
         $(this).attr("class","textOption size-active");
+        $("#text_size").val($(this).val());
     });
     $(document).on("click",".colorOption",function(){
         $(".colorOption").attr("class","colorOption");
         $(this).attr("class","colorOption colorOption-active");
+        $("#text_coler").val($(this).val());
     });
+
+    
 
     $(document).on("click",".btn_increase",function(){
         var value = 0;
         var cong = 0;
         value = Number($(".input_number").val());
-        if (value < 100) {
+        if (value < $('#soluong').val()) {
             cong = value + 1;
             $(".input_number").val(cong);
             $(".btn_decrease").attr("class","btn_decrease");
@@ -793,6 +805,8 @@ $(document).ready(function(){
         console.log($(".input_number").val());
     });
 });
+
+
 
 // end active
 // form edit cart

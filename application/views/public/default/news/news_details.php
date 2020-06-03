@@ -1,186 +1,74 @@
-
-<section class="page-news">
+<section class="bn-page">
+    <img src="<?php echo base_url() ?>public/images/bn-news.jpg" alt="">
+    <h2 class="title-page"><?php echo lang('heading_news');?></h2>
+    <div class="pr-mouse">
+        <div class="mouse">
+            <div class="scroll"></div>
+        </div>
+    </div>
+    <div class="scale"></div>
+    <div class="scale"></div>
+    <div class="scale"></div>
+</section>
+<section class="page-news page-primary">
     <div class="container">
-        <div class="row details">
-            <div class="col-lg-4 col-md-6">
-                <div class="item-list-img">
-                    <!-- <iframe data-src="<?php echo base_url() ?>news/slide" width = "100%" height = "100%" scrolling="no" frameborder="0" src="<?php echo base_url() ?>news/slide"></iframe> -->
-                    <div class="swiper-container gallery-top">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)">
-                        <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img1.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></a>
-                            </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="details-news">
+                    <h1 class="title-news"><?php echo $detail->title; ?></h1>
+                    <div class="control">
+                        <div class="time"><?php echo date("d.m.Y",strtotime($detail->created_time));?><span> 
+                            <?php echo $detail->timeAgo; ?></span>
                         </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/gallery-home1.jpg)">
-                        <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/gallery-home1.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/gallery-home1.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/sl-home1.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/sl-home1.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/sl-home1.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img2.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img2.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img1.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img2.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img2.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img1.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img2.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img2.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img1.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img1.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)">
-                          <div class="item-album show-img">
-                          <div class="gallery-img">
-                            <a href="<?php echo base_url() ?>public/images/img2.jpg" class="fancy" data-fancybox="album1"><img style="display: none;" src="<?php echo base_url() ?>public/images/img2.jpg" alt=""></a>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Add Arrows -->
-                    <div class="swiper-button-next swiper-button-white"></div>
-                    <div class="swiper-button-prev swiper-button-white"></div>
-                  </div>
-                  <div class="swiper-container gallery-thumbs">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/gallery-home1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/sl-home1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img1.jpg)"></div>
-                      <div class="swiper-slide" style="background-image:url(<?php echo base_url() ?>public/images/img2.jpg)"></div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-6 text-details-product">
-                <div class="name-details">
-                    <div class="text-link">
-                        <nav>
-                            <ol>
-                                <a href="">Localhost</a>
-                                <li><a href="">Thời trang nam</a></li>
-                                <li><a href="">Áo sơ mi</a></li>
-                                <li><a href="">Chất</a></li>
-
-                            </ol>
-                        </nav>
-                    </div>
-                    <div class="name-product-details">
-                        <h1>Đầm Suông Dài Dáng Chữ A S&amp;M Đẹp Cao Cấp, Giá Tốt - GR0015</h1>
-                    </div>
-                </div>
-                <div class="price-details">
-                    <div class="discount-details">
-                        <div class="discountTag">Giảm 41%</div>
-                        <div class="currentPrice">149.000đ</div>
-                        <div class="oldPrice">250.000đ</div>
-                    </div>
-                    <div class="start-details">
-                        <div>
-                            <span class="fa fa-star checked" title="1"></span>
-                            <span class="fa fa-star checked" title="2"></span>
-                            <span class="fa fa-star checked" title="3"></span>
-                            <span class="fa fa-star checked" title="4"></span>
-                            <span class="fa fa-star" title="5"></span>    
+                        <div class="s-social">
+                            <a class="smooth f" href="https://www.facebook.com/sharer.php?u=<?php echo base_url(uri_string()); ?>" target="_blank" title=""><i class="fa fa-facebook-square"></i>&nbsp; Share 3M</a>
+                            <a class="smooth" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site <?php echo base_url(uri_string()); ?>" title=""><i class="fa fa-envelope"></i></a>
+                            <a class="smooth" media="print" href="#" title=""><i class="fa fa-print"></i></a>
                         </div>
                     </div>
-                </div>
-                <div class="transport-details">
-                    <div class="transport-details-item1">
-                        Miễn phí vận chuyển :
+                    <div class="desc">
+                        <?php echo $detail->meta_description; ?>
+                    </div>   
+                    <div class="s-content">
+                        <?php echo $detail->content; ?>
                     </div>
-                    <div class="transport-details-item2">
-                        Trong bán kính 10km
-                    </div>
-                </div>
-                <div class="basic-information">
-                    <div class="coler-product">
-                        <div class="item-information">
-                            Màu sắc :
-                        </div>
-                        <div class="">
-                            <button class="colorOption colorOption-active" style="background-image: url(<?php echo base_url() ?>public/images/img2.jpg); background-size: cover;"></button>
-                            <button class="colorOption" style="background-image: url(<?php echo base_url() ?>public/images/img2.jpg); background-size: cover;"></button>
-                            <button class="colorOption" style="background-image: url(<?php echo base_url() ?>public/images/img2.jpg); background-size: cover;"></button>
-                        </div>
-                    </div>
-                    <div class="size-product">
-                        <div class="item-information">
-                            Kích cỡ :
-                        </div>
-                        <div>
-                            <button class="textOption size-active">S</button>
-                            <button class="textOption">M</button>
-                            <button class="textOption">L</button>
-                            <button class="textOption">XL</button>
-                            <button class="textOption">XXL</button>
-                        </div>
-                    </div>
-                    <div class="number-product">
-                        <div class="item-information">
-                            Số lượng :
-                        </div>
-                        <div class="qtyInput">
-                            <button class="btn_decrease disabled">-</button>
-                            <input class="input_number" type="number" value="1">
-                            <button class="btn_increase">+</button>
-                        </div>
-                    </div>
-                    <div class="group-item-button">
-                        <div class="btn-check-group">
-                            <button class="btn-addCart btn-addCart-item">Thêm vào giỏ hàng</button>
-                            <button class="btn_buy btn_buy-item">Mua ngay</button>
+                    <div class="control v2">
+                        <div class="s-social">
+                            <a class="smooth f" href="https://www.facebook.com/sharer.php?u=<?php echo base_url(uri_string()); ?>" target="_blank" title=""><i class="fa fa-facebook-square"></i>&nbsp; Share 3M</a>
+                            <a class="smooth" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site <?php echo base_url(uri_string()); ?>" title=""><i class="fa fa-envelope"></i></a>
+                            <a class="smooth" media="print" href="#" title=""><i class="fa fa-print"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
-            
+            <div class="col-lg-4">
+                <div class="sb-news">
+                    <h2 class="title-sb"><?php echo lang('heading_view_new_Related_to');?></h2>
+                    <div class="list">
+                        <?php foreach ($new_limit as $key) { ?>
+                        <div class="item-sb-news">
+                            <a href="<?php echo $key->url; ?>" title="<?php echo $key->title; ?>" class="img"><img src="<?php echo getImageThumb($key->thumbnail, 155, 110); ?>" alt="<?php echo $key->title; ?>"></a>
+                            <div class="ct">
+                                <h3 class="title"><a href="<?php echo $key->url; ?>" title="<?php echo $key->title; ?>"><?php echo $key->title; ?></a></h3>
+                                <span class="time"><?php echo date("d.m.Y",strtotime($key->created_time)); ?></span>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <!-- <h2 class="title-sb">TAGS</h2>
+                    <ul class="tags-news">
+                        <li><a href="" title="">Hồ tiêu</a></li>
+                        <li><a href="" title="">USDA</a></li>
+                        <li><a href="" title="">Sàn giao dịch</a></li>
+                        <li><a href="" title="">Ngũ cốc</a></li>
+                        <li><a href="" title="">Nông nghiệp</a></li>
+                        <li><a href="" title="">Năng suất </a></li>
+                        <li><a href="" title="">Trung Quốc</a></li>
+                        <li><a href="" title="">Mỹ</a></li>
+                        <li><a href="" title="">Hàn Quốc</a></li>
+                    </ul> -->
+                </div>
+            </div>
         </div>
     </div>
 </section>

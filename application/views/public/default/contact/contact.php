@@ -1,9 +1,11 @@
 <?php 
-    $company = $this->settings['contact'][$this->session->public_lang_code]['company'];
-    $address = $this->settings['contact'][$this->session->public_lang_code]['address']; 
-    $phone   = $this->settings['contact'][$this->session->public_lang_code]['phone'];
-    $office     = $this->settings['contact'][$this->session->public_lang_code]['office'];
-    $website     = $this->settings['contact'][$this->session->public_lang_code]['website'];
+    $company  = $this->settings['contact'][$this->session->public_lang_code]['company'];
+    $address  = $this->settings['contact'][$this->session->public_lang_code]['address']; 
+    $address1 = $this->settings['contact'][$this->session->public_lang_code]['address1']; 
+    $address2 = $this->settings['contact'][$this->session->public_lang_code]['address2']; 
+    $phone    = $this->settings['contact'][$this->session->public_lang_code]['phone'];
+    $office   = $this->settings['contact'][$this->session->public_lang_code]['office'];
+    $website  = $this->settings['contact'][$this->session->public_lang_code]['website'];
 ?>
 <section class="bn-page">
     <img src="<?php echo base_url() ?>public/images/bn-contact.jpg" alt="">
@@ -25,8 +27,9 @@
                     <h2 class="head-contact"><?php echo lang('heading_head_contact');?></h2>
                     <h3 class="name"><?php echo !empty($company)? $company : ''; ?></h3>
                     <ul>
-                        <li><b><?php echo lang('heading_headquarters');?>:</b> <?php echo !empty($address)? $address : ''; ?></li>
-                        <li><b><?php echo lang('heading_office');?>:</b> <?php echo !empty($office)? $office : ''; ?></li>
+                        <li><b>trụ sở 1 :</b> <?php echo !empty($address)? $address : ''; ?></li>
+                        <li><b>Trụ sở 2 :</b> <?php echo !empty($address1)? $address1 : ''; ?></li>
+                        <li><b>Trụ sở 3 :</b> <?php echo !empty($address2)? $address2 : ''; ?></li>
                         <li><b><?php echo lang('heading_website');?>:</b> <a href="<?php echo !empty($website)? $website : ''; ?>" title="<?php echo !empty($website)? $website : ''; ?>" target="__blank"><?php echo !empty($website)? $website : ''; ?></a></li>
                         <li><b><?php echo lang('heading_phone');?>:</b> <a href="<?php echo !empty($phone)? $phone : ''; ?>" title="<?php echo !empty($phone)? $phone : ''; ?>"><?php echo !empty($phone)? $phone : ''; ?></a></li>
                     </ul>

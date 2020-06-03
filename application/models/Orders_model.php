@@ -5,12 +5,15 @@ class Orders_model extends APS_Model
    public function __construct()
    {
       parent::__construct();
-		$this->table              = "orders";
-		$this->table_detail_order = "detail_order";
-		$this->table_product      = "product";
-		$this->table_status      = "status";
-		$this->table_users      = "users";
-      $this->table_maker      = "maker";
+      $this->table               = "orders";
+      $this->table_detail_order  = "order_detail";
+      $this->table_product       = "product";
+      $this->table_product_trans = "product_translations";//bảng bài viết
+      $this->table_status        = "status";
+      $this->table_users         = "users";
+      $this->table_size         = "size";
+      $this->table_account         = "account";
+      $this->table_maker         = "maker";
       $this->column_order  = array("$this->table.id","$this->table.id","$this->table_product.id","$this->table_product.name","$this->table.date_create"); //thiết lập cột sắp xếp
       $this->column_search = array("$this->table.id","$this->table.id","$this->table_product.id","$this->table_product.name","$this->table.date_create"); //thiết lập cột search
    }
@@ -34,9 +37,10 @@ class Orders_model extends APS_Model
       $this->db->from("$this->table");
       $this->db->join($this->table_detail_order, "$this->table.id = $this->table_detail_order.order_id");
       $this->db->join($this->table_product, "$this->table_detail_order.product_id = $this->table_product.id");
-
+      // $this->db->join($this->table_product_trans, "$this->table_product_trans.id = $this->table_product.id");
+      // $this->db->where("$this->table_product_trans.language_code", 'vi');
       if (!empty($parent_id)) {
-         $this->db->where("$this->table.status", $parent_id);
+         $this->db->where("$this->table.is_status", $parent_id);
       }
       if (!empty($search)) {
          $this->db->group_start();
@@ -87,36 +91,96 @@ class Orders_model extends APS_Model
    }
    // ----------- chi tiết đơn hàng -----------------
    public function get_datatable($id){
-   	$this->db->select("$this->table_product.id, $this->table_product.name, $this->table_product.thumbnail, $this->table_detail_order.amount, $this->table_detail_order.total, $this->table_product.gift_code")
+   	$this->db->select("$this->table_product.id, $this->table_product_trans.title, $this->table_product.thumbnail, $this->table_detail_order.amount, $this->table_detail_order.quantity, $this->table_size.text_coler, $this->table_size.text_size")
    			->from($this->table_product)
    			->join($this->table_detail_order, "$this->table_product.id = $this->table_detail_order.product_id")
    			->join($this->table, "$this->table_detail_order.order_id = $this->table.id")
+            ->join($this->table_size, "$this->table_detail_order.size_id = $this->table_size.id")
+            ->join($this->table_product_trans, "$this->table_product.id = $this->table_product_trans.id")
+            ->where("$this->table_product_trans.language_code", 'vi')
 				->where("$this->table.id",$id);
-		$query = $this->db->get();
+		$query = $this->db->get();//var_dump($this->db->last_query()); exit();
       return $query->result();
    }
    public function get_data_detail($id){
-   	$this->db->select("$this->table_users.full_name, $this->table_users.phone, $this->table_users.email, $this->table_users.address, $this->table.status, $this->table.id, $this->table.amount_total")
+   	$this->db->select("$this->table_account.full_name, $this->table_account.phone, $this->table_account.email, $this->table.address, $this->table.is_status, $this->table.id, $this->table.amount_total, $this->table.transport_fee, $this->table.gift_code")
    			->from($this->table)
-   			->join($this->table_users, "$this->table.user_id = $this->table_users.id")
+   			->join($this->table_account, "$this->table.account_id = $this->table_account.id")
 				->where("$this->table.id",$id);
-		$query = $this->db->get();
+		$query = $this->db->get();//var_dump($this->db->last_query()); exit();
       return $query->row();
    }
    // ----------------- filter chi tiết ------------------
    public function get_table_status($id){
       $this->db->select("$this->table_status.*")
             ->from($this->table_status)
-            ->join($this->table, "$this->table.status = $this->table_status.id")
+            ->join($this->table, "$this->table.is_status = $this->table_status.id")
             ->where("$this->table.id",$id);
-      $query = $this->db->get();
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
       return $query->row();
    }
 
    //----------- update status -----------
    public function update_status($id,$data){
    	$this->db->where('id',$id);
-   	$this->db->update($this->table, $data);
+   	$this->db->update($this->table, $data);//var_dump($this->db->last_query()); exit();
+   }
+   // ---------- list phần khách hàng ---------------
+   public function get_data_form_account($status){
+      $this->db->select("$this->table.full_name,$this->table.created_time, $this->table.phone, $this->table_account.email, $this->table.address, $this->table.is_status, $this->table.id, $this->table.amount_total, $this->table.transport_fee, $this->table.gift_code")
+            ->from($this->table)
+            ->join($this->table_account, "$this->table.account_id = $this->table_account.id")
+            ->where("$this->table.is_status", $status)
+            ->where("$this->table_account.id", $this->session->account['account_id']);
+      $this->db->order_by("$this->table.id", 'DESC');
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function get_order_detail_($id){
+      $this->db->select("$this->table_product.id, $this->table_product_trans.title, $this->table_product_trans.slug, $this->table_product.thumbnail, $this->table_detail_order.amount, $this->table_detail_order.quantity, $this->table_size.text_coler, $this->table_size.text_size")
+            ->from($this->table_product)
+            ->join($this->table_detail_order, "$this->table_product.id = $this->table_detail_order.product_id")
+            ->join($this->table, "$this->table_detail_order.order_id = $this->table.id")
+            ->join($this->table_account, "$this->table.account_id = $this->table_account.id")
+            ->join($this->table_size, "$this->table_detail_order.size_id = $this->table_size.id")
+            ->join($this->table_product_trans, "$this->table_product.id = $this->table_product_trans.id")
+            ->where("$this->table_product_trans.language_code", 'vi')
+            ->where("$this->table_account.id", $this->session->account['account_id'])
+            ->where("$this->table.id",$id);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   // chi tiết theo id
+   public function get_data_detail_account($id_order = ''){
+      $this->db->select("$this->table.full_name,$this->table.created_time, $this->table.phone, $this->table_account.email, $this->table.address, $this->table.is_status, $this->table.id, $this->table.amount_total, $this->table.transport_fee, $this->table.gift_code, $this->table.time2, $this->table.time3, $this->table.time4, $this->table.time5, $this->table.payment_id")
+            ->from($this->table)
+            ->join($this->table_account, "$this->table.account_id = $this->table_account.id")
+            ->where("$this->table.id", $id_order)
+            ->where("$this->table_account.id", $this->session->account['account_id']);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function get_order_detail_list($id){
+      $this->db->select("$this->table_product.id,$this->table_product.discount, $this->table_product_trans.title, $this->table_product_trans.slug, $this->table_product.thumbnail, $this->table_detail_order.amount, $this->table_detail_order.quantity, $this->table_size.text_coler, $this->table_size.text_size")
+            ->from($this->table_product)
+            ->join($this->table_detail_order, "$this->table_product.id = $this->table_detail_order.product_id")
+            ->join($this->table, "$this->table_detail_order.order_id = $this->table.id")
+            ->join($this->table_account, "$this->table.account_id = $this->table_account.id")
+            ->join($this->table_size, "$this->table_detail_order.size_id = $this->table_size.id")
+            ->join($this->table_product_trans, "$this->table_product.id = $this->table_product_trans.id")
+            ->where("$this->table_product_trans.language_code", 'vi')
+            ->where("$this->table_account.id", $this->session->account['account_id'])
+            ->where("$this->table.id",$id);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
+   }
+   public function get_order_row($id = ''){
+      $this->db->select("$this->table.* , $this->table_account.email")
+            ->from($this->table)
+            ->join($this->table_account, "$this->table.account_id = $this->table_account.id")
+            ->where("$this->table.id",$id);
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->row();
    }
 }
 

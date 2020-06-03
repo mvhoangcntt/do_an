@@ -17,7 +17,7 @@
                 width="22" height="22"; ></a> </span>
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label>Logo Home</label>
       <div class="input-group input-group-lg">
                                         <span class="input-group-addon" onclick="chooseImage('logo')"
@@ -65,7 +65,7 @@
                 src="<?php echo getImageThumb(isset($logo_page) ? $logo_page : '', 64, 45) ?>"
                 width="30"> </a></span>
       </div>
-    </div>
+    </div> -->
   </div>
   <ul class="nav nav-tabs">
     <?php foreach ($this->config->item('cms_language') as $lang_code => $lang_name) { ?>

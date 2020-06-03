@@ -5,15 +5,16 @@ class Home_model extends APS_Model
    public function __construct()
    {
       parent::__construct();
-      $this->table                  = "product";
-      $this->table_catalog          = "catalog";
-      $this->table_maker            = "maker";
-      $this->table_trans            = "product_translations";//bảng bài viết
-      $this->table_category         = "product_category";
-      $this->table_dvhc = "don_vi_hanh_chinh";
-      $this->table_product = "size";//bảng quan hệ sản phẩm
-      $this->table_contact = 'contact';
-      $this->table_account = 'account';
+      $this->table          = "product";
+      $this->table_catalog  = "catalog";
+      $this->table_maker    = "maker";
+      $this->table_trans    = "product_translations";//bảng bài viết
+      $this->table_category = "product_category";
+      $this->table_dvhc     = "don_vi_hanh_chinh";
+      $this->table_product  = "size";//bảng quan hệ sản phẩm
+      $this->table_contact  = 'contact';
+      $this->table_account  = 'account';
+      $this->table_slide    = 'slide';
       $this->column_order  = array("$this->table.id","$this->table.id","$this->table.name","$this->table.catalog","$this->table.thumbnail","","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.total"); //thiết lập cột sắp xếp
       $this->column_bosuutap  = array("$this->table.id","$this->table_trans.title","$this->table_trans.slug","$this->table.thumbnail","$this->table.price","$this->table.discount");
       $this->column_search = array("$this->table.id","$this->table.name","$this->table.catalog","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.view","$this->table.total"); //thiết lập cột search
@@ -81,18 +82,7 @@ class Home_model extends APS_Model
       $query = $this->db->get();//var_dump($this->db->last_query()); exit();
       return $query->result();
    }
-   public function phukien(){
-      $max = $this->maxview();
-      $this->db->select($this->column_bosuutap);
-      $this->db->from("$this->table");
-      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
-      $this->db->where("$this->table_trans.language_code", "vi");
-      $this->db->where("$this->table.view <= ", $max);
-      $this->db->limit(6, 0);
-      $this->db->order_by("$this->table.view", 'DESC');
-      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
-      return $query->result();
-   }
+   
    public function maxdiscount(){
       $this->db->select_max("$this->table.discount");
       $query = $this->db->get("$this->table");
@@ -104,6 +94,18 @@ class Home_model extends APS_Model
       $query = $this->db->get("$this->table");
       $kq = $query->row();
       return $kq->view;
+   }
+   public function phukien(){
+      $this->db->select($this->column_bosuutap);
+      $this->db->from("$this->table");
+      $this->db->join($this->table_trans, "$this->table.id = $this->table_trans.id");
+      $this->db->join($this->table_catalog, "$this->table.catalog = $this->table_catalog.id");
+      $this->db->where("$this->table_trans.language_code", "vi");
+      $this->db->where("$this->table_catalog.parents_id = ", 10);
+      $this->db->limit(6, 0);
+      $this->db->order_by("$this->table.view", 'DESC');
+      $query = $this->db->get();//var_dump($this->db->last_query()); exit();
+      return $query->result();
    }
 // ---------------------------------------------------------------------- end select home -------------------------------------------------------------
 
@@ -160,6 +162,16 @@ class Home_model extends APS_Model
 
    }
 // ----------------------------------------------------- end contact ---------------------------
+
+   public function get_view($id = ''){ // lấy view để + view cho sản phẩm
+      $this->db->select("$this->table.view")->from($this->table);
+      $this->db->where("$this->table.id", $id);
+      $query = $this->db->get();
+      return $query->row();
+   }
+   // ----------------------------------------- end view -------------------------
+
+//-------------- không dùng đến -----------------
    
    public function getData($args = array(), $returnType = "object", $select = '')
    {
@@ -311,6 +323,12 @@ class Home_model extends APS_Model
       }else{
          return false;
       }
+   }
+   // ---- slide home ---------
+   public function get_slide(){
+      $this->db->select('*')->from($this->table_slide);
+      $query = $this->db->get();
+      return $query->result();
    }
 }
 

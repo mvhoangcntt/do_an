@@ -93,4 +93,5 @@ $route['(:any)/(:num)'] = 'page/index/$1/$2';
 // ----------- product -------------// không cần thiết đến index quan trọng đường dẫn phải đúng
 
 $route['details/(:any)-p(:num)'] = 'details/index/$1/$2';
+$route['seemore/(:any)-item'] = 'seemore/index/$1/$2';
 

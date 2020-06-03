@@ -2,6 +2,7 @@ $(function () {
     var url_login = base_url+"auth/login";
     
     loadFilter();
+    loadFilter_coler_size_product();
 });
 function dangnhap()
 {
@@ -43,6 +44,7 @@ function dangnhap()
         }
     });
 }
+// ------------------------------ create account -----------------------
 function loadFilter() {
     var url_filter = base_url+"auth/ajax_filter_tinhthanh";
     $("select.filter_tinhthanh").select2({
@@ -103,8 +105,72 @@ function loadFilter() {
 
     $(document).on('change', ".filter_tinhthanh", function () {
         $('select[name="quanhuyen"]').val('');
-    })
+    });
     $(document).on('change', "select.filter_quanhuyen", function () {
+        $('select[name="xaphuong"]').val('');
+    });
+//------------------------------ update account --------------------------------------
+
+    $("select.filter_tinhthanh1").select2({
+        allowClear: true,
+        placeholder: 'Chọn một tỉnh/thành phố',
+        ajax: {
+            url: url_filter,
+            dataType: 'json',
+            delay: 250,
+             processResults: function (data) {
+            // console.log(data);
+            return {
+                results: data
+            };
+          },
+          cache: true,
+        }
+    });
+    
+
+    $("select.filter_quanhuyen1").select2({
+        allowClear: true,
+        placeholder: 'Chọn một quận/huyện',
+        ajax: {
+            url: function () {
+                return url_quanhuyen+$("select.filter_tinhthanh1").val();
+            },
+            dataType: 'json',
+            delay: 250,
+             processResults: function (data) {
+            return {
+                results: data
+            };
+          },
+          cache: true,
+        }
+    });
+
+
+    $("select.filter_xaphuong1").select2({
+        allowClear: true,
+        placeholder: 'Chọn một xã/phường',
+        ajax: {
+            url: function () {
+                return url_xaphuong+$("select.filter_quanhuyen1").val();
+            },
+            dataType: 'json',
+            delay: 250,
+             processResults: function (data) {
+            // console.log(data);
+            return {
+                results: data
+            };
+          },
+          cache: true,
+        }
+    });
+
+    $(document).on('change', ".filter_tinhthanh1", function () {
+        $('select[name="quanhuyen"]').val('');
+    })
+    $(document).on('change', "select.filter_quanhuyen1", function () {
         $('select[name="xaphuong"]').val('');
     })
 
@@ -214,3 +280,201 @@ function click_logout()
         }
     });
 }
+// ---------------------- seemore ---------------------------
+
+function loadFilter_coler_size_product(){
+    var url_filter_coler = base_url+"seemore/ajax_filter_coler?link="+$('input[name=get_url]').val();
+    if ($('input[name=get_url]').val() === 'seemore/search' || $('input[name=get_url]').val() === 'seemore/search/new'
+        || $('input[name=get_url]').val() === 'seemore/search/bst' || $('input[name=get_url]').val() === 'seemore/search/timkiem'
+        || $('input[name=get_url]').val() === 'seemore/search/giamgia' || $('input[name=get_url]').val() === 'seemore/search/phukien') {
+        var url_filter_coler = base_url+"seemore/search_filter_coler?link="+$('input[name=get_search]').val()+"&get_url="+$('input[name=get_url]').val();
+    }
+    $("select.filter_coler").select2({
+        allowClear: true,
+        placeholder: 'Chọn màu sắc',
+        ajax: {
+            url: url_filter_coler,
+            dataType: 'json',
+            delay: 250,
+             processResults: function (data) {
+            // console.log(data);
+            return {
+                results: data
+            };
+          },
+          cache: true,
+        }
+    });
+    var url_filter_size = base_url+"seemore/ajax_filter_size?link="+$('input[name=get_url]').val();
+    if ($('input[name=get_url]').val() === 'seemore/search' || $('input[name=get_url]').val() === 'seemore/search/new'
+        || $('input[name=get_url]').val() === 'seemore/search/bst' || $('input[name=get_url]').val() === 'seemore/search/timkiem'
+        || $('input[name=get_url]').val() === 'seemore/search/giamgia' || $('input[name=get_url]').val() === 'seemore/search/phukien') {
+        var url_filter_size = base_url+"seemore/search_filter_size?link="+$('input[name=get_search]').val()+"&get_url="+$('input[name=get_url]').val();
+    }
+    $("select.filter_size").select2({
+        allowClear: true,
+        placeholder: 'Chọn kích cỡ',
+        ajax: {
+            url: url_filter_size,
+            dataType: 'json',
+            delay: 250,
+             processResults: function (data) {
+            // console.log(data);
+            return {
+                results: data
+            };
+          },
+          cache: true,
+        }
+    });
+}
+$(document).ready(function(){
+    $('.fa-seemore-boloc').click(function(){
+        $('.seemore-boloc').toggleClass('seemore-hide');
+    });
+    $('.fa-seemore-theogia').click(function(){
+        $('.seemore-theogia').toggleClass('seemore-hide');
+    });
+    $('.fa-seemore-mausac').click(function(){
+        $('.seemore-mausac').toggleClass('seemore-hide');
+    });
+    $('.fa-seemore-size').click(function(){
+        $('.seemore-size').toggleClass('seemore-hide');
+    });
+
+// bắt sự kiện lọc tìm kiếm
+    // $('.checkbox-seemore').prop('checked');
+    $(document).on('change', ".checkbox-seemore", function () {
+        reload_seemore();
+    })
+    $(document).on('keyup', "input.min_price", function (event) {
+        $('span.text-danger').remove();
+        var min = Math.floor($("input.min_price").val());
+        console.log(min);
+        if (Number.isNaN(min)) {
+            $('input.min_price').closest('.seemore-theogia').append('<span class="text-danger"> Yêu cầu nhập số !.</span>');
+        }else{
+            if (min < 0) {
+                $('input.min_price').closest('.seemore-theogia').append('<span class="text-danger"> Nhập vào số >= 0.</span>');
+            }else{
+                var max = Math.floor($("input.max_price").val());
+                if (min >= max) {
+                    $('input.max_price').closest('.seemore-theogia').append('<span class="text-danger"> Số trên < số dưới !</span>');
+                }else{
+                    reload_seemore();
+                }
+            }
+        }
+    })
+    $(document).on('keyup', "input.max_price", function (event) {
+        $('span.text-danger').remove();
+        var max = Math.floor($("input.max_price").val());
+        console.log(max);
+        if (Number.isNaN(max)) {
+            $('input.max_price').closest('.seemore-theogia').append('<span class="text-danger"> Yêu cầu nhập số !.</span>');
+        }else{
+            if (max < 0) {
+                $('input.max_price').closest('.seemore-theogia').append('<span class="text-danger"> Nhập vào số >= 0.</span>');
+            }else{
+                var min = Math.floor($("input.min_price").val());
+                if (min >= max) {
+                    $('input.max_price').closest('.seemore-theogia').append('<span class="text-danger"> Số trên < số dưới !</span>');
+                }else{
+                    reload_seemore();
+                }
+            }
+        }
+    })
+    $("select[name='text_coler']").change(function(){
+        reload_seemore();
+    })
+    $("select[name='text_size']").change(function(){
+        reload_seemore();
+    })
+});
+function reload_seemore(){
+    var url_reload_seemore = base_url+"seemore/reload_seemore/";
+    if ($('input[name=get_url]').val() === 'seemore/search' || $('input[name=get_url]').val() === 'seemore/search/new'
+        || $('input[name=get_url]').val() === 'seemore/search/bst' || $('input[name=get_url]').val() === 'seemore/search/timkiem'
+        || $('input[name=get_url]').val() === 'seemore/search/giamgia' || $('input[name=get_url]').val() === 'seemore/search/phukien') {
+        var url_reload_seemore = base_url+"seemore/reload_search";
+    }
+    $.ajax({
+        url : url_reload_seemore,
+        type: "POST",
+        data: $('#form-seemore-boloc').serialize(),
+        dataType: "JSON",
+        success: function(data){
+            // console.log(data[0].id);
+            $('.get_seemore_ajax .col-md-4').remove();
+            $.each(data, function (i, val) {
+                console.log(val);
+                console.log(i);
+                if (i === 'count') {$('.count-product').text('('+val+' sản phẩm)');}
+                $('.get_seemore_ajax').append('\
+                    <div class="col-lg-3 col-md-4 col-6">\
+                        <div class="item-news">\
+                            <a href="'+data[i].url+'" title="'+data[i].title+'" class="img">\
+                            <img src="'+base_url+'public/media/'+data[i].thumbnail+'" alt="'+data[i].title+'">\
+                            </a>\
+                            <div class="ct">\
+                                <a href="'+data[i].url+'">\
+                                    <span class="time">\
+                                    '+data[i].title+'</span>\
+                                    <div class="discount-pt">\
+                                        <div class="discount-pt-text-decoration">'+formatNumber(Math.floor(data[i].price) + Math.floor(data[i].discount))+' đ </div>\
+                                        <div> - '+ Math.round10((Math.floor(data[i].discount)/(Math.floor(data[i].price) + Math.floor(data[i].discount))*100),-1) +'%</div>\
+                                    </div>\
+                                </a>\
+                                <h3 class="title"><a href="'+data[i].url+'" title="'+data[i].title+'">'+formatNumber(data[i].price)+' đ</a></h3>\
+                            </div>\
+                        </div>\
+                    </div>\
+                ');
+            });
+
+        }
+    });
+}
+// hàm sử lý số
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+function decimalAdjust(type, value, exp) {
+    // Nếu exp có giá trị undefined hoặc bằng không thì...
+    if (typeof exp === 'undefined' || +exp === 0) {
+      return Math[type](value);
+    }
+    value = +value;
+    exp = +exp;
+    // Nếu value không phải là ố hoặc exp không phải là số nguyên thì...
+    if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+      return NaN;
+    }
+    // Shift
+    value = value.toString().split('e');
+    value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+    // Shift back
+    value = value.toString().split('e');
+    return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+}
+
+  // Làm tròn số thập phân (theo mốc số 5)
+if (!Math.round10) {
+    Math.round10 = function(value, exp) {
+      return decimalAdjust('round', value, exp);
+    };
+}
+
+$(document).ready(function(){
+    $(document).on('click', ".item-news", function () {
+        // console.log($(this).attr('id'));
+        var url_update_view = base_url+"home/update_view/"+$(this).attr('id');
+        $.ajax({
+            url : url_update_view,
+            dataType: "JSON",
+            success: function(data){
+            }
+        });
+    });
+});

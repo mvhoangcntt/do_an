@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <th>Số lần sử dụng</th>
                 <th>Còn lại</th>
                 <th>Trạng thái</th>
-                <th>Hành động</th>
+                <th nowrap style="width: 79px;">Hành động</th>
               </tr>
               </thead>
             </table>

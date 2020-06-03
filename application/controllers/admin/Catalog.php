@@ -80,6 +80,7 @@ class Catalog extends Admin_Controller
             $data['parents_id'] = '0';
         }
         // var_dump($data); exit();
+        $data['link'] = 'seemore/'.toSlug(toNormal($data['name_catalog']));
         $insert_id = $this->_data->save($data);
         // var_dump($insert_id); exit();
         if($insert_id != ''){
@@ -113,8 +114,8 @@ class Catalog extends Admin_Controller
         }
     }
 
-    public function ajax_update($id){
-        
+    public function ajax_update($id)
+    {    
         $post_data = $this->_convertData();
         if ($post_data['parent'] == '') {
             $data['name_catalog'] = $post_data['child'];
@@ -125,6 +126,7 @@ class Catalog extends Admin_Controller
         }
 
         // var_dump($data); exit();
+        $data['link'] = 'seemore/'.toSlug(toNormal($data['name_catalog']));
         $conditions['id'] = $id;
         if ($this->_data->update($conditions,$data)) 
         {
@@ -271,6 +273,7 @@ class Catalog extends Admin_Controller
     public function ajax_update_field($check){
         $this->checkRequestGetAjax();
         $keyword = toSlug(toNormal($this->input->get("q")));
+        // var_dump($keyword); exit;
         $data = $this->_data->filter_catalog($keyword);
         if(!empty($data)) foreach ($data as $item) {
             $item = (object) $item;

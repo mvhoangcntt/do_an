@@ -14,10 +14,9 @@
 <section class="page-news page-primary">
     <div class="container">
         <ul class="link-page">
-            <li><a href="<?php echo base_url('news'); ?>" title="<?php echo lang('text_news_all');?>"><?php echo lang('text_news_all');?></a></li>
+            <li><a href="<?php echo base_url('news/all'); ?>" title="<?php echo lang('text_news_all');?>"><?php echo lang('text_news_all');?></a></li>
             <li class="active"><a href="<?php echo base_url('news/featured'); ?>" title="<?php echo lang('text_news_featured_id');?>"><?php echo lang('text_news_featured_id');?></a></li>
-            <li><a href="<?php echo base_url('news/internal'); ?>" title="<?php echo lang('text_news_internal');?>"><?php echo lang('text_news_internal');?></a></li>
-            <li><a href="#" title="<?php echo lang('text_news_recruitment');?>"><?php echo lang('text_news_recruitment');?></a></li>
+            
         </ul>
         <div class="list-news">
             <div class="row">

@@ -152,8 +152,8 @@ function edit_form(id)
     $('#modal_form').modal('show');
     $('.modal-title').text(language['heading_title_edit']);
     $('#modal_form').trigger("reset");
-    $("option.filter_maker_id").remove();
-    $("option.filter_catalog").remove();
+    $(".filter_maker_id option").remove();
+    $(".filter_catalog option").remove();
     $(".save").attr("id",id);
     //Ajax Load data from ajax
     $.ajax({

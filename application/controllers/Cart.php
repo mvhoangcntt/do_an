@@ -11,7 +11,12 @@ class Cart extends Public_Controller
     {
         parent::__construct();
         $this->lang->load('cart');
-        
+        $this->load->model(array('Home_model','Detail_model','Cart_model','Account_model','Seemore_model'));
+        $this->_data = new Detail_model();
+        $this->_data_home = new Home_model();
+        $this->_data_cart = new Cart_model();
+        $this->_data_account = new Account_model();
+        $this->_data_seemore = new Seemore_model();
         // $this->lang->load('home');
         // $this->load->library('cart');
         // $this->load->model(['Course_model','order_model','voucher_model', 'Account_model']);
@@ -19,17 +24,205 @@ class Cart extends Public_Controller
         // $this->voucher  = new Voucher_model();
     }
 
-    public function cart_index(){
+    public function index(){
+        // --- viewed 3 -----
+        $data['viewed3'] = $this->_data_seemore->list_viewed3();
+        foreach ($data['viewed3'] as $key => $value) {
+            $optional['id'] = $value->id;
+            $optional['slug'] = $value->slug;
+            $data['viewed3'][$key]->url = getUrlProduct($optional);
+        }
+        // -------------
+        $data['cart'] = $this->_data_cart->get_cart();
+        foreach ($data['cart'] as $key => $value) {
+            $optional['id'] = $value->id;
+            $optional['slug'] = $value->slug;
+            $data['cart'][$key]->url = getUrlProduct($optional);
+        }
+        // var_dump($data['cart']); exit;
+        $data['giamgia']  = $this->_data->giamgia();
+        foreach ($data['giamgia'] as $key => $value) {
+            $optional['id'] = $value->id;
+            $optional['slug'] = $value->slug;
+            $data['giamgia'][$key]->url = getUrlProduct($optional);
+        }
         $data['main_content'] = $this->load->view($this->template_path . 'cart/cart', $data, TRUE);
         $this->load->view($this->template_main, $data);
     }
-    public function index(){
-        $cart = $this->cart->contents();
-        $data['content_cart'] = $cart;
-        unset($_SESSION['code_sale']);
-        $data['main_content'] = $this->load->view($this->template_path . 'cart/index', $data, TRUE);
-        $this->load->view($this->template_main, $data);
+    public function delete_cart($id = ''){
+        $conditions['id'] = $id;
+        // var_dump($id); exit;
+        // var_dump($this->_data_cart->delete($conditions , 'cart'));
+        if($this->_data_cart->delete($conditions , 'cart')){
+            $message['type'] = 'success';
+            $message['message'] = 'Xóa thành công !';
+            die(json_encode($message));
+        }else{
+            $message['type'] = 'warning';
+            $message['message'] = 'Xóa thất bại !';
+            die(json_encode($message));
+        }
     }
+
+    public function delete_all(){
+        $data = $this->input->post();
+        // $cart = $this->_data_cart->get_row_cart(51);
+        $dem = 0;
+        if (empty($data['cart'])) {
+            $message['type'] = 'warning';
+            $message['message'] = 'Hãy chọn mục để xóa !';
+            die(json_encode($message));
+        }
+        foreach ($data['cart'] as $key => $value) {
+            $cart = $this->_data_cart->get_row_cart($value);
+            if ($cart->account_id == $this->session->account['account_id']) {
+                $conditions['id'] = $value;
+                if(!$this->_data_cart->delete($conditions , 'cart')){
+                    $dem++;
+                }
+            }
+        }
+        if ($dem == 0) {
+            $message['type'] = 'success';
+            $message['message'] = 'Xóa thành công !';
+            die(json_encode($message));
+        }else{
+            $message['type'] = 'warning';
+            $message['message'] = 'Xóa thất bại với '.$dem.' sản phẩm !';
+            die(json_encode($message));
+        }
+    }
+    public function get_all_price_check(){
+        $data = $this->input->post();
+        $price = 0;
+        if (!empty($data['cart'])) {
+            foreach ($data['cart'] as $key => $value) {
+                $cart = $this->_data_cart->get_row_price_product($value);
+                // var_dump($cart); exit;
+                $price += $cart->price * $cart->quantity;
+            }
+            $json['price'] = $price;
+             die(json_encode($json));
+        }
+    }
+    public function edit_cart_($id = ''){
+        $data['cart'] = $this->_data_cart->get_cart_row_product($id);
+        $optional['id'] = $data['cart']->id;
+        $optional['slug'] = $data['cart']->slug;
+        $data['cart']->url = getUrlProduct($optional);
+        $data['size'] = $this->_data->get_detail_size($data['cart']->id);
+
+        // loại bỏ chùng nhau
+        $coler = array();
+        $size = array();
+        $dem = 0;
+        foreach ($data['size'] as $value1) {
+            foreach ($value1 as $key => $value) {
+                $dem++;
+                if ($key == 'text_coler') {
+                    if ($dem == 1) {
+                        array_push($coler, $value);
+                    }
+                    $i = 0;
+                    foreach ($coler as $key2 => $value2) {
+                        if ($value == $value2) {
+                            $i++;
+                        }
+                    }
+                    if ($i == 0) {
+                        array_push($coler, $value);
+                    }
+                    
+                }
+                if ($key == 'text_size') {
+                    if ($dem == 1) {
+                        array_push($size, $value);
+                    }
+                    $i = 0;
+                    foreach ($size as $key2 => $value2) {
+                        if ($value == $value2) {
+                            $i++;
+                        }
+                    }
+                    if ($i == 0) {
+                        array_push($size, $value);
+                    }
+                    
+                }
+            }
+        }
+        $data['size'] = array("text_size" => $size, "text_coler" => $coler);
+        die(json_encode($data));
+        // var_dump($data['cart']); exit;
+    }
+
+    public function save_edit(){
+        $this->user_login = $this->_data_account->getById($this->session->account['account_id']);
+        if (empty($this->user_login)){
+            $message['type'] = 'warning';
+            $message['message'] = 'Hãy đăng nhập để được thêm vào giỏ hàng !';
+            die(json_encode($message));
+        }
+        $id = $this->input->post('id');
+        $text_size = $this->input->post('text_size');
+        $text_coler = $this->input->post('text_coler');
+        $quantity = $this->input->post('quantity');
+        $id_cart = $this->input->post('id_cart_edit');
+
+        $data = $this->_data->get_detail_size($id);
+        $dem = 0;
+        $size_id = 0;
+        foreach ($data as $key => $value) {
+            if ($value->text_size == $text_size && $value->text_coler == $text_coler) {
+                if ($quantity <= $value->quantity) {
+                    $size_id = $value->id;
+                    $dem++;
+                }else{
+                    $message['type'] = 'warning';
+                    $message['error'] = 'pty';
+                    $message['message'] = 'Số lượng sản phẩm tối đa là '.$value->quantity.' !';
+                    $message['error_pty'] = 'Số lượng sản phẩm tối đa là '.$value->quantity.' !';
+                    die(json_encode($message));
+                }
+            }
+        }
+        
+        if ($dem > 0) {
+            $datainsert['size_id'] = $size_id;
+            $datainsert['quantity'] = $quantity;
+
+            $check_cart = $this->_data_cart->get_cart_account($this->user_login->id);
+            // var_dump($check_cart); exit;
+            $true = '';
+            foreach ($check_cart as $key => $value) {
+                if ($id == $value->product_id && $size_id == $value->size_id && $quantity == $value->quantity) {
+                    $message['type'] = 'warning';
+                    $message['message'] = 'Đã có trong giỏ hàng !';
+                    die(json_encode($message));
+                }else{
+                    if ($id_cart == $value->id) {
+                        $true = $this->_data->update(array('id' => $id_cart), $datainsert, 'cart');
+                    }
+                }
+            }
+            if ($true == true) {
+                $message['type'] = 'success';
+                $message['message'] = 'Đã sửa thành công !';
+                die(json_encode($message));
+            }else{
+                $message['type'] = 'warning';
+                $message['message'] = 'Đã sảy ra lỗi !';
+                die(json_encode($message));
+            }
+        }else{
+            $message['type'] = 'warning';
+            $message['message'] = 'Vui lòng kiểm tra lại !';
+            die(json_encode($message));
+        }
+    }
+
+
+    // --------------- chưa dùng đến ----------------------------
     public function checkout(){
         $data['code_sale'] = isset($_SESSION['code_sale']) ? $_SESSION['code_sale'] : '';
         if (!empty($data['code_sale'])) {

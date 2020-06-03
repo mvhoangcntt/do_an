@@ -12,7 +12,8 @@
             <div class="show_menu">
                 <div class="s_menu">
                     <?php //echo topNavBar('','',''); ?>
-                    <ul>
+                    <?php echo parentNavBar('','',''); ?>
+                    <!-- <ul>
                         <li>
                             <div class=""></i><a href="">Áo sơ mi</a></div>
                             <ul>
@@ -34,29 +35,42 @@
                         <li>
                             <div><a href="">Quần jin</a></div>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <div class="header-right">
                 <nav class="d-nav">
                     <?php //echo topNavBar('','',''); ?>
                     <ul>
-                        <li><form>    
-                            <div class="header-search">
-                                <div><input class="ip_search" type="text" name="search" placeholder="Tìm kiếm sản phẩm !"></div>
-                                <div><button type="submit" class="_search"><i class="icon_search"></i> Tìm kiếm</button></div>
-                                <div><button type="submit" class="_search2"><i class="icon_search"></i></button></div>
-                            </div>
+                        <li>
+                            <form action="<?php echo base_url('seemore/search') ?>" method="POST">    
+                                <div class="header-search">
+                                    <div><input class="ip_search" type="text" value="<?php echo isset($_POST['search']) ? $_POST['search'] :'' ?>" name="search" placeholder="Tìm kiếm sản phẩm !"></div>
+                                    <div><button type="submit" class="_search"><i class="icon_search"></i> Tìm kiếm</button></div>
+                                    <div><button type="submit" class="_search2"><i class="icon_search"></i></button></div>
+                                </div>
                             </form>
                         </li>
-                        <li><a class="smooth _contact" href="<?php echo base_url() ?>contact/" title="">Liên hệ</a></li>
-                        <!-- <li><a class="smooth" href="<?php echo base_url() ?>about/" title="">Kiểm tra đơn hàng</a></li> -->
+                        <li><a class="smooth _contact" href="<?php echo base_url() ?>contact/" title="Liên hệ">Liên hệ</a></li>
+                        <li><a class="smooth" href="<?php echo base_url() ?>news/all" title="Tin tức">Tin tức</a></li>
                         <?php if (!isset($this->session->userdata['account']['account_identity'])) { ?>
                             <li id="login"><a class="smooth login" href="#login" title="Đăng nhập">Đăng nhập</a>
                             </li>
                         <?php }else{ ?>
                             <li id="login">
-                                <a class="smooth logout" onclick="click_account()" href="#logout" title="<?php echo $this->session->userdata['account']['full_name']; ?>"><?php echo $this->session->userdata['account']['full_name']; ?></a>
+                                <a class="smooth logout" onclick="click_account()" href="#logout" title="<?php echo $this->session->userdata['account']['full_name']; ?>">
+                                    <!-- <div class="div-account-img1">
+                                       <div class="div-custum-img1">
+                                          <div class="div-account-img-w1">                            
+                                            <img class="icon-account-img1" src="http://localhost/do-an/public/avatar/download.png" title="Hình đại diện">                        
+                                            </div>
+                                       </div>
+                                       <div class="div-name-account1">
+                                          <div class="my-name-account1">MV Hoàng</div>
+                                       </div>
+                                    </div> -->
+                                    <?php echo $this->session->userdata['account']['full_name']; ?>
+                                </a>
                                 <div class="user_header">
                                     <div>
                                         <a href="<?php echo base_url() ?>account/"><i class="fa fa-user-circle-o" aria-hidden="true"></i>Thông tin tài khoản</a>
@@ -69,22 +83,15 @@
                         <?php } ?>
                         <li>
                             <div class="viewed">
+                                
+                                <?php foreach ($viewed3 as $news_item): ?>
                                 <div>
-                                    <a id="a-viewed" href="">
-                                        <img class="img-viewed" width="32px" height="32px" src="<?php echo base_url() ?>public/images/img1.jpg" alt="ĐẦM HỌA TIẾT HOA VÀNG GUMAC MS129107_VANG">
+                                    <a id="a-viewed" href="<?php echo $news_item->url; ?>" title="<?php echo $news_item->title; ?>">
+                                        <img class="img-viewed" width="32px" height="32px" src="<?php echo getImageThumb($news_item->thumbnail, 32, 32); ?>" alt="<?php echo $news_item->title; ?>">
                                     </a>
                                 </div>
-                                <div>
-                                    <a id="a-viewed" href="">
-                                        <img class="img-viewed" width="32px" height="32px" src="<?php echo base_url() ?>public/images/img1.jpg" alt="Váy xinh đón tết [Được xem hàng]">
-                                    </a>
-                                </div>
-                                <div>
-                                    <a id="a-viewed" href="#">
-                                        <img class="img-viewed" width="32px" height="32px" src="<?php echo base_url() ?>public/images/img1.jpg" alt="Váy xinh đón tết [Được xem hàng]">
-                                    </a>
-                                </div>
-                                <div><i class="fa fa-caret-down" aria-hidden="true"></i></div>
+                                <?php endforeach; ?>
+                                <div><i class="fa fa-caret-down fa-caret-down-viewed" aria-hidden="true"></i></div>
                                 <div class="list_viewed">
                                     
                                     
@@ -95,11 +102,14 @@
                         </li>
                     </ul>
                 </nav>
-                
+                <a href="<?php echo base_url('cart'); ?>" title="Cart">
                 <div class="header-crt">
-                    <a href="" title="" class="header-lang"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                    <div class="number">4</div>
+                    <a href="<?php echo base_url('cart'); ?>" title="Cart" class="header-lang"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    <a href="<?php echo base_url('cart'); ?>" title="Cart">
+                    <div class="number add-count">0</div>
+                    </a>
                 </div>
+                </a>
                 <div class="icon-menu open-mnav">
                     <span></span>
                     <span></span>
@@ -110,7 +120,7 @@
         </div>
     </div>
 </header>
-
+<div class="screen_hide_menu"></div>
 <div class="screen_hide"></div>
 <div class="hide-viewed">
     <iframe data-src="<?php echo base_url() ?>home/viewed" width = "100%" height = "100%" scrolling="no" frameborder="0" src="<?php echo base_url() ?>home/viewed"></iframe>
@@ -128,19 +138,19 @@
                 <?php //if (!isset($this->session->userdata['account']['account_identity'])) { ?>
                 <form method="POST" id="formDangnhap" class="dangnhap">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nhập địa chỉ Email đăng ký</label>
+                        <label for="Email1">Nhập địa chỉ Email đăng ký</label>
                         <input type="email" class="form-control" name="email" id="Email1" aria-describedby="emailHelp" placeholder="Enter email">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
+                        <label for="Password1">Password</label>
                         <input type="password" class="form-control" name="password" id="Password1" placeholder="Password">
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="check" id="exampleCheck1">
+                        <input type="checkbox" class="form-check-input" name="remember" id="exampleCheck1">
                         <label class="form-check-label" for="exampleCheck1">Nhớ mật khẩu</label>
                     </div>
                     <div class="form-button-submit">
-                        <button type="submit" id="btndangnhap" onclick="dangnhap()" class="btn btn-primary submit">Đăng nhập</button>
+                        <button type="button" id="btndangnhap" onclick="dangnhap()" class="btn btn-primary submit">Đăng nhập</button>
                         <input type="button" class="btn btn-primary cancel" value="Hủy bỏ">
                     </div>
                 </form>
@@ -226,7 +236,7 @@
                         </div>
                     </div>
                     <div class="form-button-submit">
-                        <button type="submit" id="btndangky" onclick="dangky()" class="btn btn-primary submit">Đăng Ký</button>
+                        <button type="button" id="btndangky" onclick="dangky()" class="btn btn-primary submit">Đăng Ký</button>
                         <input type="button" class="btn btn-primary cancel" value="Hủy bỏ">
                     </div>
                     
@@ -240,7 +250,7 @@
                         <!-- <small id="emailHelp" class="form-text text-muted">Hệ thống sẽ gửi mật khẩu mới về email của bạn.</small> -->
                     </div>
                     <div class="form-button-submit">
-                        <button type="submit" id="quenmatkhau" onclick="forgot()" class="btn btn-primary submit">Nhận mật khẩu mới</button>
+                        <button type="button" id="quenmatkhau" onclick="forgot()" class="btn btn-primary submit">Nhận mật khẩu mới</button>
                         <input type="button" class="btn btn-primary cancel" value="Hủy bỏ">
                     </div>
                 </form>
@@ -262,8 +272,25 @@
     </div>
 </div>
 <?php 
-if (isset($_GET['login'])=='error') {
+if (isset($_GET['login']) && $_GET['login'] =='error') {
    echo "<script type='text/javascript'>alert('Vui lòng đăng nhập vào tài khoản trước !')</script>";
+}
+if (isset($_GET['verified']) && $_GET['verified'] =='error') {
+   echo "<script type='text/javascript'>alert('Xác thực thất bại !')</script>";
+}
+if (isset($_GET['verified']) && $_GET['verified'] == 'success') {
+   echo "<script type='text/javascript'>alert('Xác thực thành công !')</script>";
+}
+if (isset($_GET['dathang']) && $_GET['dathang'] == 'success') {
+   echo "<script type='text/javascript'>alert('Đặt hàng thành công !')</script>";
+}
+if (isset($_GET['dathang']) && $_GET['dathang'] == 'error') {
+   echo "<script type='text/javascript'>alert('Đặt hàng thất bại !')</script>";
 }
 
  ?>
+<script type="text/javascript">
+    <?php if (isset($message_error)) { ?>
+        alert('<?php echo $message_error; ?>');
+    <?php } ?>
+</script>

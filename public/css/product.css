@@ -28,10 +28,13 @@
                 /* 0 0 10px 30px #FFDAB9, */
                 /* 30px 0 20px 30px #B0E0E6; */
 }
+.item-news .ct .title a{
+	color: red;
+}
 .viewed{
 	display: flex;
 }
-.fa-caret-down{
+.fa-caret-down-viewed{
 	line-height: 32px;
 	font-size: 18px;
 }
@@ -110,6 +113,18 @@
 }
 .css-block{
 	display: block;
+	z-index: 4;
+}
+.screen_show_menu{
+	z-index: 3;
+	position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 .show_{
 	top: 62px;
@@ -151,7 +166,7 @@
 }
 
 .screen_show{
-	z-index: 3;
+	z-index: 5;
 	position: fixed;
     top: 0;
     right: 0;
@@ -161,11 +176,15 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.6);
 }
+
 .hide-viewed{
 	display: none;
 }
+.hide_avatar{
+	display: none;
+}
 .show-viewed{
-	z-index: 4;
+	z-index: 6;
 	max-height: 146px;
 	width: 100%;
 	top: 151px;
@@ -175,7 +194,9 @@
 	display: block;
 	animation: show 0.8s ease;
 	background-color: #fff;
+	/* border-top: 1px solid #ca9696; */
 }
+
 .show-viewed_{
 	top: 130px;
 }
@@ -193,6 +214,53 @@
 	    height: 135px;
 	    padding-bottom: 0;
 	}
+}
+/* --------------------------------------form avatar ---------------------------------------------------*/
+.show_avatar{
+	z-index: 14;
+	border-radius: 5px;
+    width: 600px;
+    max-height: 80%;
+    overflow: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    display: block;
+    animation: show 0.8s ease;
+    background-color: #fff;
+}
+.screen_avatar_show{
+	z-index: 3;
+	position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.h2-avartar{
+	text-align: center;
+	font-size: 25px;
+}
+.icon-avatar_{
+	text-align: center;
+    width: 100%;
+    height: 100px;
+    font-size: 177px;
+    color: #f1caca;
+}
+.icon-avatar_label{
+	width: 100%;
+}
+/* .icon-avatar_label img{
+	width: 250px;
+	height: 250px;
+} */
+.margin-top-20{
+	margin-top: 20px;
 }
 /* --------------------------------------form login ---------------------------------------------------*/
 .screen_login{
@@ -296,6 +364,9 @@ header.scroll .d-nav ul li .user_header a {
 }
 .fa-pencil-square-o_show{
 	display: block;
+}
+.verified_coler{
+	color: red;
 }
 
 /* ------------------------------------- sản phẩm product ------------------------------------------*/
@@ -559,7 +630,7 @@ header.scroll .d-nav ul li .user_header a {
     align-items: center;
     justify-content: center;
     height: 2rem;
-    min-width: 4rem;
+    /* min-width: 4rem; */
     padding: 0 1.2rem;
     margin-right: .6rem;
     margin-bottom: .6rem;
@@ -938,6 +1009,7 @@ header.scroll .d-nav ul li .user_header a {
 	z-index: 10;
 	border-radius: 4px;
     width: 600px;
+    max-height: 80%;
     overflow: auto;
     top: 50%;
     left: 50%;
@@ -1053,6 +1125,7 @@ header.scroll .d-nav ul li .user_header a {
     border-radius: 0px 5px 5px 0px;
     width: 100%;
     margin-bottom: 15px;
+    color: #decece;
 }
 .details-order{
 	margin-bottom: 10px;
@@ -1182,11 +1255,7 @@ header.scroll .d-nav ul li .user_header a {
     margin-bottom: 10px;
 }
 .icon-account-img{
-	border-radius: 100%;
-    border: 1px solid #e7e7e7;
-    width: 3rem;
-    height: 3rem;
-    padding: .3rem;
+    width: 100%;
 }
 .div-name-account{
 	width: 100%;
@@ -1196,10 +1265,55 @@ header.scroll .d-nav ul li .user_header a {
     font-weight: 500;
     height: 100%;
     line-height: 48px;
+    margin-left: 10px;
+}
+.div-account-img-w{
+	width: 60px;
 }
 .div-edit-account{
 	color: #999;
     font-size: 1.1rem;
+}
+.div-account-img .div-account-img-w{
+	width: 3rem;
+    height: 3rem;
+    border: 4px solid #5e6d81;
+    border-radius: 100%;
+    border-color: #e6bcbc;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+}
+
+.div-account-img1{
+	display: flex;
+}
+.div-account-img-w1{
+	/* width: 60px; */
+}
+.icon-account-img1{
+    width: 100%;
+}
+.div-account-img1 .div-account-img-w1{
+	width: 3rem;
+    height: 3rem;
+    border: 4px solid #5e6d81;
+    border-radius: 100%;
+    border-color: #e6bcbc;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+}
+.div-name-account1{
+	width: 100%;
+}
+.my-name-account1{
+	font-weight: 500;
+    height: 100%;
+    line-height: 48px;
+    margin-left: 5px;
 }
 
 .account-list-active{
@@ -1242,7 +1356,7 @@ header.scroll .d-nav ul li .user_header a {
 }
 .avatar-account img{
 	max-width: 100%;
-    max-height: 100%;
+    /* max-height: 100%; */
 }
 .avatar-account button{
 	display: block;
@@ -1389,7 +1503,7 @@ header.scroll .d-nav ul li .user_header a {
 	width: 10%;
 }
 .date-trangthai{
-	width: 20%;
+	width: 40%;
 }
 .phone-user{
 	border-left: 1px solid;
@@ -1437,4 +1551,78 @@ header.scroll .d-nav ul li .user_header a {
 		justify-content: center;
 	}
 }
-
+/* --------------------------- seemore ------------------------------- */
+.seemore-loctheo{
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	font-size: 18px;
+    font-weight: 500;
+}
+.inputPrice_gia{
+	width: 100%;
+	margin-bottom: 4px;
+}
+.btn_seemore_gia{
+	width: 100%;
+	height: 30px;
+	background-color: #f1cd97;
+}
+.seemore-title{
+	padding-top: .3rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    display: flex;
+}
+.list-product-form-seemore{
+	margin-top: 15px;
+}
+.seemore-hide{
+	display: none;
+}
+.count-product{
+	margin-left: 5px;
+	color: #ef7171;
+}
+.checkbox_{
+	display: flex;
+	align-items: center;
+}
+.checkbox_ div{
+	margin-right: 5px;
+}
+.checkbox_ ._i{
+	margin-top: 1px;
+}
+.display-flex{
+	display: flex;
+	justify-content: space-between;
+}
+@media (max-width: 1199px){
+	.display-flex{
+		margin-bottom: 5px;
+	}
+}
+/* news */
+.item-news .ct .time1 {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 24px;
+    /* height: calc(24px * 2); */
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    text-align: left;
+    display: block;
+    text-align: center;
+}
+.item-news1 .ct .title a{
+	display: -webkit-box;
+    -webkit-line-clamp: 1;
+    height: calc(24px * 2);
+    color: #000;
+}

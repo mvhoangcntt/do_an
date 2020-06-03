@@ -52,10 +52,9 @@
                     <div class="text-link">
                         <nav>
                             <ol>
-                                <a href="">Localhost</a>
-                                <li><a href="">Thời trang nam</a></li>
-                                <li><a href="">Áo sơ mi</a></li>
-                                <li><a href="">Chất</a></li>
+                                <a href="<?php echo base_url(); ?>"><?php echo str_replace(array('http://','https://'), '', substr(base_url(),0,strlen(base_url())-1)); ?></a>
+                                <li><a href="">Chi tiết</a></li>
+                                <li><a href=""><?php echo $detail->title; ?></a></li>
 
                             </ol>
                         </nav>
@@ -88,22 +87,25 @@
                         Trong bán kính 10km
                     </div>
                 </div>
-                <form action="<?php echo base_url('cart/add_cart'); ?>" id="form" method="POST" accept-charset="utf-8">
                 <div class="basic-information">
+                    <form id="addcart_" method="post" action="<?php echo $detail->url; ?>">
+                        <input type="hidden" name="id" value="<?php echo $detail->id; ?>">
+                        <input type="hidden" id="soluong" value="<?php echo $soluong; ?>">
                     <div class="coler-product">
                         <div class="item-information">
                             Màu sắc :
                         </div>
                         <div class="">
-                            <?php //var_dump($detail_size); ?>
-                            <?php $i = 0; foreach ($detail_size as $item_size):
+                            <?php //var_dump($detail_size['text_size']); ?>
+                            <?php $i = 0; foreach ($detail_size['text_coler'] as $item_size):
                             $i++;
                             if ($i == 1) { ?>
-                                <input type="button" class="colorOption colorOption-active" name="coler" value="<?php echo $item_size->text_coler; ?>">
+                                <input type="button" class="colorOption colorOption-active" value="<?php echo $item_size; ?>">
                             <?php }else{ ?>
-                                <input type="button" class="colorOption" name="coler" value="<?php echo $item_size->text_coler; ?>">
+                                <input type="button" class="colorOption" value="<?php echo $item_size; ?>">
                             <?php }
                             endforeach; ?> 
+                            <input type="hidden" id="text_coler" name="text_coler" value="<?php echo $detail_size['text_coler'][0]; ?>">
                             <!-- <button class="colorOption colorOption-active">Xanh</button>
                             <button class="colorOption">Đỏ</button>
                             <button class="colorOption">Tím</button>
@@ -115,14 +117,15 @@
                             Kích cỡ :
                         </div>
                         <div>
-                            <?php $i = 0; foreach ($detail_size as $item_size):
+                            <?php $i = 0; foreach ($detail_size['text_size'] as $item_size):
                             $i++;
                             if ($i == 1) { ?>
-                                <input type="button" class="textOption size-active" name="size" value="<?php echo $item_size->text_size; ?>">
+                                <input type="button" class="textOption size-active" value="<?php echo $item_size ?>">
                             <?php }else{ ?>
-                                <input type="button" class="textOption" name="size" value="<?php echo $item_size->text_size; ?>">
+                                <input type="button" class="textOption" value="<?php echo $item_size; ?>">
                             <?php }
                             endforeach; ?> 
+                            <input type="hidden" id="text_size" name="text_size" value="<?php echo $detail_size['text_size'][0]; ?>">
                             <!-- <button class="textOption size-active">S</button>
                             <button class="textOption">M</button>
                             <button class="textOption">L</button>
@@ -130,24 +133,27 @@
                             <button class="textOption">XXL</button> -->
                         </div>
                     </div>
+                    <div id="error"></div>
                     <div class="number-product">
                         <div class="item-information">
                             Số lượng :
                         </div>
                         <div class="qtyInput">
                             <input type="button" class="btn_decrease disabled" value="-">
-                            <input class="input_number" type="number" maxlength="100" minlength="1" value="1">
+                            <input class="input_number" type="number" name="quantity" maxlength="100" minlength="1" value="1">
                             <input type="button" class="btn_increase" value="+">
                         </div>
                     </div>
+                    <div id="error_pty"></div>
+                    <?php echo validation_errors(); ?>
                     <div class="group-item-button">
                         <div class="btn-check-group">
-                            <button type="submit" onclick="save_cart()" class="save_cart btn-addCart btn-addCart-item">Thêm vào giỏ hàng</button>
-                            <!-- <a href="<?php echo base_url() ?>order" title=""> --><button type="submit" class="btn_buy btn_buy-item">Mua ngay</button>
+                            <button id="btn_add_cart" onclick="save_cart()" class="save_cart btn-addCart btn-addCart-item">Thêm vào giỏ hàng</button>
+                            <button type="submit" id="btn_muangay" class="btn_buy btn_buy-item">Mua ngay</button>
                         </div>
                     </div>
+                    </form>
                 </div>
-                </form>
                 <div class="time-48">
                     <div class="time-item">
                         <div class="time-item-check">
@@ -221,128 +227,31 @@
 
         </div>
         <div class="row list-product-form-detais">
-            <div class="col-lg-12 col-md-6"><div class="row"><div class="tieude"><div class="tieude_"><div class="_left">Có thể bạn quan tâm</div><div class="_right"><a href="">Xem Thêm</a><i class="fa fa-caret-right" aria-hidden="true"></i></div></div></div></div></div>
+            <div class="col-lg-12 col-md-6"><div class="row"><div class="tieude"><div class="tieude_"><div class="_left">Có thể bạn quan tâm</div><div class="_right"><a href="<?php echo base_url('seemore/search/giamgia'); ?>">Xem Thêm</a><i class="fa fa-caret-right" aria-hidden="true"></i></div></div></div></div></div>
             <div class="col-lg-12 col-md-6">
-            <div class="list-news">
-                <div class="row">
-                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018" class="img"><img src="http://localhost/tomita/public/media/img-about2.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
+                <div class="list-news">
+                    <div class="row">
+                        <?php foreach ($giamgia as $news_item): ?>
+                            <div class="col-lg-2 col-md-4 col-6">
+                                <div class="item-news" id="<?php echo $news_item->id; ?>">
+                                    <a href="<?php echo $news_item->url; ?>" title="<?php echo $news_item->title; ?>" class="img"><img src="<?php echo base_url('public/media/'.$news_item->thumbnail); ?>" alt="<?php echo $news_item->title; ?>"></a>
+                                    <div class="ct">
+                                        <a href="<?php echo $news_item->url; ?>" title="<?php echo $news_item->title; ?>">
+                                            <span class="time">
+                                                <?php echo $news_item->title; ?>
+                                            </span>
+                                            <div class="discount-pt">
+                                                <div class="discount-pt-text-decoration"><?php echo number_format($total = $news_item->price + $news_item->discount); ?> đ </div>
+                                                <div> - <?php echo round(($news_item->discount/$total)*100,1); ?>%</div>
+                                            </div>
+                                        </a>
+                                        <h3 class="title"><a href="<?php echo $news_item->url; ?>" title="<?php echo $news_item->title; ?>"><?php echo number_format($news_item->price)?> đ</a></h3>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/3-dieu-khong-the-bo-qua-khi-chon-mua-thuc-pham-huu-co-x16" title="3 điều không thể bỏ qua khi chọn mua thực phẩm hữu cơ" class="img"><img src="http://localhost/tomita/public/media/thumb/sl-home2-1920x880.jpg" alt="3 điều không thể bỏ qua khi chọn mua thực phẩm hữu cơ"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/e-ndf-jgd-fjg-j-x17" title="TỔ HỢP SIÊU THỊ TOMITA MART VÀ NHÀ HÀNG TOMITA BENTO TƯNG BỪNG KHAI TRƯƠNG CƠ SỞ MỚI TẠI A2- SO.05 VINHOMES GARDENIA HÀM NGHI" class="img"><img src="http://localhost/tomita/public/media/thumb/1553349954wgdkee_simg_de2fe0_500x500_maxb.jpg" alt="TỔ HỢP SIÊU THỊ TOMITA MART VÀ NHÀ HÀNG TOMITA BENTO TƯNG BỪNG KHAI TRƯƠNG CƠ SỞ MỚI TẠI A2- SO.05 VINHOMES GARDENIA HÀM NGHI"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/thuc-pham-huu-co-la-gi-x19" title="Thực phẩm hữu cơ là gì?" class="img"><img src="http://localhost/tomita/public/media/img-about.jpg" alt="Thực phẩm hữu cơ là gì?"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/tomita-farm-chinh-thuc-khai-truong-to-hop-tomita-mart-tomita-bento-ciputra-26112018-x20" title="TOMITA FARM CHÍNH THỨC KHAI TRƯƠNG TỔ HỢP TOMITA MART &amp; TOMITA BENTO CIPUTRA 26/11/2018" class="img"><img src="http://localhost/tomita/public/media/1552818066ao2.jpg" alt="TOMITA FARM CHÍNH THỨC KHAI TRƯƠNG TỔ HỢP TOMITA MART &amp; TOMITA BENTO CIPUTRA 26/11/2018"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018" class="img"><img src="http://localhost/tomita/public/media/img-about2.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018" class="img"><img src="http://localhost/tomita/public/media/img-about2.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/3-dieu-khong-the-bo-qua-khi-chon-mua-thuc-pham-huu-co-x16" title="3 điều không thể bỏ qua khi chọn mua thực phẩm hữu cơ" class="img"><img src="http://localhost/tomita/public/media/thumb/sl-home2-1920x880.jpg" alt="3 điều không thể bỏ qua khi chọn mua thực phẩm hữu cơ"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/e-ndf-jgd-fjg-j-x17" title="TỔ HỢP SIÊU THỊ TOMITA MART VÀ NHÀ HÀNG TOMITA BENTO TƯNG BỪNG KHAI TRƯƠNG CƠ SỞ MỚI TẠI A2- SO.05 VINHOMES GARDENIA HÀM NGHI" class="img"><img src="http://localhost/tomita/public/media/thumb/1553349954wgdkee_simg_de2fe0_500x500_maxb.jpg" alt="TỔ HỢP SIÊU THỊ TOMITA MART VÀ NHÀ HÀNG TOMITA BENTO TƯNG BỪNG KHAI TRƯƠNG CƠ SỞ MỚI TẠI A2- SO.05 VINHOMES GARDENIA HÀM NGHI"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/thuc-pham-huu-co-la-gi-x19" title="Thực phẩm hữu cơ là gì?" class="img"><img src="http://localhost/tomita/public/media/img-about.jpg" alt="Thực phẩm hữu cơ là gì?"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/tomita-farm-chinh-thuc-khai-truong-to-hop-tomita-mart-tomita-bento-ciputra-26112018-x20" title="TOMITA FARM CHÍNH THỨC KHAI TRƯƠNG TỔ HỢP TOMITA MART &amp; TOMITA BENTO CIPUTRA 26/11/2018" class="img"><img src="http://localhost/tomita/public/media/1552818066ao2.jpg" alt="TOMITA FARM CHÍNH THỨC KHAI TRƯƠNG TỔ HỢP TOMITA MART &amp; TOMITA BENTO CIPUTRA 26/11/2018"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="item-news">
-                            <a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018" class="img"><img src="http://localhost/tomita/public/media/img-about2.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></a>
-                            <div class="ct">
-                                <span class="time">200.000đ</span>
-                                <h3 class="title"><a href="http://localhost/tomita/thong-bao-dong-cua-tomita-mart-trung-hoa-tu-ngay-28072018-x3" title="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018">Chỉ còn 100.000đ</a></h3>
-                            </div>
-                        </div>
+                        <?php endforeach; ?> 
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>

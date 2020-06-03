@@ -47,21 +47,28 @@
       width: 100%;
     }
   </style>
+  <base href="" target="_PARENT">
 </head>
 <body>
   <!-- Swiper -->
   <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">Slide 1 <?php echo $abc; ?></div>
-            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/media/img-about2.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></div>
-            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/images/slide-home.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></div>
-            <div class="swiper-slide">Slide 4</div>
+            <!-- <div class="swiper-slide">Slide 1 <?php echo $abc; ?></div>
+            <div class="swiper-slide"><img src="<?php echo base_url() ?>public/media/img-about2.jpg" alt="THÔNG BÁO ĐÓNG CỬA TOMITA MART - TRUNG HÒA TỪ NGÀY 28/07/2018"></div> -->
+            <?php foreach ($slide as $news_item): ?>
+            <div class="swiper-slide">
+              <a href="<?php echo $news_item->link; ?>" title="<?php echo $news_item->name; ?>">
+                <img src="<?php echo getImageThumb($news_item->thumbnail, 1350, 350); ?>" alt="<?php echo $news_item->name; ?>">
+              </a>
+            </div>
+            <?php endforeach; ?>
+            <!-- <div class="swiper-slide">Slide 4</div>
             <div class="swiper-slide">Slide 5</div>
             <div class="swiper-slide">Slide 6</div>
             <div class="swiper-slide">Slide 7</div>
             <div class="swiper-slide">Slide 8</div>
             <div class="swiper-slide">Slide 9</div>
-            <div class="swiper-slide">Slide 10</div>
+            <div class="swiper-slide">Slide 10</div> -->
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>

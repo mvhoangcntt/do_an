@@ -12,7 +12,7 @@ class Product_model extends APS_Model
       $this->table_category         = "product_category";
       $this->table_product_category = "product_category";
       $this->table_product = "size";//bảng quan hệ sản phẩm
-      $this->column_order  = array("$this->table.id","$this->table.id","$this->table.name","$this->table.catalog","$this->table.thumbnail","","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.total"); //thiết lập cột sắp xếp
+      $this->column_order  = array("$this->table.id","$this->table.id","$this->table.name","$this->table.thumbnail","","$this->table.view","$this->table.price","$this->table.created","$this->table.total"); //thiết lập cột sắp xếp
       $this->column_search = array("$this->table.id","$this->table.name","$this->table.catalog","$this->table.maker_id","$this->table.price","$this->table.created","$this->table.view","$this->table.total"); //thiết lập cột search
    }
 

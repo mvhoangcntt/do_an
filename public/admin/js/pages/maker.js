@@ -22,7 +22,7 @@ $(function () {
 function add_form() {
     save_method = 'add';
     $('#modal_form').modal('show');
-    $('.modal-title').text('Thêm danh mục');
+    $('.modal-title').text('Thêm nhà sản xuất');
     $('#modal_form').trigger("reset");
 }
 
@@ -81,7 +81,7 @@ function edit_form(id)
 {
     save_method = 'update';
     $('#modal_form').modal('show');
-    $('.modal-title').text(language['heading_title_edit']);
+    $('.modal-title').text('Sửa thông tin nhà sản xuất');
     $('#modal_form').trigger("reset");
     $(".save").attr("id",id);
     //Ajax Load data from ajax

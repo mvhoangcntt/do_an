@@ -9,6 +9,7 @@ class Menus_model extends APS_Model
   {
     parent::__construct();
     $this->table = 'menus';
+    $this->table_catalog = 'catalog';
   }
 
   public function getMenu($location, $lang_code)
@@ -18,6 +19,16 @@ class Menus_model extends APS_Model
     $this->db->where('location_id', $location);
     $this->db->order_by('order', 'DESC');
     $this->db->where('language_code', $lang_code);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function getMenuParent($location, $lang_code)
+  {
+    $this->db->select('*');
+    $this->db->from($this->table_catalog);
+    $this->db->where('location_id', $location);
+    $this->db->order_by('order', 'DESC');
+    // $this->db->where('language_code', $lang_code);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -38,6 +49,29 @@ class Menus_model extends APS_Model
           'link' => $link,
           'level' => intval($row['parent_id']),
           'parent' => intval($row['parent_id']));
+        unset($menu[$key]);
+        // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
+        $this->listmenu($menu, $row['id']);
+      }
+    }
+  }
+  public function listmenuParent($menu, $parent = 0)
+  {
+    foreach ($menu as $key => $row) {
+      if ($row['parent_id'] == $parent) {
+        // $link = ($row['type'] == 'other' || $row['link'] === '#') ? $row['link'] : (($row['link'] === '/') ? BASE_URL : BASE_URL . $row['link']);
+        $optional['slug'] = $row['link'];
+        $link = getUrlMenuSeemore($optional);
+        $this->listmenu[] = array(
+          'id' => intval($row['id']),
+          'name' => $row['name_catalog'],
+          'class' => $row['class'],
+          'icon' => !empty($row['icon']) ? $row['icon'] : '',
+          'type' => $row['type'],
+          'order' => $row['order'],
+          'link' => $link,
+          'level' => intval($row['parents_id']),
+          'parent' => intval($row['parents_id']));
         unset($menu[$key]);
         // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
         $this->listmenu($menu, $row['id']);
